@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/congViecFragment2">
+
+    <fragment
+        android:id="@+id/congViecFragment2"
+        android:name="com.example.kotlin_appquanlycongviec.fragment.CongViecFragment"
+        android:label="fragment_cong_viec"
+        tools:layout="@layout/fragment_cong_viec" >
+        <action
+            android:id="@+id/action_congViecFragment2_to_hinhAnhCongViecFragment"
+            app:destination="@id/hinhAnhCongViecFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/hinhAnhCongViecFragment"
+        android:name="com.example.kotlin_appquanlycongviec.fragment.HinhAnhCongViecFragment"
+        android:label="fragment_hinh_anh_cong_viec"
+        tools:layout="@layout/fragment_hinh_anh_cong_viec" />
+</navigation>

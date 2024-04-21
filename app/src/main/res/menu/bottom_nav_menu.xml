@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <item
+        android:id="@+id/congViecFragment"
+        android:icon="@drawable/baseline_work_24"
+        android:title="Công Việc" />
+
+    <item
+        android:id="@+id/ghiChuFragment"
+        android:icon="@drawable/baseline_description_24"
+        android:title="Ghi Chú" />
+    <item
+        android:id="@+id/suKienFragment"
+        android:icon="@drawable/baseline_calendar_month_24"
+        android:title="Sự Kiện" />
+
+    <item
+        android:id="@+id/thongKeFragment"
+        android:icon="@drawable/baseline_leaderboard_24"
+        android:title="Thống Kê" />
+    <item
+        android:id="@+id/taiKhoanFragment"
+        android:icon="@drawable/baseline_account_circle_24"
+        android:title="Tài Khoản" />
+
+</menu>
