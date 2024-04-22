@@ -19,4 +19,33 @@
         android:name="com.example.kotlin_appquanlycongviec.fragment.HinhAnhCongViecFragment"
         android:label="fragment_hinh_anh_cong_viec"
         tools:layout="@layout/fragment_hinh_anh_cong_viec" />
+    <fragment
+        android:id="@+id/taiKhoanFragment"
+        android:name="com.example.kotlin_appquanlycongviec.fragment.TaiKhoanFragment"
+        android:label="fragment_tai_khoan"
+        tools:layout="@layout/fragment_tai_khoan" />
+    <fragment
+        android:id="@+id/ghiChuFragment2"
+        android:name="com.example.kotlin_appquanlycongviec.fragment.GhiChuFragment"
+        android:label="fragment_ghi_chu"
+        tools:layout="@layout/fragment_ghi_chu" />
+    <fragment
+        android:id="@+id/suKienFragment2"
+        android:name="com.example.kotlin_appquanlycongviec.fragment.SuKienFragment"
+        android:label="fragment_su_kien"
+        tools:layout="@layout/fragment_su_kien" >
+        <action
+            android:id="@+id/action_suKienFragment2_to_themSuKienFragment"
+            app:destination="@id/themSuKienFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/thongKeFragment2"
+        android:name="com.example.kotlin_appquanlycongviec.fragment.ThongKeFragment"
+        android:label="fragment_thong_ke"
+        tools:layout="@layout/fragment_thong_ke" />
+    <fragment
+        android:id="@+id/themSuKienFragment"
+        android:name="com.example.kotlin_appquanlycongviec.fragment.ThemSuKienFragment"
+        android:label="fragment_them_su_kien"
+        tools:layout="@layout/fragment_them_su_kien" />
 </navigation>

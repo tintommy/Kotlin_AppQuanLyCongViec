@@ -57,16 +57,11 @@ class NguoiDungViewModel @Inject constructor(private val sharedPref: SharedPrefe
     }
 
     fun getUser() {
-        this.userEmail = sharedPref.getString("userEmail", "").toString()
         viewModelScope.launch {
             _user.emit(Resource.Loading())
             val response = nguoiDungService.getUser(userEmail)
             if (response.isSuccessful) {
                 _user.emit(Resource.Success(response.body()!!))
-                val editor = sharedPref.edit()
-                editor.putInt("userId", response.body()!!.maNguoiDung)
-                editor.apply()
-
             } else {
                 _user.emit(Resource.Error("Lỗi khi lấy user"))
 
@@ -78,11 +73,10 @@ class NguoiDungViewModel @Inject constructor(private val sharedPref: SharedPrefe
     fun checkUserEmail(email: String) {
         viewModelScope.launch {
             val response = nguoiDungService.getUser(email)
-            if (response.code()==200) {
+            if (response.code() == 200) {
                 _emailExist.emit(Resource.Success(true))
 
-            }
-            else{
+            } else {
                 _emailExist.emit(Resource.Error("false"))
             }
         }
@@ -95,19 +89,25 @@ class NguoiDungViewModel @Inject constructor(private val sharedPref: SharedPrefe
             _login.emit(Resource.Loading())
             val response = loginService.userLogin(signInRequest)
             if (response.isSuccessful) {
-                _login.emit(Resource.Success(response.body()!!))
+
                 val editor = sharedPref.edit()
                 editor.putString("token", response.body()!!.token)
                 editor.putString("userEmail", email)
                 editor.apply()
-                getUser()
 
+                val response2 = nguoiDungService.getUser(email)
+                if (response2.isSuccessful) {
+                    editor.putInt("userId", response2.body()!!.maNguoiDung)
+                    editor.apply()
+                    userId = response2.body()!!.maNguoiDung
+                    _login.emit(Resource.Success(response.body()!!))
+                }
             } else if (response.code() == 404) {
                 Log.e("User", "false")
                 _login.emit(Resource.Error("Lỗi khi login"))
             }
-        }
 
+        }
 
     }
 

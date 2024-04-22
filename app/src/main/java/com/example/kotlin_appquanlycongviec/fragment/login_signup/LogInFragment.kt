@@ -36,7 +36,7 @@ class LogInFragment : Fragment() {
         setButtonEvent()
 
         lifecycleScope.launch {
-            nguoiDungViewModel.login.collectLatest {
+
                 nguoiDungViewModel.login.collectLatest {
                     when (it) {
 
@@ -64,7 +64,7 @@ class LogInFragment : Fragment() {
                         else -> {}
                     }
 
-                }
+
             }
         }
 

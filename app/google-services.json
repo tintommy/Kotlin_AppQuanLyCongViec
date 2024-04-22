@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "861344881443",
+    "project_id": "appquanlycongviec-c8b0e",
+    "storage_bucket": "appquanlycongviec-c8b0e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:861344881443:android:5eb9f9eb9b6c53e15f4a96",
+        "android_client_info": {
+          "package_name": "com.example.appquanlycongviec"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1V22CGV2X5rhDoL-rvaLD02bsMChHYkw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:861344881443:android:1bb32a992131794e5f4a96",
+        "android_client_info": {
+          "package_name": "com.example.kotlin_appquanlycongviec"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1V22CGV2X5rhDoL-rvaLD02bsMChHYkw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

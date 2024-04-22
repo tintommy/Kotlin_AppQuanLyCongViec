@@ -28,7 +28,7 @@ import javax.inject.Inject
 @HiltViewModel
 class HinhAnhViewModel @Inject constructor(private val sharedPref: SharedPreferences)  : ViewModel() {
     private lateinit var token: String
-    private var userId: Int=0
+    private var userId: Int = 0
     private lateinit var userEmail: String
     private var _hinhAnhList: MutableStateFlow<Resource<MutableList<HinhAnh>>> =
         MutableStateFlow(Resource.Unspecified())
@@ -44,7 +44,7 @@ class HinhAnhViewModel @Inject constructor(private val sharedPref: SharedPrefere
     fun initApiService() {
         this.token = sharedPref.getString("token", "").toString()
         this.userId = sharedPref.getInt("userId", 0)
-        this.userEmail= sharedPref.getString("userEmail","").toString()
+        this.userEmail = sharedPref.getString("userEmail", "").toString()
         var retrofit = ApiInstance.getClient(token)
         hinhAnhApiService = retrofit.create(HinhAnhApiService::class.java)
 
@@ -52,10 +52,7 @@ class HinhAnhViewModel @Inject constructor(private val sharedPref: SharedPrefere
     }
 
 
-
-
-
-     fun taiDanhSachHinhAnh(maCvNgay: Int) {
+    fun taiDanhSachHinhAnh(maCvNgay: Int) {
         viewModelScope.launch {
             _hinhAnhList.emit(Resource.Loading())
 
@@ -73,51 +70,57 @@ class HinhAnhViewModel @Inject constructor(private val sharedPref: SharedPrefere
     }
 
 
-     fun luuDanhSachAnh(linkHinhAnh: List<Uri?>, context: Context, maCvNgay: Int) {
+    fun luuDanhSachAnh(linkHinhAnh: List<Uri?>, context: Context, maCvNgay: Int) {
+        viewModelScope.launch {
+            _hinhAnhList.emit(Resource.Loading())
+            val anhURL: MutableList<String> = ArrayList()
+            val soAnh = linkHinhAnh.size
+            val storageRef = FirebaseStorage.getInstance().getReference()
+            for (imageUri in linkHinhAnh) {
+                val imageName =
+                    "image_" + UUID.randomUUID().toString() // Tên duy nhất cho mỗi ảnh
+                val imageRef = storageRef.child("images/$imageName")
+                val stream = context.contentResolver.openInputStream(imageUri!!)
+                val uploadTask = imageRef.putStream(stream!!)
+                uploadTask.addOnFailureListener { }.addOnSuccessListener {
+                    imageRef.getDownloadUrl().addOnSuccessListener { uri ->
+                        val imageUrl = uri.toString()
+                        anhURL.add(imageUrl)
+                        Log.e("SIZE", anhURL.size.toString())
+                        if (anhURL.size == soAnh) {
 
-
-        val anhURL: MutableList<String> = ArrayList()
-        val soAnh = linkHinhAnh.size
-        val storageRef = FirebaseStorage.getInstance().getReference()
-        for (imageUri in linkHinhAnh) {
-            val imageName =
-                "image_" + UUID.randomUUID().toString() // Tên duy nhất cho mỗi ảnh
-            val imageRef = storageRef.child("images/$imageName")
-            val stream = context.contentResolver.openInputStream(imageUri!!)
-            val uploadTask = imageRef.putStream(stream!!)
-            uploadTask.addOnFailureListener { }.addOnSuccessListener {
-                imageRef.getDownloadUrl().addOnSuccessListener { uri ->
-                    val imageUrl = uri.toString()
-                    anhURL.add(imageUrl)
-                    Log.e("SIZE", anhURL.size.toString())
-                    if (anhURL.size == soAnh) {
-                        viewModelScope.launch {
-                            _hinhAnhList.emit(Resource.Loading())
-                            val response =
-                                hinhAnhApiService.luuDanhSachAnh(maCvNgay, anhURL)
-                            if (response.isSuccessful) {
-                                taiDanhSachHinhAnh(maCvNgay)
+                            viewModelScope.launch {
+                                val response =
+                                    hinhAnhApiService.luuDanhSachAnh(maCvNgay, anhURL)
+                                if (response.isSuccessful) {
+                                    taiDanhSachHinhAnh(maCvNgay)
+                                }
                             }
+
                         }
+                        else
+                        { viewModelScope.launch {
+                            _hinhAnhList.emit(Resource.Error("Lỗi khi up ảnh"))
+                        }}
                     }
+                }
+            }
+
+            }
+        }
+
+        fun xoaAnh(maHinhAnh: Int, linkHinhAnh: String?) {
+            viewModelScope.launch {
+                val response = hinhAnhApiService.xoaHinhAnh(maHinhAnh)
+                if (response.isSuccessful) {
+                    val imageRef = FirebaseStorage.getInstance().getReferenceFromUrl(
+                        linkHinhAnh!!
+                    )
+                    imageRef.delete()
                 }
             }
 
 
         }
-    }
 
-    fun xoaAnh(maHinhAnh: Int, linkHinhAnh: String?) {
-        viewModelScope.launch {
-            val response = hinhAnhApiService.xoaHinhAnh(maHinhAnh)
-            if (response.isSuccessful) {
-                val imageRef = FirebaseStorage.getInstance().getReferenceFromUrl(
-                    linkHinhAnh!!
-                )
-                imageRef.delete()
-            }
-        }
-
-
-    }
 }

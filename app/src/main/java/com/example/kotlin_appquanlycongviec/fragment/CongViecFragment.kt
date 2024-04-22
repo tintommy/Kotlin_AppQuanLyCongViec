@@ -16,6 +16,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation.findNavController
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -189,7 +190,7 @@ class CongViecFragment : Fragment() {
             override fun onImageButtonClick(congViecNgay: CongViecNgay?) {
                 val bundle = Bundle()
                 bundle.putInt("maCvNgay", congViecNgay!!.maCvNgay)
-                findNavController(requireView()).navigate(
+                view?.findNavController()?.navigate(
                     R.id.action_congViecFragment2_to_hinhAnhCongViecFragment,
                     bundle
                 )

@@ -91,10 +91,17 @@ class HinhAnhCongViecFragment : Fragment() {
                             )
                                 .show()
                         }
-                        if (it.message == "404") {
+                        else if (it.message == "404") {
                             binding.progressBar.visibility = View.GONE
                             binding.tvTrong.visibility = View.VISIBLE
                         }
+                        else
+                            Toast.makeText(
+                                requireContext(),
+                                it.message,
+                                Toast.LENGTH_LONG
+                            )
+                                .show()
                     }
 
                     else -> {}
