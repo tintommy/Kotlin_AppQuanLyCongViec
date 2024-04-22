@@ -191,7 +191,7 @@ class CongViecFragment : Fragment() {
                 val bundle = Bundle()
                 bundle.putInt("maCvNgay", congViecNgay!!.maCvNgay)
                 view?.findNavController()?.navigate(
-                    R.id.action_congViecFragment2_to_hinhAnhCongViecFragment,
+                    R.id.action_congViecFragment_to_hinhAnhCongViecFragment,
                     bundle
                 )
             }

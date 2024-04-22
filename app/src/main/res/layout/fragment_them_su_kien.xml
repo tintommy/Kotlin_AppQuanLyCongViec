@@ -1,18 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/frameLayout3"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fillViewport="true"
-    tools:context=".fragment.ThemSuKienFragment">
+    android:layout_height="match_parent" android:fillViewport="true"
+    tools:context=".fragment.ThemSuKienFragment"
+    android:background="@color/greenFigma2"
+    >
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+
+
+
+        <ImageView
+            android:id="@+id/btnBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/baseline_arrow_back_36"
+            app:tint="@color/blueFigma" />
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tvEventName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@color/white"
@@ -27,13 +39,128 @@
             app:layout_constraintTop_toTopOf="@id/guidelineTop">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edtEmail"
+                android:id="@+id/etEventName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
+android:textStyle="bold"
                 android:textColor="@color/greenFigma1" />
         </com.google.android.material.textfield.TextInputLayout>
 
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tvDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@color/white"
+            android:hint="Ngày"
+            android:textColorHint="@color/greenFigma1"
+            app:boxStrokeColor="@color/white"
+            app:boxStrokeWidth="0dp"
+
+            app:hintTextColor="@color/greenFigma1"
+            app:layout_constraintStart_toStartOf="@id/guidelineLeft"
+            app:layout_constraintTop_toBottomOf="@id/tvEventName">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/baseline_calendar_month_24"
+                android:drawableTint="@color/greenFigma1"
+                android:text="Chọn ngày"
+android:focusable="false"
+                android:textColor="@color/greenFigma1" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tvTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@color/white"
+            android:hint="Ngày"
+            android:textColorHint="@color/greenFigma1"
+            app:boxStrokeColor="@color/white"
+            app:boxStrokeWidth="0dp"
+
+            app:hintTextColor="@color/greenFigma1"
+            app:layout_constraintEnd_toEndOf="@id/guidelineRight"
+            app:layout_constraintTop_toBottomOf="@id/tvEventName">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/baseline_watch_later_24"
+                android:drawableTint="@color/greenFigma1"
+                android:text="Chọn giờ"
+                android:focusable="false"
+                android:textColor="@color/greenFigma1" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <LinearLayout
+            android:id="@+id/layoutRemind"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:orientation="vertical"
+            app:layout_constraintStart_toStartOf="@id/guidelineLeft"
+            app:layout_constraintTop_toBottomOf="@id/tvDate">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nhắc trước"
+                android:textColor="@color/blueFigma"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <Spinner
+                android:id="@+id/spRemind"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+
+                />
+
+        </LinearLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tvDecrip"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+
+            android:background="@color/white"
+            android:hint="Nội dung"
+            android:textColorHint="@color/greenFigma1"
+            app:boxStrokeColor="@color/white"
+            app:boxStrokeWidth="0dp"
+android:layout_marginTop="20dp"
+            app:hintTextColor="@color/greenFigma1"
+            app:layout_constraintEnd_toEndOf="@id/guidelineRight"
+            app:layout_constraintStart_toStartOf="@id/guidelineLeft"
+            app:layout_constraintTop_toBottomOf="@id/layoutRemind">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etDescrip"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/greenFigma1" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/btnSave"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/tvDecrip"
+            app:layout_constraintStart_toStartOf="@id/guidelineLeft"
+            app:layout_constraintEnd_toEndOf="@id/guidelineRight"
+            android:layout_marginTop="20dp"
+            android:text="Lưu"
+            android:backgroundTint="@color/blueFigma"
+            android:textSize="20dp"
+            />
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guidelineLeft"
             android:layout_width="wrap_content"
@@ -55,6 +182,5 @@
             android:orientation="horizontal"
             app:layout_constraintGuide_percent="0.15" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
-</androidx.core.widget.NestedScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

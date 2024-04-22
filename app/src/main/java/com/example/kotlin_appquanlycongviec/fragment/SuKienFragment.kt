@@ -9,8 +9,11 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.kotlin_appquanlycongviec.R
+import com.example.kotlin_appquanlycongviec.activity.MainActivity
 import com.example.kotlin_appquanlycongviec.adapter.SuKienAdapter
 import com.example.kotlin_appquanlycongviec.databinding.FragmentSuKienBinding
 import com.example.kotlin_appquanlycongviec.util.Resource
@@ -47,9 +50,17 @@ class SuKienFragment : Fragment() {
         getNextDate()
         initAdapter()
         binding.tvDate.text = dinhDangNgay(ngay, thang, nam)
-        Log.e("MyTag", dinhDangNgayAPI(ngay2, thang2, nam2))
+        binding.btnAddEvent.setOnClickListener {
+//            (activity as MainActivity).replaceFragment(ThemSuKienFragment())
+
+            it.findNavController().navigate(R.id.action_suKienFragment2_to_themSuKienFragment)
+        }
+      
+
+
         suKienViewModel.getTodayEvent(dinhDangNgayAPI(ngay, thang, nam))
         suKienViewModel.getNearlyEvent(dinhDangNgayAPI(ngay2, thang2, nam2))
+
 
         lifecycleScope.launch {
             suKienViewModel.todayEvent.collectLatest {

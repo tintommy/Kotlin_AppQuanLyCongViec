@@ -3,15 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/congViecFragment2">
+    app:startDestination="@id/congViecFragment">
 
     <fragment
-        android:id="@+id/congViecFragment2"
+        android:id="@+id/congViecFragment"
         android:name="com.example.kotlin_appquanlycongviec.fragment.CongViecFragment"
         android:label="fragment_cong_viec"
         tools:layout="@layout/fragment_cong_viec" >
         <action
-            android:id="@+id/action_congViecFragment2_to_hinhAnhCongViecFragment"
+            android:id="@+id/action_congViecFragment_to_hinhAnhCongViecFragment"
             app:destination="@id/hinhAnhCongViecFragment" />
     </fragment>
     <fragment
@@ -25,12 +25,12 @@
         android:label="fragment_tai_khoan"
         tools:layout="@layout/fragment_tai_khoan" />
     <fragment
-        android:id="@+id/ghiChuFragment2"
+        android:id="@+id/ghiChuFragment"
         android:name="com.example.kotlin_appquanlycongviec.fragment.GhiChuFragment"
         android:label="fragment_ghi_chu"
         tools:layout="@layout/fragment_ghi_chu" />
     <fragment
-        android:id="@+id/suKienFragment2"
+        android:id="@+id/suKienFragment"
         android:name="com.example.kotlin_appquanlycongviec.fragment.SuKienFragment"
         android:label="fragment_su_kien"
         tools:layout="@layout/fragment_su_kien" >
@@ -39,7 +39,7 @@
             app:destination="@id/themSuKienFragment" />
     </fragment>
     <fragment
-        android:id="@+id/thongKeFragment2"
+        android:id="@+id/thongKeFragment"
         android:name="com.example.kotlin_appquanlycongviec.fragment.ThongKeFragment"
         android:label="fragment_thong_ke"
         tools:layout="@layout/fragment_thong_ke" />
