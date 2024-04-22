@@ -17,6 +17,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation.findNavController
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -70,6 +71,11 @@ class CongViecFragment : Fragment() {
         taiDanhSachCongViecNgay(dinhDangNgayAPI(ngay, thang, nam))
         binding.tvNgay.setText(dinhDangNgay(ngay, thang, nam))
         binding.btnLich.setOnClickListener(View.OnClickListener { openLichDialog() })
+        binding.btnThemCongViec.setOnClickListener(View.OnClickListener {
+            findNavController().navigate(R.id.action_congViecFragment2_to_editCongViecFragment)
+        })
+        binding.btnQuanLi.setOnClickListener {
+            findNavController().navigate(R.id.action_congViecFragment2_to_quanLyNgayFragment) }
         congViecNgayViewModel.soViecCanLam.observe(
             getViewLifecycleOwner(),
             object : Observer<String?> {
