@@ -132,19 +132,19 @@ class SuKienFragment : Fragment() {
                 }
             }
         }
-        lifecycleScope.launch {
-            suKienViewModel.deleteEvent.collectLatest {
-                when (it) {
-
-                    is Resource.Success -> {
-                        Toast.makeText(requireContext(), "Xoá thành công", Toast.LENGTH_SHORT)
-                            .show()
-                    }
-
-                    else -> {}
-                }
-            }
-        }
+//        lifecycleScope.launch {
+//            suKienViewModel.deleteEvent.collectLatest {
+//                when (it) {
+//
+//                    is Resource.Success -> {
+//                        Toast.makeText(requireContext(), "Xoá thành công", Toast.LENGTH_SHORT)
+//                            .show()
+//                    }
+//
+//                    else -> {}
+//                }
+//            }
+//        }
 
     }
 
@@ -222,10 +222,11 @@ class SuKienFragment : Fragment() {
     }
 
     private fun getNextDate() {
-        calendar.add(Calendar.DAY_OF_YEAR, 1)
-        ngay2 = calendar.get(Calendar.DAY_OF_MONTH)
-        thang2 = calendar.get(Calendar.MONTH)
-        nam2 = calendar.get(Calendar.YEAR)
+        val calendar2 = Calendar.getInstance()
+        calendar2.add(Calendar.DAY_OF_YEAR, 1)
+        ngay2 = calendar2.get(Calendar.DAY_OF_MONTH)
+        thang2 = calendar2.get(Calendar.MONTH)
+        nam2 = calendar2.get(Calendar.YEAR)
     }
 
     private fun dinhDangNgay(ngay: Int, thang: Int, nam: Int): String {

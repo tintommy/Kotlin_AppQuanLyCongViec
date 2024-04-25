@@ -73,7 +73,13 @@
         android:id="@+id/themSuKienFragment"
         android:name="com.example.kotlin_appquanlycongviec.fragment.ThemSuKienFragment"
         android:label="fragment_them_su_kien"
-        tools:layout="@layout/fragment_them_su_kien" />
+        tools:layout="@layout/fragment_them_su_kien" >
+        <action
+            android:id="@+id/action_themSuKienFragment_to_suKienFragment"
+            app:destination="@id/suKienFragment"
+            app:popUpTo="@id/suKienFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
     <fragment
         android:id="@+id/chiTietSuKienFragment"
         android:name="com.example.kotlin_appquanlycongviec.fragment.ChiTietSuKienFragment"

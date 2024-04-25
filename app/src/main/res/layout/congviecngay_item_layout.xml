@@ -57,9 +57,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:background="#74FB0000"
+                android:background="?attr/selectableItemBackgroundBorderless"
                 android:src="@drawable/baseline_close_24"
-                android:layout_marginEnd="20dp"/>
+                android:layout_marginEnd="20dp"
+                app:tint="#FF0000" />
 
 
         </LinearLayout>
