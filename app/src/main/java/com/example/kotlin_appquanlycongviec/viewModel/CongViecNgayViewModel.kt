@@ -2,12 +2,14 @@ package com.example.kotlin_appquanlycongviec.viewModel
 
 import android.annotation.SuppressLint
 import android.content.SharedPreferences
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.kotlin_appquanlycongviec.api.ApiInstance
 import com.example.kotlin_appquanlycongviec.api.apiService.CongViecNgayApiService
 import com.example.kotlin_appquanlycongviec.api.apiService.LoginApiService
+import com.example.kotlin_appquanlycongviec.model.CongViec
 
 import com.example.kotlin_appquanlycongviec.model.CongViecNgay
 import com.example.kotlin_appquanlycongviec.util.Resource
@@ -27,6 +29,10 @@ class CongViecNgayViewModel @Inject constructor(private val sharedPref: SharedPr
     private var _danhSachCongViecNgay: MutableStateFlow<Resource<List<CongViecNgay>>> =
         MutableStateFlow(Resource.Unspecified())
     var danhSachCongViecNgay = _danhSachCongViecNgay.asStateFlow()
+
+    private var _thongTinCongViec = MutableLiveData<CongViec>()
+    var thongTinCongViec:  LiveData<CongViec> = _thongTinCongViec
+
 
 
     private lateinit var congViecservice: CongViecNgayApiService
@@ -182,5 +188,11 @@ class CongViecNgayViewModel @Inject constructor(private val sharedPref: SharedPr
             _danhSachCongViecNgay.emit(Resource.Success(congViecNgayListTempSorted))
         }
     }
+
+
+    fun setThongTinCongViec(congViec: CongViec) {
+        _thongTinCongViec.value = congViec
+    }
+
 
 }
