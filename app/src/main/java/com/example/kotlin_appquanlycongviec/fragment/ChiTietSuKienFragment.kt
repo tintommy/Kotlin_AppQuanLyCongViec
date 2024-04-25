@@ -16,8 +16,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.example.kotlin_appquanlycongviec.R
-import com.example.kotlin_appquanlycongviec.activity.MainActivity
-
+import com.example.kotlin_appquanlycongviec.databinding.FragmentChiTietSuKienBinding
 import com.example.kotlin_appquanlycongviec.databinding.FragmentThemSuKienBinding
 import com.example.kotlin_appquanlycongviec.model.SuKien
 import com.example.kotlin_appquanlycongviec.util.Resource
@@ -28,8 +27,9 @@ import kotlinx.coroutines.launch
 import java.util.Calendar
 
 @AndroidEntryPoint
-class ThemSuKienFragment : Fragment() {
-    private lateinit var binding: FragmentThemSuKienBinding
+class ChiTietSuKienFragment : Fragment() {
+
+private lateinit var binding: FragmentChiTietSuKienBinding
 
     private val suKienViewModel by viewModels<SuKienViewModel>()
 
@@ -42,11 +42,13 @@ class ThemSuKienFragment : Fragment() {
     private var ngayApi = ""
     private var gioApi = ""
     private var nhacTruoc = 0
+
+    private lateinit var suKien: SuKien
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentThemSuKienBinding.inflate(layoutInflater)
+        binding = FragmentChiTietSuKienBinding.inflate(layoutInflater)
         return binding.root
     }
 
@@ -57,8 +59,30 @@ class ThemSuKienFragment : Fragment() {
         setBtnEvent()
         onBackPressed()
 
+        val bundle= arguments
+        if (bundle != null) {
+            suKien= bundle.getSerializable("suKien") as SuKien
+        }
+
+        binding.apply {
+            etEventName.setText(suKien.tenSuKien)
+            etTime.setText(suKien.gio)
+            val parts = suKien.ngay.split("-")
+            val nam = parts[0].toInt()
+            val thang = parts[1].toInt()-1
+            val ngay = parts[2].toInt()
+            etDate.setText(dinhDangNgay(ngay,thang,nam))
+            etDescrip.setText(suKien.moTa)
+            spRemind.setSelection(suKien.nhacTruoc-1)
+
+            gioApi=suKien.gio
+            ngayApi=dinhDangNgayAPI(ngay,thang,nam)
+            nhacTruoc= suKien.nhacTruoc
+        }
+
+
         lifecycleScope.launch {
-            suKienViewModel.addEvent.collectLatest {
+            suKienViewModel.updateEvent.collectLatest {
                 when (it) {
                     is Resource.Loading -> {
                         binding.progressBar.visibility = View.VISIBLE
@@ -69,10 +93,9 @@ class ThemSuKienFragment : Fragment() {
                         binding.progressBar.visibility = View.GONE
                         Toast.makeText(
                             requireContext(),
-                            "Đã lưu sự kiện thành công",
+                            "Đã sửa sự kiện thành công",
                             Toast.LENGTH_LONG
                         ).show()
-                        findNavController().navigateUp()
                     }
 
                     is Resource.Error -> {
@@ -100,17 +123,17 @@ class ThemSuKienFragment : Fragment() {
 
         binding.btnSave.setOnClickListener {
 
-            var eventAdd = SuKien(
+            var eventUpdate = SuKien(
                 gioApi,
-                0,
+                suKien.maSK,
                 binding.etDescrip.text.toString().trim(),
                 ngayApi,
-                "",
+                suKien.ngayNhac,
                 nhacTruoc,
                 binding.etEventName.text.toString().trim()
             )
-            suKienViewModel.addEvent(
-                eventAdd
+            suKienViewModel.updateEvent(
+                eventUpdate
             )
         }
     }
@@ -221,4 +244,5 @@ class ThemSuKienFragment : Fragment() {
         temp += if (ngay < 10) "0$ngay" else ngay.toString()
         return temp
     }
+
 }

@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
         val navController = navHostFragment.navController
         binding.bottomMenu.setupWithNavController(navController)
 
-
+//
 //        binding.bottomMenu.setOnItemSelectedListener {
 //            when (it.itemId) {
 //                R.id.congViecFragment -> {
@@ -59,13 +59,12 @@ class MainActivity : AppCompatActivity() {
 //
 //
 //        }
-//
-//    }
+    }
 //    fun replaceFragment(fragment: Fragment) {
 //
 //        val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
 //        transaction.replace(R.id.appHostFragment, fragment)
 //        transaction.commit()
 //
-    }
+//    }
 }

@@ -34,6 +34,7 @@ class CongViecNgayViewModel @Inject constructor(private val sharedPref: SharedPr
     var thongTinCongViec:  LiveData<CongViec> = _thongTinCongViec
 
 
+
     private lateinit var congViecservice: CongViecNgayApiService
     var soViecCanLam = MutableLiveData("")
     var phanTramHoanThanh = MutableLiveData("")
@@ -73,6 +74,25 @@ class CongViecNgayViewModel @Inject constructor(private val sharedPref: SharedPr
                     _danhSachCongViecNgay.emit(Resource.Error("404"))
                     soViecCanLam.postValue("")
                     phanTramHoanThanh.postValue("")
+                }
+            }
+        }
+    }
+
+    fun taiDanhSachCongViecNgayTheoThangNam( thang:Int, nam:Int) {
+
+        viewModelScope.launch {
+            _danhSachCongViecNgay.emit(Resource.Loading())
+            val response = congViecservice.layDanhSachCongViecNgayThangNam(userId, thang, nam)
+
+            if (response.isSuccessful) {
+                val dsCv: List<CongViecNgay> = response.body()!!
+                _danhSachCongViecNgay.emit(Resource.Success(dsCv))
+
+            } else {
+                if (response.code() == 404) {
+                    _danhSachCongViecNgay.emit(Resource.Error("404"))
+
                 }
             }
         }

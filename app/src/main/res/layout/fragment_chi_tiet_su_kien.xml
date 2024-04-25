@@ -4,17 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/frameLayout3"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="match_parent" android:fillViewport="true"
+    tools:context=".fragment.ChiTietSuKienFragment"
     android:background="@color/greenFigma2"
-    android:fillViewport="true"
-    tools:context=".fragment.ThemSuKienFragment">
+    >
 
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:text="Thêm Sự Kiện"
+        android:text="Chi Tiết Sự Kiện"
         android:textColor="@color/blueFigma"
         android:textSize="25sp"
         android:textStyle="bold"
@@ -28,11 +28,11 @@
         android:id="@+id/btnBack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        android:src="@drawable/baseline_arrow_back_36"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:src="@drawable/baseline_arrow_back_36"
         app:tint="@color/blueFigma" />
 
     <com.google.android.material.textfield.TextInputLayout
@@ -54,8 +54,8 @@
             android:id="@+id/etEventName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/greenFigma1"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:textColor="@color/greenFigma1" />
     </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -80,8 +80,8 @@
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/baseline_calendar_month_24"
             android:drawableTint="@color/greenFigma1"
-            android:focusable="false"
             android:text="Chọn ngày"
+            android:focusable="false"
             android:textColor="@color/greenFigma1" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -106,8 +106,8 @@
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/baseline_watch_later_24"
             android:drawableTint="@color/greenFigma1"
-            android:focusable="false"
             android:text="Chọn giờ"
+            android:focusable="false"
             android:textColor="@color/greenFigma1" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -143,12 +143,12 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
 
-        android:layout_marginTop="20dp"
         android:background="@color/white"
         android:hint="Nội dung"
         android:textColorHint="@color/greenFigma1"
         app:boxStrokeColor="@color/white"
         app:boxStrokeWidth="0dp"
+        android:layout_marginTop="20dp"
         app:hintTextColor="@color/greenFigma1"
         app:layout_constraintEnd_toEndOf="@id/guidelineRight"
         app:layout_constraintStart_toStartOf="@id/guidelineLeft"
@@ -167,7 +167,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:backgroundTint="@color/blueFigma"
-        android:text="Lưu"
+        android:text="Lưu Chỉnh Sửa"
         android:textSize="20dp"
         app:layout_constraintEnd_toEndOf="@id/guidelineRight"
         app:layout_constraintHorizontal_bias="0.497"
@@ -186,10 +186,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:indeterminateTint="@color/blueFigma"
-        android:visibility="gone"
         app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
         app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
-        app:layout_constraintTop_toBottomOf="@id/btnSave" />
+        app:layout_constraintTop_toBottomOf="@id/btnSave"
+        android:visibility="gone"
+        />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guidelineRight"

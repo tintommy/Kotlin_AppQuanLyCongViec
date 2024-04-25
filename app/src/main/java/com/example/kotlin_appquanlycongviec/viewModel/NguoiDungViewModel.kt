@@ -38,6 +38,11 @@ class NguoiDungViewModel @Inject constructor(private val sharedPref: SharedPrefe
     val otp = _otp.asStateFlow()
     private val _emailExist = MutableStateFlow<Resource<Boolean>>(Resource.Unspecified())
     val emailExist = _emailExist.asStateFlow()
+    private val _pin = MutableStateFlow<Resource<Status>>(Resource.Unspecified())
+    val pin = _pin.asStateFlow()
+    private val _doiPin: MutableStateFlow<Resource<Status>> =
+        MutableStateFlow(Resource.Unspecified())
+    val doiPin = _doiPin.asStateFlow()
 //    private val _changePass = MutableStateFlow<Resource<Status>>(Resource.Unspecified())
 //    val changePass = _changePass.asStateFlow()
 
@@ -138,5 +143,52 @@ class NguoiDungViewModel @Inject constructor(private val sharedPref: SharedPrefe
         }
 
 
+    }
+
+    fun checkPin(pin: String) {
+        viewModelScope.launch {
+            _pin.emit(Resource.Loading())
+            val response = nguoiDungService.kiemTraPin(userEmail, pin)
+            if (response.isSuccessful) {
+                _pin.emit(Resource.Success(response.body()!!))
+            } else {
+                if (response.code() == 404) {
+                    _pin.emit(Resource.Success(Status("false")))
+                } else {
+                    _pin.emit(Resource.Error("Lỗi khi kiểm tra pin"))
+                }
+            }
+        }
+    }
+
+    fun savePin(pin: String) {
+        viewModelScope.launch {
+            _pin.emit(Resource.Loading())
+            val response = nguoiDungService.luuPin(userEmail, pin)
+            if (response.isSuccessful) {
+                _pin.emit(Resource.Success(response.body()!!))
+            } else {
+                if (response.code() == 404) {
+                    _pin.emit(Resource.Success(Status("false")))
+                } else {
+                    _pin.emit(Resource.Error("Lỗi khi lưu pin"))
+                }
+            }
+        }
+    }
+
+    fun doiPin(pass: String, pin: String) {
+        viewModelScope.launch {
+            _doiPin.emit(Resource.Loading())
+            val response = nguoiDungService.doiPin(userEmail, pass, pin)
+            if (response.isSuccessful)
+                _doiPin.emit(Resource.Success(response.body()!!))
+            else {
+                if (response.code() == 404) {
+                    _doiPin.emit(Resource.Error("404"))
+                } else
+                    _doiPin.emit(Resource.Error("Xảy ra lỗi khi đổi pin"))
+            }
+        }
     }
 }

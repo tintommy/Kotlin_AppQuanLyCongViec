@@ -12,12 +12,13 @@ import com.example.kotlin_appquanlycongviec.databinding.EventItemLayoutBinding
 import com.example.kotlin_appquanlycongviec.model.CongViecNgay
 import com.example.kotlin_appquanlycongviec.model.SuKien
 
-class SuKienAdapter:
+class SuKienAdapter :
     RecyclerView.Adapter<SuKienAdapter.SuKienViewHolder>() {
 
 
     interface OnItemClickListener {
         fun onItemClick(suKien: SuKien)
+        fun onDeleteBtnClick(maSuKien: Int,position: Int)
     }
 
 
@@ -34,7 +35,7 @@ class SuKienAdapter:
             }
 
             override fun areContentsTheSame(oldItem: SuKien, newItem: SuKien): Boolean {
-                return oldItem==newItem
+                return oldItem == newItem
             }
         }
 
@@ -53,7 +54,7 @@ class SuKienAdapter:
 
     override fun onBindViewHolder(holder: SuKienViewHolder, position: Int) {
         val suKien: SuKien = differ.getCurrentList()[position]
-        holder.bind(suKien)
+        holder.bind(suKien,position)
 
     }
 
@@ -62,20 +63,29 @@ class SuKienAdapter:
     }
 
 
+
     inner class SuKienViewHolder(private val binding: EventItemLayoutBinding) :
         RecyclerView.ViewHolder(binding.getRoot()) {
 
-        fun bind(suKien: SuKien) {
+        fun bind(suKien: SuKien,position: Int) {
             binding.apply {
 
                 val parts = suKien.ngay.split("-")
                 val nam = parts[0].toInt()
-                val thang = parts[1].toInt()
+                val thang = parts[1].toInt() - 1
                 val ngay = parts[2].toInt()
-                tvDate.text= dinhDangNgay(ngay,thang,nam)
-                tvHour.text=suKien.gio
-                tvEvent.text=suKien.tenSuKien
+                tvDate.text = dinhDangNgay(ngay, thang, nam)
+                tvHour.text = suKien.gio
+                tvEvent.text = suKien.tenSuKien
+
+                btnDelete.setOnClickListener {
+                    itemClick?.onDeleteBtnClick(suKien.maSK,position)
+                }
             }
+            itemView.setOnClickListener {
+                itemClick?.onItemClick(suKien)
+            }
+
         }
     }
 
