@@ -12,11 +12,13 @@ import android.widget.ArrayAdapter
 import android.widget.SpinnerAdapter
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation.findNavController
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -36,7 +38,7 @@ import java.util.Calendar
 @AndroidEntryPoint
 class CongViecFragment : Fragment() {
 
-    private val congViecNgayViewModel by viewModels<CongViecNgayViewModel>()
+    private val congViecNgayViewModel by activityViewModels<CongViecNgayViewModel>()
     private lateinit var danhSachCongViecNgayAdapter: DanhSachCongViecNgayAdapter
 
     private lateinit var binding: FragmentCongViecBinding
@@ -70,6 +72,10 @@ class CongViecFragment : Fragment() {
         taiDanhSachCongViecNgay(dinhDangNgayAPI(ngay, thang, nam))
         binding.tvNgay.setText(dinhDangNgay(ngay, thang, nam))
         binding.btnLich.setOnClickListener(View.OnClickListener { openLichDialog() })
+        binding.btnThemCongViec.setOnClickListener {
+            it.findNavController().navigate(R.id.action_congViecFragment_to_editCongViecFragment) }
+        binding.btnQuanLi.setOnClickListener {
+            it.findNavController().navigate(R.id.action_congViecFragment_to_quanLyNgayFragment) }
         congViecNgayViewModel.soViecCanLam.observe(
             getViewLifecycleOwner(),
             object : Observer<String?> {
@@ -179,7 +185,13 @@ class CongViecFragment : Fragment() {
         danhSachCongViecNgayAdapter = DanhSachCongViecNgayAdapter()
         danhSachCongViecNgayAdapter.setOnItemClickListener(object :
             DanhSachCongViecNgayAdapter.OnItemClickListener {
-            override fun onItemClick(congViecNgay: CongViecNgay?) {}
+            override fun onItemClick(congViecNgay: CongViecNgay?) {
+                if (congViecNgay != null) {
+                    congViecNgayViewModel.setThongTinCongViec(congViecNgay.congViec)
+                }
+                findNavController().navigate(R.id.action_congViecFragment_to_chiTietCongViecFragment)
+
+            }
             override fun onCheckBoxClick(maCongViecNgay: Int) {
                 congViecNgayViewModel.capNhatTrangThaiCongViecNgay(
                     maCongViecNgay,
