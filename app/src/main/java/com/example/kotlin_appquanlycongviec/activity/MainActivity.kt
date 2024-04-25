@@ -27,45 +27,45 @@ class MainActivity : AppCompatActivity() {
         binding= ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-//        val navHostFragment = supportFragmentManager.findFragmentById(R.id.appHostFragment) as NavHostFragment
-//        val navController = navHostFragment.navController
-//        binding.bottomMenu.setupWithNavController(navController)
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.appHostFragment) as NavHostFragment
+        val navController = navHostFragment.navController
+        binding.bottomMenu.setupWithNavController(navController)
 
 
-        binding.bottomMenu.setOnItemSelectedListener {
-            when (it.itemId) {
-                R.id.congViecFragment -> {
-                  replaceFragment(CongViecFragment())
-                    true
-                }
-                R.id.ghiChuFragment -> {
-                   replaceFragment(GhiChuFragment())
-                    true
-                }
-                R.id.suKienFragment -> {
-                  replaceFragment(SuKienFragment())
-                    true
-                }
-                R.id.thongKeFragment -> {
-                    replaceFragment(ThongKeFragment())
-                    true
-                }
-                R.id.taiKhoanFragment -> {
-                    replaceFragment(TaiKhoanFragment())
-                    true
-                }
-                else -> false
-            }
-
-
-        }
-
-    }
-    fun replaceFragment(fragment: Fragment) {
-
-        val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.appHostFragment, fragment)
-        transaction.commit()
-
+//        binding.bottomMenu.setOnItemSelectedListener {
+//            when (it.itemId) {
+//                R.id.congViecFragment -> {
+//                  replaceFragment(CongViecFragment())
+//                    true
+//                }
+//                R.id.ghiChuFragment -> {
+//                   replaceFragment(GhiChuFragment())
+//                    true
+//                }
+//                R.id.suKienFragment -> {
+//                  replaceFragment(SuKienFragment())
+//                    true
+//                }
+//                R.id.thongKeFragment -> {
+//                    replaceFragment(ThongKeFragment())
+//                    true
+//                }
+//                R.id.taiKhoanFragment -> {
+//                    replaceFragment(TaiKhoanFragment())
+//                    true
+//                }
+//                else -> false
+//            }
+//
+//
+//        }
+//
+//    }
+//    fun replaceFragment(fragment: Fragment) {
+//
+//        val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
+//        transaction.replace(R.id.appHostFragment, fragment)
+//        transaction.commit()
+//
     }
 }

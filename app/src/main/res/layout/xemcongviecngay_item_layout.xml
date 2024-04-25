@@ -4,10 +4,11 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="10dp"
+
     android:orientation="horizontal">
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cvItem"
+        android:id="@+id/cardView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:cardCornerRadius="10dp"
@@ -18,48 +19,54 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp">
+            android:orientation="horizontal">
 
+            <CheckBox
+                android:id="@+id/cbCongViec"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical"
+                android:focusable="false"
+                android:clickable="false"
+                />
 
             <LinearLayout
-                android:id="@+id/llCongViec"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_weight="5"
-                android:orientation="vertical">
+                android:layout_weight="8"
+                android:orientation="vertical"
+                >
 
                 <TextView
-                    android:id="@+id/tvTieuDe"
+                    android:id="@+id/tvTieuDeCongViec"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingStart="20dp"
                     android:text="Việc hôm nay"
-                    android:textSize="24sp"
+                    android:textSize="18sp"
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/tvTinhChat"
+                    android:id="@+id/tvTinhChatCongViec"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingStart="30dp"
-                    android:text="Quan trong"
-                    android:textSize="18sp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="5dp"
+                    android:text="Tính chất"
+                    android:textSize="10sp"
                     android:textStyle="italic" />
-
             </LinearLayout>
 
 
             <ImageButton
-                android:id="@+id/btnXoaCongViec"
+                android:id="@+id/btnAnhCongViec"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:background="#74FB0000"
-                android:src="@drawable/baseline_close_24"
-                android:layout_marginEnd="20dp"/>
+                android:layout_weight="1"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/baseline_image_24" />
 
 
         </LinearLayout>

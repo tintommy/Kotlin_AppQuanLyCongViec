@@ -9,13 +9,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.DatePicker
+import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.kotlin_appquanlycongviec.R
-import com.example.kotlin_appquanlycongviec.databinding.FragmentEditCongViecBinding
+import com.example.kotlin_appquanlycongviec.databinding.FragmentThemCongViecBinding
 import com.example.kotlin_appquanlycongviec.request.CongViecRequest
-import com.example.kotlin_appquanlycongviec.viewModel.EditCongViecViewModel
+import com.example.kotlin_appquanlycongviec.viewModel.QuanLyNgayViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.ParseException
 import java.text.SimpleDateFormat
@@ -23,11 +24,11 @@ import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 
-@AndroidEntryPoint
-class EditCongViecFragment : Fragment() {
 
-    private lateinit var binding: FragmentEditCongViecBinding
-    private val viewModel: EditCongViecViewModel by viewModels<EditCongViecViewModel>()
+@AndroidEntryPoint
+class ThemCongViecFragment : Fragment() {
+    private lateinit var binding: FragmentThemCongViecBinding
+    private val sharedViewModel: QuanLyNgayViewModel by activityViewModels()
     private var dpNgayBatDau: DatePickerDialog? = null
     private var dpNgayKetThuc: DatePickerDialog? = null
 
@@ -37,7 +38,7 @@ class EditCongViecFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentEditCongViecBinding.inflate(inflater, container, false)
+        binding = FragmentThemCongViecBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -49,7 +50,7 @@ class EditCongViecFragment : Fragment() {
 
         binding.apply {
             binding.edtNgayBatDau.setText(
-                SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(Calendar.getInstance().time)
+                convertToDDMMYYYY(sharedViewModel.ngay.value.toString())
             )
             btnLuu.setOnClickListener { luuCongViec() }
             edtNgayBatDau.setOnClickListener { dpNgayBatDau?.show() }
@@ -125,9 +126,9 @@ class EditCongViecFragment : Fragment() {
         congViec.tinhChat = binding.spnTinhChat.selectedItemId.toInt()
         congViec.chuKi = binding.spnChuKy.selectedItemId.toInt().toString()
         congViec.dungSauNgay = convertToYYYYMMDD(binding.edtNgayKetThuc.text.toString())
-
-        viewModel.saveCongViec(congViec)
-        findNavController().navigate(R.id.action_editCongViecFragment_to_congViecFragment)
+        sharedViewModel.saveCongViec(congViec)
+        deleteAllField()
+        Toast.makeText(requireContext(),"Thêm thành công",Toast.LENGTH_LONG).show()
     }
 
     private fun validation(): Boolean {
@@ -164,6 +165,15 @@ class EditCongViecFragment : Fragment() {
 
         return true;
 
+
+    }
+
+    private fun deleteAllField() {
+        binding.apply {
+            edtTieuDe.setText("")
+            edtNoiDung.setText("")
+            edtNgayKetThuc.setText("")
+        }
 
     }
 
@@ -207,5 +217,4 @@ class EditCongViecFragment : Fragment() {
         }
         return formattedDate
     }
-
 }

@@ -3,22 +3,25 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/congViecFragment2">
+    app:startDestination="@id/congViecFragment">
 
     <fragment
-        android:id="@+id/congViecFragment2"
+        android:id="@+id/congViecFragment"
         android:name="com.example.kotlin_appquanlycongviec.fragment.CongViecFragment"
         android:label="fragment_cong_viec"
         tools:layout="@layout/fragment_cong_viec" >
         <action
-            android:id="@+id/action_congViecFragment2_to_hinhAnhCongViecFragment"
+            android:id="@+id/action_congViecFragment_to_hinhAnhCongViecFragment"
             app:destination="@id/hinhAnhCongViecFragment" />
         <action
-            android:id="@+id/action_congViecFragment2_to_editCongViecFragment"
+            android:id="@+id/action_congViecFragment_to_editCongViecFragment"
             app:destination="@id/editCongViecFragment" />
         <action
-            android:id="@+id/action_congViecFragment2_to_quanLyNgayFragment"
+            android:id="@+id/action_congViecFragment_to_quanLyNgayFragment"
             app:destination="@id/quanLyNgayFragment" />
+        <action
+            android:id="@+id/action_congViecFragment_to_chiTietCongViecFragment"
+            app:destination="@id/chiTietCongViecFragment" />
     </fragment>
     <fragment
         android:id="@+id/hinhAnhCongViecFragment"
@@ -31,12 +34,12 @@
         android:label="fragment_tai_khoan"
         tools:layout="@layout/fragment_tai_khoan" />
     <fragment
-        android:id="@+id/ghiChuFragment2"
+        android:id="@+id/ghiChuFragment"
         android:name="com.example.kotlin_appquanlycongviec.fragment.GhiChuFragment"
         android:label="fragment_ghi_chu"
         tools:layout="@layout/fragment_ghi_chu" />
     <fragment
-        android:id="@+id/suKienFragment2"
+        android:id="@+id/suKienFragment"
         android:name="com.example.kotlin_appquanlycongviec.fragment.SuKienFragment"
         android:label="fragment_su_kien"
         tools:layout="@layout/fragment_su_kien" >
@@ -58,7 +61,13 @@
         android:id="@+id/editCongViecFragment"
         android:name="com.example.kotlin_appquanlycongviec.fragment.EditCongViecFragment"
         android:label="fragment_edit_cong_viec"
-        tools:layout="@layout/fragment_edit_cong_viec" />
+        tools:layout="@layout/fragment_edit_cong_viec" >
+        <action
+            android:id="@+id/action_editCongViecFragment_to_congViecFragment"
+            app:destination="@id/congViecFragment"
+            app:popUpTo="@id/congViecFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
     <fragment
         android:id="@+id/quanLyNgayFragment"
         android:name="com.example.kotlin_appquanlycongviec.fragment.QuanLyNgayFragment"
@@ -67,10 +76,39 @@
         <action
             android:id="@+id/action_quanLyNgayFragment_to_quanLyCongViecNgayFragment"
             app:destination="@id/quanLyCongViecNgayFragment" />
+        <action
+            android:id="@+id/action_quanLyNgayFragment_to_xemDanhSachCongViecNgayFragment"
+            app:destination="@id/xemDanhSachCongViecNgayFragment" />
     </fragment>
     <fragment
         android:id="@+id/quanLyCongViecNgayFragment"
         android:name="com.example.kotlin_appquanlycongviec.fragment.QuanLyCongViecNgayFragment"
         android:label="fragment_quan_ly_cong_viec_ngay"
-        tools:layout="@layout/fragment_quan_ly_cong_viec_ngay" />
+        tools:layout="@layout/fragment_quan_ly_cong_viec_ngay" >
+        <action
+            android:id="@+id/action_quanLyCongViecNgayFragment_to_themCongViecFragment"
+            app:destination="@id/themCongViecFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/themCongViecFragment"
+        android:name="com.example.kotlin_appquanlycongviec.fragment.ThemCongViecFragment"
+        android:label="fragment_them_cong_viec"
+        tools:layout="@layout/fragment_them_cong_viec" />
+    <fragment
+        android:id="@+id/xemDanhSachCongViecNgayFragment"
+        android:name="com.example.kotlin_appquanlycongviec.fragment.XemDanhSachCongViecNgayFragment"
+        android:label="fragment_xem_danh_sach_cong_viec_ngay"
+        tools:layout="@layout/fragment_xem_danh_sach_cong_viec_ngay" >
+        <action
+            android:id="@+id/action_xemDanhSachCongViecNgayFragment_to_themCongViecFragment"
+            app:destination="@id/themCongViecFragment" />
+        <action
+            android:id="@+id/action_xemDanhSachCongViecNgayFragment_to_hinhAnhCongViecFragment"
+            app:destination="@id/hinhAnhCongViecFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/chiTietCongViecFragment"
+        android:name="com.example.kotlin_appquanlycongviec.fragment.ChiTietCongViecFragment"
+        android:label="fragment_chi_tiet_cong_viec"
+        tools:layout="@layout/fragment_chi_tiet_cong_viec" />
 </navigation>
