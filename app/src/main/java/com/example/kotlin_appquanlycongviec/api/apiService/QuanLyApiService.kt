@@ -1,5 +1,6 @@
 package com.example.kotlin_appquanlycongviec.api.apiService
 
+import com.example.kotlin_appquanlycongviec.model.CongViec
 import com.example.kotlin_appquanlycongviec.model.CongViecNgay
 import com.example.kotlin_appquanlycongviec.request.CongViecRequest
 import com.example.kotlin_appquanlycongviec.response.NgayDaTaoResponse
@@ -24,5 +25,5 @@ interface QuanLyApiService {
     suspend fun getCongViecNgayTrongNgay(@Path("maNd") maNd: Int, @Path("ngay") ngay: String): Response<List<CongViecNgay>>
 
     @POST("/CongViec")
-    suspend fun luuCongViec(@Body congViec:CongViecRequest)
+    suspend fun luuCongViec(@Body congViec:CongViecRequest) : Response<CongViec>
 }

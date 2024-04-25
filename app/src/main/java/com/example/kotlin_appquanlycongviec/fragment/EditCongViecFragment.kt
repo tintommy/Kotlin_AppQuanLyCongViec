@@ -9,14 +9,19 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.DatePicker
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.kotlin_appquanlycongviec.R
 import com.example.kotlin_appquanlycongviec.databinding.FragmentEditCongViecBinding
 import com.example.kotlin_appquanlycongviec.request.CongViecRequest
+import com.example.kotlin_appquanlycongviec.util.Resource
 import com.example.kotlin_appquanlycongviec.viewModel.EditCongViecViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -54,6 +59,16 @@ class EditCongViecFragment : Fragment() {
             btnLuu.setOnClickListener { luuCongViec() }
             edtNgayBatDau.setOnClickListener { dpNgayBatDau?.show() }
             edtNgayKetThuc.setOnClickListener { dpNgayKetThuc?.show() }
+        }
+
+        lifecycleScope.launch {
+            viewModel.luuCongViec.collectLatest {
+                when(it) {
+                    is Resource.Success ->  findNavController().navigate(R.id.action_editCongViecFragment_to_congViecFragment)
+                    is Resource.Error -> Toast.makeText(requireContext(), "Kiểm tra lại kết nối mạng, lưu thất bại", Toast.LENGTH_SHORT).show()
+                    else -> {}
+                }
+            }
         }
     }
 
@@ -127,7 +142,7 @@ class EditCongViecFragment : Fragment() {
         congViec.dungSauNgay = convertToYYYYMMDD(binding.edtNgayKetThuc.text.toString())
 
         viewModel.saveCongViec(congViec)
-        findNavController().navigate(R.id.action_editCongViecFragment_to_congViecFragment)
+
     }
 
     private fun validation(): Boolean {

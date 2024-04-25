@@ -5,14 +5,24 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.kotlin_appquanlycongviec.api.ApiInstance
 import com.example.kotlin_appquanlycongviec.api.apiService.QuanLyApiService
+import com.example.kotlin_appquanlycongviec.model.CongViec
+import com.example.kotlin_appquanlycongviec.model.CongViecNgay
 import com.example.kotlin_appquanlycongviec.request.CongViecRequest
+import com.example.kotlin_appquanlycongviec.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class EditCongViecViewModel @Inject constructor(private val sharedPref: SharedPreferences): ViewModel() {
     private lateinit var quanLyApiService: QuanLyApiService
+
+    private var _luuCongViec: MutableStateFlow<Resource<CongViec>> =
+        MutableStateFlow(Resource.Unspecified())
+    var luuCongViec = _luuCongViec.asStateFlow()
+
     private var ngay: String? = null
     private lateinit var token: String
     private var userId: Int=0
@@ -33,6 +43,12 @@ class EditCongViecViewModel @Inject constructor(private val sharedPref: SharedPr
         congViec.maNd = userId
         viewModelScope.launch {
             val response = quanLyApiService.luuCongViec(congViec)
+            if (response.isSuccessful) {
+                _luuCongViec.emit(Resource.Success(response.body()!!))
+            } else {
+                _luuCongViec.emit(Resource.Error("404"))
+            }
+
         }
     }
 }
