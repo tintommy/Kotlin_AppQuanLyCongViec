@@ -13,7 +13,12 @@ interface CongViecNgayApiService {
         @Path("maNd") maNd: Int,
         @Path("ngay") ngay: String
     ): Response<List<CongViecNgay>>
-
+    @GET("CongViecNgay/NguoiDung/{maNd}/{thang}/{nam}")
+    suspend fun layDanhSachCongViecNgayThangNam(
+        @Path("maNd") maNd: Int,
+        @Path("thang") thang: Int,
+        @Path("nam") nam: Int
+    ): Response<List<CongViecNgay>>
     @GET("CongViecNgay/{maCvNgay}")
     suspend fun layCongViecNgay(
         @Path("maCvNgay") maCvNgay: Int

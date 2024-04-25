@@ -2,6 +2,7 @@ package com.example.kotlin_appquanlycongviec.model
 
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 data class SuKien(
     @SerializedName("gio")
@@ -18,4 +19,4 @@ data class SuKien(
     val nhacTruoc: Int,
     @SerializedName("tenSuKien")
     val tenSuKien: String
-)
+):Serializable

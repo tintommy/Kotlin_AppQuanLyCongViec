@@ -1,5 +1,7 @@
 package com.example.kotlin_appquanlycongviec.fragment
 
+import android.app.AlertDialog
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -13,14 +15,17 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.kotlin_appquanlycongviec.R
+import com.example.kotlin_appquanlycongviec.activity.LogInSignUpActivity
 import com.example.kotlin_appquanlycongviec.activity.MainActivity
 import com.example.kotlin_appquanlycongviec.adapter.SuKienAdapter
 import com.example.kotlin_appquanlycongviec.databinding.FragmentSuKienBinding
+import com.example.kotlin_appquanlycongviec.model.SuKien
 import com.example.kotlin_appquanlycongviec.util.Resource
 import com.example.kotlin_appquanlycongviec.viewModel.SuKienViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import java.text.FieldPosition
 import java.util.Calendar
 
 @AndroidEntryPoint
@@ -37,6 +42,8 @@ class SuKienFragment : Fragment() {
     private var nam2 = 0
     private var thang2 = 0
     private var ngay2 = 0
+    private var todayList: MutableList<SuKien> = mutableListOf()
+    private var nearlyList: MutableList<SuKien> = mutableListOf()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -55,7 +62,10 @@ class SuKienFragment : Fragment() {
 
             it.findNavController().navigate(R.id.action_suKienFragment2_to_themSuKienFragment)
         }
-      
+        binding.btnAllEvent.setOnClickListener {
+            it.findNavController().navigate(R.id.action_suKienFragment_to_tatCaSuKienFragment)
+        }
+
 
 
         suKienViewModel.getTodayEvent(dinhDangNgayAPI(ngay, thang, nam))
@@ -71,6 +81,7 @@ class SuKienFragment : Fragment() {
 
                     is Resource.Success -> {
                         todayEventAdapter.differ.submitList(it.data)
+                        todayList = it.data!!
                         binding.tvNotEventToday.visibility = View.GONE
                         binding.rvEventToday.visibility = View.VISIBLE
                     }
@@ -99,8 +110,9 @@ class SuKienFragment : Fragment() {
                     }
 
                     is Resource.Success -> {
-                        Log.e("MyTag", it.data!!.size.toString())
+
                         nearlyEventAdapter.differ.submitList(it.data)
+                        nearlyList= it.data!!
                         binding.tvNotNearlyEvent.visibility = View.GONE
                         binding.rvEventNear.visibility = View.VISIBLE
                     }
@@ -120,6 +132,19 @@ class SuKienFragment : Fragment() {
                 }
             }
         }
+        lifecycleScope.launch {
+            suKienViewModel.deleteEvent.collectLatest {
+                when (it) {
+
+                    is Resource.Success -> {
+                        Toast.makeText(requireContext(), "Xoá thành công", Toast.LENGTH_SHORT)
+                            .show()
+                    }
+
+                    else -> {}
+                }
+            }
+        }
 
     }
 
@@ -129,12 +154,70 @@ class SuKienFragment : Fragment() {
             rvEventToday.layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
             rvEventToday.adapter = todayEventAdapter
+            todayEventAdapter.setOnItemClickListener(object : SuKienAdapter.OnItemClickListener {
+                override fun onItemClick(suKien: SuKien) {
+                    val b = Bundle()
+                    b.putSerializable("suKien", suKien)
+                    findNavController().navigate(
+                        R.id.action_suKienFragment_to_chiTietSuKienFragment,
+                        b
+                    )
+                }
+
+                override fun onDeleteBtnClick(maSuKien: Int, position: Int) {
+
+                    val builder = AlertDialog.Builder(requireContext())
+                    builder.setMessage("Xác nhận xoá ?")
+                    builder.setCancelable(false)
+                    builder.setPositiveButton("Xoá") { dialog, which ->
+                        suKienViewModel.deleteEvent(maSuKien)
+                      todayList.removeAt(position)
+                        todayEventAdapter.differ.submitList(todayList)
+                        todayEventAdapter.notifyDataSetChanged()
+                        Toast.makeText(requireContext(), "Đã xoá sự kiện", Toast.LENGTH_SHORT).show()
+                        if (todayList.size==0)
+                            tvNotEventToday.visibility= View.VISIBLE
+                    }
+                    builder.setNegativeButton("Huỷ") { dialog, which -> dialog.cancel() }
+                    val alertDialog = builder.create()
+                    alertDialog.show()
+                }
+            })
+
 
 
             nearlyEventAdapter = SuKienAdapter()
             rvEventNear.layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
             rvEventNear.adapter = nearlyEventAdapter
+            nearlyEventAdapter.setOnItemClickListener(object : SuKienAdapter.OnItemClickListener {
+                override fun onItemClick(suKien: SuKien) {
+                    val b = Bundle()
+                    b.putSerializable("suKien", suKien)
+                    findNavController().navigate(
+                        R.id.action_suKienFragment_to_chiTietSuKienFragment,
+                        b
+                    )
+                }
+
+                override fun onDeleteBtnClick(maSuKien: Int, position: Int) {
+                    val builder = AlertDialog.Builder(requireContext())
+                    builder.setMessage("Xác nhận xoá ?")
+                    builder.setCancelable(false)
+                    builder.setPositiveButton("Xoá") { dialog, which ->
+                        suKienViewModel.deleteEvent(maSuKien)
+                        nearlyList.removeAt(position)
+                        nearlyEventAdapter.differ.submitList(nearlyList)
+                        nearlyEventAdapter.notifyDataSetChanged()
+                        Toast.makeText(requireContext(), "Đã xoá sự kiện", Toast.LENGTH_SHORT).show()
+                        if (nearlyList.size==0)
+                            tvNotNearlyEvent.visibility= View.VISIBLE
+                    }
+                    builder.setNegativeButton("Huỷ") { dialog, which -> dialog.cancel() }
+                    val alertDialog = builder.create()
+                    alertDialog.show()
+                }
+            })
         }
     }
 
