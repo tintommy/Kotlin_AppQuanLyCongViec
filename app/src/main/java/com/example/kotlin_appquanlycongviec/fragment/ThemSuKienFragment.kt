@@ -72,7 +72,7 @@ class ThemSuKienFragment : Fragment() {
                             "Đã lưu sự kiện thành công",
                             Toast.LENGTH_LONG
                         ).show()
-                        findNavController().navigate(R.id.action_themSuKienFragment_to_suKienFragment)
+                      findNavController().navigateUp()
                     }
 
                     is Resource.Error -> {
