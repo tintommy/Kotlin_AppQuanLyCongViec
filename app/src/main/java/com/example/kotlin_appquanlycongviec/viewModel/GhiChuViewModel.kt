@@ -51,7 +51,7 @@ class GhiChuViewModel @Inject constructor(private val sharedPref: SharedPreferen
     }
 
     fun taiDsGhiChu() {
-        
+
         viewModelScope.launch {
             _ghiChuList.emit(Resource.Loading())
             val response = ghiChuApiService.layDanhSachGhiChuCuaNguoiDung(userId)
