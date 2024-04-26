@@ -47,7 +47,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="72dp"
         android:text="ngay thang na m"
-        android:textSize="20sp"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:textColor="@color/blueFigma"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/layout" />

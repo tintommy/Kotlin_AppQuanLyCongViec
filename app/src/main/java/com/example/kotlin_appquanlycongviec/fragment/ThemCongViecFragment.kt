@@ -53,6 +53,9 @@ class ThemCongViecFragment : Fragment() {
                 convertToDDMMYYYY(sharedViewModel.ngay.value.toString())
             )
             btnLuu.setOnClickListener { luuCongViec() }
+            btnBack.setOnClickListener {
+                findNavController().navigateUp()
+            }
             edtNgayBatDau.setOnClickListener { dpNgayBatDau?.show() }
             edtNgayKetThuc.setOnClickListener { dpNgayKetThuc?.show() }
         }
@@ -74,6 +77,7 @@ class ThemCongViecFragment : Fragment() {
             ArrayAdapter(requireActivity(), android.R.layout.simple_spinner_item, tinhChat)
         binding.spnChuKy.adapter = adapterChuKy
         binding.spnTinhChat.adapter = adapterTinhChat
+
     }
 
     private fun khaiBaoDatePicker() {

@@ -56,6 +56,9 @@ class XemDanhSachCongViecNgayFragment : Fragment() {
             btnThemCongViec.setOnClickListener {
                 findNavController().navigate(R.id.action_xemDanhSachCongViecNgayFragment_to_themCongViecFragment)
             }
+            btnBack.setOnClickListener {
+                findNavController().navigateUp()
+            }
         }
 
     }

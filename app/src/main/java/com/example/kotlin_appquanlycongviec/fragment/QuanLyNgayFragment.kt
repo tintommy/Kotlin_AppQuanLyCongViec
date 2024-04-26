@@ -49,6 +49,9 @@ class QuanLyNgayFragment : Fragment() {
                     Calendar.getInstance().time))
             findNavController().navigate(R.id.action_quanLyNgayFragment_to_quanLyCongViecNgayFragment)
         }
+        binding.btnBack.setOnClickListener {
+            findNavController().navigateUp()
+        }
 
     }
 

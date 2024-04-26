@@ -59,6 +59,9 @@ class EditCongViecFragment : Fragment() {
             btnLuu.setOnClickListener { luuCongViec() }
             edtNgayBatDau.setOnClickListener { dpNgayBatDau?.show() }
             edtNgayKetThuc.setOnClickListener { dpNgayKetThuc?.show() }
+            btnBack.setOnClickListener {
+                findNavController().navigateUp()
+            }
         }
 
         lifecycleScope.launch {
