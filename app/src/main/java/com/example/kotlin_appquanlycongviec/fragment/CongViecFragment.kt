@@ -76,6 +76,7 @@ class CongViecFragment : Fragment() {
             it.findNavController().navigate(R.id.action_congViecFragment_to_editCongViecFragment) }
         binding.btnQuanLi.setOnClickListener {
             it.findNavController().navigate(R.id.action_congViecFragment_to_quanLyNgayFragment) }
+
         congViecNgayViewModel.soViecCanLam.observe(
             getViewLifecycleOwner(),
             object : Observer<String?> {
@@ -199,6 +200,37 @@ class CongViecFragment : Fragment() {
                 )
             }
 
+            override fun onDeleteBtnClick(maCongViecNgay: Int, position: Int) {
+                val builder = AlertDialog.Builder(requireActivity())
+                builder.setMessage("Bạn chắc chắn xoá ?")
+                builder.setTitle("Xác nhận !")
+                builder.setCancelable(false)
+                builder.setPositiveButton(
+                    "Xoá"
+                ) { dialog, which ->
+
+                    congViecNgayViewModel.xoaCongViecNgay(
+                       maCongViecNgay,
+                        dinhDangNgayAPI(ngay, thang, nam)
+
+                    )
+
+                    var list= danhSachCongViecNgayAdapter.differ.currentList. toMutableList()
+                    list.removeAt(position)
+                    danhSachCongViecNgayAdapter.differ.submitList(list)
+                    danhSachCongViecNgayAdapter.notifyDataSetChanged()
+                    Snackbar.make(view!!, "Đã xoá công việc", Snackbar.LENGTH_LONG).show()
+                }
+                builder.setNegativeButton(
+                    "Huỷ"
+                ) { dialog, which ->
+                    danhSachCongViecNgayAdapter.notifyDataSetChanged()
+                    dialog.cancel()
+                }
+                val alertDialog = builder.create()
+                alertDialog.show()
+            }
+
             override fun onImageButtonClick(congViecNgay: CongViecNgay?) {
                 val bundle = Bundle()
                 bundle.putInt("maCvNgay", congViecNgay!!.maCvNgay)
@@ -208,47 +240,7 @@ class CongViecFragment : Fragment() {
                 )
             }
         })
-        val itemTouchHelperCallback: ItemTouchHelper.SimpleCallback =
-            object : ItemTouchHelper.SimpleCallback(
-                ItemTouchHelper.UP or ItemTouchHelper.DOWN,
-                ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
-            ) {
-                override fun onMove(
-                    recyclerView: RecyclerView,
-                    viewHolder: RecyclerView.ViewHolder,
-                    target: RecyclerView.ViewHolder
-                ): Boolean {
-                    return true
-                }
 
-                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                    val builder = AlertDialog.Builder(requireActivity())
-                    builder.setMessage("Bạn chắc chắn xoá ?")
-                    builder.setTitle("Xác nhận !")
-                    builder.setCancelable(false)
-                    builder.setPositiveButton(
-                        "Xoá"
-                    ) { dialog, which ->
-                        val position = viewHolder.getAdapterPosition()
-                        val congViecNgay: CongViecNgay =
-                            danhSachCongViecNgayAdapter.differ.currentList.get(position)
-                        congViecNgayViewModel.xoaCongViecNgay(
-                            congViecNgay.maCvNgay,
-                            dinhDangNgayAPI(ngay, thang, nam)
-                        )
-                        Snackbar.make(view!!, "Đã xoá công việc", Snackbar.LENGTH_LONG).show()
-                    }
-                    builder.setNegativeButton(
-                        "Huỷ"
-                    ) { dialog, which ->
-                        danhSachCongViecNgayAdapter.notifyDataSetChanged()
-                        dialog.cancel()
-                    }
-                    val alertDialog = builder.create()
-                    alertDialog.show()
-                }
-            }
-        ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(binding.rvCongViec)
 
         binding.rvCongViec.setAdapter(danhSachCongViecNgayAdapter)
         binding.rvCongViec.setLayoutManager(

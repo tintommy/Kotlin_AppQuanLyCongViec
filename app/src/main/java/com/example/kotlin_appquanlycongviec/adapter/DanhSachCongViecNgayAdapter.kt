@@ -4,6 +4,7 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SeekBar
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -18,6 +19,7 @@ class DanhSachCongViecNgayAdapter :
     interface OnItemClickListener {
         fun onItemClick(congViecNgay: CongViecNgay?)
         fun onCheckBoxClick(maCongViecNgay: Int)
+        fun onDeleteBtnClick(maCongViecNgay: Int, position: Int)
         fun onImageButtonClick(congViecNgay: CongViecNgay?)
     }
 
@@ -35,7 +37,7 @@ class DanhSachCongViecNgayAdapter :
             }
 
             override fun areContentsTheSame(oldItem: CongViecNgay, newItem: CongViecNgay): Boolean {
-                return oldItem==newItem
+                return oldItem == newItem
             }
         }
 
@@ -54,7 +56,7 @@ class DanhSachCongViecNgayAdapter :
 
     override fun onBindViewHolder(holder: DanhSachCongViecNgayViewHolder, position: Int) {
         val congViecNgay: CongViecNgay = differ.getCurrentList()[position]
-        holder.bind(congViecNgay)
+        holder.bind(congViecNgay, position)
 
     }
 
@@ -66,7 +68,7 @@ class DanhSachCongViecNgayAdapter :
     inner class DanhSachCongViecNgayViewHolder(private val binding: CongviecItemLayoutBinding) :
         RecyclerView.ViewHolder(binding.getRoot()) {
 
-        fun bind(congViecNgay: CongViecNgay) {
+        fun bind(congViecNgay: CongViecNgay, position: Int) {
             binding.cbCongViec.setChecked(congViecNgay.trangThai)
             binding.tvTieuDeCongViec.setText(congViecNgay.congViec.tieuDe)
             when (congViecNgay.congViec.tinhChat) {
@@ -85,7 +87,8 @@ class DanhSachCongViecNgayAdapter :
                     binding.tvTinhChatCongViec.setTextColor(Color.RED)
                 }
             }
-
+            binding.tvPercent.text = congViecNgay.phanTramHoanThanh.toString() + "%"
+            binding.sbPercent.progress= congViecNgay.phanTramHoanThanh
             binding.cbCongViec.setOnClickListener(View.OnClickListener {
                 itemClick!!.onCheckBoxClick(
                     congViecNgay.maCvNgay
@@ -100,6 +103,24 @@ class DanhSachCongViecNgayAdapter :
                 itemClick!!.onItemClick(
                     congViecNgay
                 )
+            })
+            binding.btnDelete.setOnClickListener {
+                itemClick!!.onDeleteBtnClick(
+                    congViecNgay.maCvNgay, position
+                )
+            }
+            binding.sbPercent.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+                override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
+                        binding.tvPercent.text= p1.toString()+"%"
+                }
+
+                override fun onStartTrackingTouch(p0: SeekBar?) {
+
+                }
+
+                override fun onStopTrackingTouch(p0: SeekBar?) {
+
+                }
             })
         }
     }
