@@ -18,9 +18,10 @@ class DanhSachCongViecNgayAdapter :
 
     interface OnItemClickListener {
         fun onItemClick(congViecNgay: CongViecNgay?)
-        fun onCheckBoxClick(maCongViecNgay: Int)
+        fun onCheckBoxClick(congViecNgay: CongViecNgay, hoanThanh: Boolean)
         fun onDeleteBtnClick(maCongViecNgay: Int, position: Int)
         fun onImageButtonClick(congViecNgay: CongViecNgay?)
+        fun onStopTrackingTouch(congViecNgay: CongViecNgay?, percent: Int)
     }
 
 
@@ -88,11 +89,19 @@ class DanhSachCongViecNgayAdapter :
                 }
             }
             binding.tvPercent.text = congViecNgay.phanTramHoanThanh.toString() + "%"
-            binding.sbPercent.progress= congViecNgay.phanTramHoanThanh
+            binding.sbPercent.progress = congViecNgay.phanTramHoanThanh
             binding.cbCongViec.setOnClickListener(View.OnClickListener {
-                itemClick!!.onCheckBoxClick(
-                    congViecNgay.maCvNgay
-                )
+                if (binding.cbCongViec.isChecked) {
+                    binding.sbPercent.progress = 100
+                    itemClick!!.onCheckBoxClick(
+                        congViecNgay,true
+                    )
+                } else {
+                    binding.sbPercent.progress = 0
+                    itemClick!!.onCheckBoxClick(
+                        congViecNgay,false
+                    )
+                }
             })
             binding.btnAnhCongViec.setOnClickListener(View.OnClickListener {
                 itemClick!!.onImageButtonClick(
@@ -111,7 +120,12 @@ class DanhSachCongViecNgayAdapter :
             }
             binding.sbPercent.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
                 override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
-                        binding.tvPercent.text= p1.toString()+"%"
+                    binding.tvPercent.text = p1.toString() + "%"
+
+                    if (p1 == 100) {
+                        binding.cbCongViec.setChecked(true)
+                    } else
+                        binding.cbCongViec.setChecked(false)
                 }
 
                 override fun onStartTrackingTouch(p0: SeekBar?) {
@@ -119,7 +133,9 @@ class DanhSachCongViecNgayAdapter :
                 }
 
                 override fun onStopTrackingTouch(p0: SeekBar?) {
-
+                    if (p0 != null) {
+                        itemClick?.onStopTrackingTouch(congViecNgay, p0.progress)
+                    }
                 }
             })
         }

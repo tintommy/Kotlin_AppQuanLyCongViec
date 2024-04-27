@@ -73,9 +73,11 @@ class CongViecFragment : Fragment() {
         binding.tvNgay.setText(dinhDangNgay(ngay, thang, nam))
         binding.btnLich.setOnClickListener(View.OnClickListener { openLichDialog() })
         binding.btnThemCongViec.setOnClickListener {
-            it.findNavController().navigate(R.id.action_congViecFragment_to_editCongViecFragment) }
+            it.findNavController().navigate(R.id.action_congViecFragment_to_editCongViecFragment)
+        }
         binding.btnQuanLi.setOnClickListener {
-            it.findNavController().navigate(R.id.action_congViecFragment_to_quanLyNgayFragment) }
+            it.findNavController().navigate(R.id.action_congViecFragment_to_quanLyNgayFragment)
+        }
 
         congViecNgayViewModel.soViecCanLam.observe(
             getViewLifecycleOwner(),
@@ -91,6 +93,8 @@ class CongViecFragment : Fragment() {
                     binding.tvPhanTram.setText(value)
                 }
             })
+
+
     }
 
     private fun khaiBaoSpinner() {
@@ -193,11 +197,21 @@ class CongViecFragment : Fragment() {
                 findNavController().navigate(R.id.action_congViecFragment_to_chiTietCongViecFragment)
 
             }
-            override fun onCheckBoxClick(maCongViecNgay: Int) {
-                congViecNgayViewModel.capNhatTrangThaiCongViecNgay(
-                    maCongViecNgay,
-                    dinhDangNgayAPI(ngay, thang, nam)
-                )
+
+            override fun onCheckBoxClick(congViecNgay: CongViecNgay, hoanThanh: Boolean) {
+                if (hoanThanh == true) {
+                    congViecNgay.phanTramHoanThanh = 100
+                    congViecNgay.trangThai = true
+                    congViecNgayViewModel.capNhatCongViecNgay(congViecNgay,dinhDangNgayAPI(ngay, thang, nam))
+                } else {
+                    congViecNgay.phanTramHoanThanh = 0
+                    congViecNgay.trangThai = false
+                    congViecNgayViewModel.capNhatCongViecNgay(congViecNgay,dinhDangNgayAPI(ngay, thang, nam))
+                }
+//                congViecNgayViewModel.capNhatTrangThaiCongViecNgay(
+//                    congViecNgay.maCvNgay,
+//                    dinhDangNgayAPI(ngay, thang, nam)
+//                )
             }
 
             override fun onDeleteBtnClick(maCongViecNgay: Int, position: Int) {
@@ -210,12 +224,12 @@ class CongViecFragment : Fragment() {
                 ) { dialog, which ->
 
                     congViecNgayViewModel.xoaCongViecNgay(
-                       maCongViecNgay,
+                        maCongViecNgay,
                         dinhDangNgayAPI(ngay, thang, nam)
 
                     )
 
-                    var list= danhSachCongViecNgayAdapter.differ.currentList. toMutableList()
+                    var list = danhSachCongViecNgayAdapter.differ.currentList.toMutableList()
                     list.removeAt(position)
                     danhSachCongViecNgayAdapter.differ.submitList(list)
                     danhSachCongViecNgayAdapter.notifyDataSetChanged()
@@ -239,6 +253,15 @@ class CongViecFragment : Fragment() {
                     bundle
                 )
             }
+
+            override fun onStopTrackingTouch(congViecNgay: CongViecNgay?, percent: Int) {
+                congViecNgay!!.phanTramHoanThanh = percent
+                if (percent == 100)
+                    congViecNgay.trangThai = true
+                else congViecNgay.trangThai = false
+
+                congViecNgayViewModel.capNhatCongViecNgay(congViecNgay!!,dinhDangNgayAPI(ngay, thang, nam))
+            }
         })
 
 
@@ -257,7 +280,7 @@ class CongViecFragment : Fragment() {
             requireContext(),
             { datePicker, year, month, day ->
                 binding.tvNgay.setText(dinhDangNgay(day, month, year))
-                taiDanhSachCongViecNgay( dinhDangNgayAPI(day, month, year))
+                taiDanhSachCongViecNgay(dinhDangNgayAPI(day, month, year))
                 ngay = day
                 thang = month
                 nam = year

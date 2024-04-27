@@ -12,7 +12,7 @@ data class CongViecNgay(
     @SerializedName("ngayLam")
     val ngayLam: String,
     @SerializedName("trangThai")
-    val trangThai: Boolean,
+    var trangThai: Boolean,
     @SerializedName("phanTramHoanThanh")
-    val phanTramHoanThanh: Int
+    var phanTramHoanThanh: Int
 ):Serializable
