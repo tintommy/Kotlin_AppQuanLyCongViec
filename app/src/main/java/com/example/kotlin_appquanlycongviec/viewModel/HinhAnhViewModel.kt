@@ -95,13 +95,13 @@ class HinhAnhViewModel @Inject constructor(private val sharedPref: SharedPrefere
                                 if (response.isSuccessful) {
                                     taiDanhSachHinhAnh(maCvNgay)
                                 }
+                                else{
+                                    _hinhAnhList.emit(Resource.Error("Lỗi khi up ảnh"))
+                                }
                             }
 
                         }
-                        else
-                        { viewModelScope.launch {
-                            _hinhAnhList.emit(Resource.Error("Lỗi khi up ảnh"))
-                        }}
+
                     }
                 }
             }

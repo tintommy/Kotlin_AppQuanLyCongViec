@@ -25,7 +25,9 @@ import com.example.kotlin_appquanlycongviec.viewModel.SuKienViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Date
 
 @AndroidEntryPoint
 class ThemSuKienFragment : Fragment() {
@@ -72,7 +74,7 @@ class ThemSuKienFragment : Fragment() {
                             "Đã lưu sự kiện thành công",
                             Toast.LENGTH_LONG
                         ).show()
-                       findNavController().navigateUp()
+                      findNavController().navigateUp()
                     }
 
                     is Resource.Error -> {
@@ -105,7 +107,7 @@ class ThemSuKienFragment : Fragment() {
                 0,
                 binding.etDescrip.text.toString().trim(),
                 ngayApi,
-                "",
+                getPreviousDate(ngayApi,nhacTruoc),
                 nhacTruoc,
                 binding.etEventName.text.toString().trim()
             )
@@ -220,5 +222,12 @@ class ThemSuKienFragment : Fragment() {
         temp += "-"
         temp += if (ngay < 10) "0$ngay" else ngay.toString()
         return temp
+    }
+    fun getPreviousDate(currentDate: String, days: Int): String {
+        val sdf = SimpleDateFormat("yyyy-MM-dd")
+        val cal = Calendar.getInstance()
+        cal.time = sdf.parse(currentDate) ?: Date()
+        cal.add(Calendar.DAY_OF_MONTH, -days)
+        return sdf.format(cal.time)
     }
 }

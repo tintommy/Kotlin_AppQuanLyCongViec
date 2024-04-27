@@ -132,29 +132,22 @@ class SuKienFragment : Fragment() {
                 }
             }
         }
-        lifecycleScope.launch {
-            suKienViewModel.deleteEvent.collectLatest {
-                when (it) {
-
-                    is Resource.Success -> {
-                        Toast.makeText(requireContext(), "Xoá thành công", Toast.LENGTH_SHORT)
-                            .show()
-                    }
-
-                    else -> {}
-                }
-            }
-        }
-
-
+//        lifecycleScope.launch {
+//            suKienViewModel.deleteEvent.collectLatest {
+//                when (it) {
+//
+//                    is Resource.Success -> {
+//                        Toast.makeText(requireContext(), "Xoá thành công", Toast.LENGTH_SHORT)
+//                            .show()
+//                    }
+//
+//                    else -> {}
+//                }
+//            }
+//        }
 
     }
 
-    override fun onResume() {
-        super.onResume()
-        suKienViewModel.getTodayEvent(dinhDangNgayAPI(ngay, thang, nam))
-        suKienViewModel.getNearlyEvent(dinhDangNgayAPI(ngay2, thang2, nam2))
-    }
     private fun initAdapter() {
         binding.apply {
             todayEventAdapter = SuKienAdapter()
@@ -229,7 +222,7 @@ class SuKienFragment : Fragment() {
     }
 
     private fun getNextDate() {
-         val calendar2 = Calendar.getInstance()
+        val calendar2 = Calendar.getInstance()
         calendar2.add(Calendar.DAY_OF_YEAR, 1)
         ngay2 = calendar2.get(Calendar.DAY_OF_MONTH)
         thang2 = calendar2.get(Calendar.MONTH)
