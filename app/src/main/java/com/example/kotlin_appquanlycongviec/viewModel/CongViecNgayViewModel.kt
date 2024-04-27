@@ -12,6 +12,7 @@ import com.example.kotlin_appquanlycongviec.api.apiService.LoginApiService
 import com.example.kotlin_appquanlycongviec.model.CongViec
 
 import com.example.kotlin_appquanlycongviec.model.CongViecNgay
+import com.example.kotlin_appquanlycongviec.request.Status
 import com.example.kotlin_appquanlycongviec.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -29,6 +30,11 @@ class CongViecNgayViewModel @Inject constructor(private val sharedPref: SharedPr
     private var _danhSachCongViecNgay: MutableStateFlow<Resource<List<CongViecNgay>>> =
         MutableStateFlow(Resource.Unspecified())
     var danhSachCongViecNgay = _danhSachCongViecNgay.asStateFlow()
+
+    private var _capNhatCongViecNgay: MutableStateFlow<Resource<Status>> =
+        MutableStateFlow(Resource.Unspecified())
+    var capNhatCongViecNgay = _capNhatCongViecNgay.asStateFlow()
+
 
     private var _thongTinCongViec = MutableLiveData<CongViec>()
     var thongTinCongViec:  LiveData<CongViec> = _thongTinCongViec
@@ -108,6 +114,20 @@ class CongViecNgayViewModel @Inject constructor(private val sharedPref: SharedPr
         }
     }
 
+    fun capNhatCongViecNgay(congViecNgay: CongViecNgay,ngay:String) {
+        viewModelScope.launch {
+            val response = congViecservice.capNhatCongViecNgay(congViecNgay, congViecNgay.congViec.maCV)
+            if (response.isSuccessful) {
+                    _capNhatCongViecNgay.emit(Resource.Success(response.body()!!))
+                capNhatSoViecVaPhanTram2(ngay)
+
+            }
+            else{
+                _capNhatCongViecNgay.emit(Resource.Error("Lỗi"))
+            }
+        }
+    }
+
     fun xoaCongViecNgay(maCvNgay: Int, ngay: String?) {
         viewModelScope.launch {
             val response = congViecservice.xoaCongViecNgay(maCvNgay, userId, ngay!!)
@@ -159,6 +179,44 @@ class CongViecNgayViewModel @Inject constructor(private val sharedPref: SharedPr
                 soViecCanLam.postValue("Bạn có " + (cvnList.size - hoanThanh) + " việc cần làm")
             }
             if (code == 404) {
+                phanTramHoanThanh.postValue("")
+                soViecCanLam.postValue("")
+            }
+        }
+    }
+
+    fun capNhatSoViecVaPhanTram2(ngay: String?) {
+        viewModelScope.launch {
+            val response = congViecservice.layDanhSachCongViecNgay(userId, ngay!!)
+            var cvnList= response.body()
+            var hoanThanh = 0
+            var chuaHoanThanh = 0
+            if (response.code() == 200) {
+                if (cvnList != null) {
+                    if (cvnList.size > 0) {
+                        for (i in cvnList.indices) {
+                            if (cvnList[i].trangThai) {
+                                hoanThanh += 1
+                            } else chuaHoanThanh += 1
+                        }
+                        if (hoanThanh == cvnList.size) {
+                            phanTramHoanThanh.postValue("Hoàn thành: 100%")
+                        } else if (chuaHoanThanh == cvnList.size) {
+                            phanTramHoanThanh.postValue("Hoàn thành: 0%")
+                        }
+                        val phanTram = hoanThanh.toDouble() / cvnList.size
+                        phanTramHoanThanh.postValue(
+                            "Hoàn thành: " + DecimalFormat("#.##").format(
+                                phanTram * 100
+                            ) + "%"
+                        )
+                    }
+                }
+                if (cvnList != null) {
+                    soViecCanLam.postValue("Bạn có " + (cvnList.size - hoanThanh) + " việc cần làm")
+                }
+            }
+            if (response.code() == 404) {
                 phanTramHoanThanh.postValue("")
                 soViecCanLam.postValue("")
             }

@@ -1,10 +1,12 @@
 package com.example.kotlin_appquanlycongviec.api.apiService
 
 import com.example.kotlin_appquanlycongviec.model.CongViecNgay
+import com.example.kotlin_appquanlycongviec.request.Status
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Path
 
 interface CongViecNgayApiService {
@@ -30,7 +32,11 @@ interface CongViecNgayApiService {
         @Path("maNd") maNd: Int,
         @Path("ngay") ngay: String
     ): Response<List<CongViecNgay>>
-
+    @PUT("CongViecNgay/CapNhatCongViecNgay/{maCv}")
+    suspend fun capNhatCongViecNgay(
+       @Body cvNgay: CongViecNgay,
+       @Path("maCv") maCv: Int
+    ): Response<Status>
     @GET("CongViecNgay/XoaCongViecNgay/{maCvNgay}/{maNd}/{ngay}")
     suspend fun xoaCongViecNgay(
         @Path("maCvNgay") maCvNgay: Int,

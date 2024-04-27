@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter
 import android.widget.DatePicker
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.example.kotlin_appquanlycongviec.R
 import com.example.kotlin_appquanlycongviec.databinding.FragmentChiTietCongViecBinding
 import com.example.kotlin_appquanlycongviec.databinding.FragmentEditCongViecBinding
@@ -45,6 +46,9 @@ class ChiTietCongViecFragment : Fragment() {
         binding?.apply {
             edtTieuDe.setText(sharedViewModel.thongTinCongViec.value?.tieuDe.toString())
             edtNoiDung.setText(sharedViewModel.thongTinCongViec.value?.noiDung.toString())
+            btnBack.setOnClickListener {
+                findNavController().navigateUp()
+            }
             edtNgayBatDau.setText(
                 convertToDDMMYYYY(sharedViewModel.thongTinCongViec.value?.ngayBatDau.toString())
             )

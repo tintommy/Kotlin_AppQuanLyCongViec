@@ -4,6 +4,7 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SeekBar
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -17,8 +18,10 @@ class DanhSachCongViecNgayAdapter :
 
     interface OnItemClickListener {
         fun onItemClick(congViecNgay: CongViecNgay?)
-        fun onCheckBoxClick(maCongViecNgay: Int)
+        fun onCheckBoxClick(congViecNgay: CongViecNgay, hoanThanh: Boolean)
+        fun onDeleteBtnClick(maCongViecNgay: Int, position: Int)
         fun onImageButtonClick(congViecNgay: CongViecNgay?)
+        fun onStopTrackingTouch(congViecNgay: CongViecNgay?, percent: Int)
     }
 
 
@@ -35,7 +38,7 @@ class DanhSachCongViecNgayAdapter :
             }
 
             override fun areContentsTheSame(oldItem: CongViecNgay, newItem: CongViecNgay): Boolean {
-                return oldItem==newItem
+                return oldItem == newItem
             }
         }
 
@@ -54,7 +57,7 @@ class DanhSachCongViecNgayAdapter :
 
     override fun onBindViewHolder(holder: DanhSachCongViecNgayViewHolder, position: Int) {
         val congViecNgay: CongViecNgay = differ.getCurrentList()[position]
-        holder.bind(congViecNgay)
+        holder.bind(congViecNgay, position)
 
     }
 
@@ -66,7 +69,7 @@ class DanhSachCongViecNgayAdapter :
     inner class DanhSachCongViecNgayViewHolder(private val binding: CongviecItemLayoutBinding) :
         RecyclerView.ViewHolder(binding.getRoot()) {
 
-        fun bind(congViecNgay: CongViecNgay) {
+        fun bind(congViecNgay: CongViecNgay, position: Int) {
             binding.cbCongViec.setChecked(congViecNgay.trangThai)
             binding.tvTieuDeCongViec.setText(congViecNgay.congViec.tieuDe)
             when (congViecNgay.congViec.tinhChat) {
@@ -85,11 +88,20 @@ class DanhSachCongViecNgayAdapter :
                     binding.tvTinhChatCongViec.setTextColor(Color.RED)
                 }
             }
-
+            binding.tvPercent.text = congViecNgay.phanTramHoanThanh.toString() + "%"
+            binding.sbPercent.progress = congViecNgay.phanTramHoanThanh
             binding.cbCongViec.setOnClickListener(View.OnClickListener {
-                itemClick!!.onCheckBoxClick(
-                    congViecNgay.maCvNgay
-                )
+                if (binding.cbCongViec.isChecked) {
+                    binding.sbPercent.progress = 100
+                    itemClick!!.onCheckBoxClick(
+                        congViecNgay,true
+                    )
+                } else {
+                    binding.sbPercent.progress = 0
+                    itemClick!!.onCheckBoxClick(
+                        congViecNgay,false
+                    )
+                }
             })
             binding.btnAnhCongViec.setOnClickListener(View.OnClickListener {
                 itemClick!!.onImageButtonClick(
@@ -100,6 +112,31 @@ class DanhSachCongViecNgayAdapter :
                 itemClick!!.onItemClick(
                     congViecNgay
                 )
+            })
+            binding.btnDelete.setOnClickListener {
+                itemClick!!.onDeleteBtnClick(
+                    congViecNgay.maCvNgay, position
+                )
+            }
+            binding.sbPercent.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+                override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
+                    binding.tvPercent.text = p1.toString() + "%"
+
+                    if (p1 == 100) {
+                        binding.cbCongViec.setChecked(true)
+                    } else
+                        binding.cbCongViec.setChecked(false)
+                }
+
+                override fun onStartTrackingTouch(p0: SeekBar?) {
+
+                }
+
+                override fun onStopTrackingTouch(p0: SeekBar?) {
+                    if (p0 != null) {
+                        itemClick?.onStopTrackingTouch(congViecNgay, p0.progress)
+                    }
+                }
             })
         }
     }

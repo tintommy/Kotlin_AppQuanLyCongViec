@@ -32,7 +32,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/appHostFragment"
         app:menu="@menu/bottom_nav_menu"
-        android:background="@color/yellowFigma"
+        android:background="#03A9F4"
+        app:itemActiveIndicatorStyle="@android:color/transparent"
+     app:itemRippleColor="#00000000"
+
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

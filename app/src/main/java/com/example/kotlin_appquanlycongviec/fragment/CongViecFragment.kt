@@ -73,9 +73,12 @@ class CongViecFragment : Fragment() {
         binding.tvNgay.setText(dinhDangNgay(ngay, thang, nam))
         binding.btnLich.setOnClickListener(View.OnClickListener { openLichDialog() })
         binding.btnThemCongViec.setOnClickListener {
-            it.findNavController().navigate(R.id.action_congViecFragment_to_editCongViecFragment) }
+            it.findNavController().navigate(R.id.action_congViecFragment_to_editCongViecFragment)
+        }
         binding.btnQuanLi.setOnClickListener {
-            it.findNavController().navigate(R.id.action_congViecFragment_to_quanLyNgayFragment) }
+            it.findNavController().navigate(R.id.action_congViecFragment_to_quanLyNgayFragment)
+        }
+
         congViecNgayViewModel.soViecCanLam.observe(
             getViewLifecycleOwner(),
             object : Observer<String?> {
@@ -90,6 +93,8 @@ class CongViecFragment : Fragment() {
                     binding.tvPhanTram.setText(value)
                 }
             })
+
+
     }
 
     private fun khaiBaoSpinner() {
@@ -192,11 +197,52 @@ class CongViecFragment : Fragment() {
                 findNavController().navigate(R.id.action_congViecFragment_to_chiTietCongViecFragment)
 
             }
-            override fun onCheckBoxClick(maCongViecNgay: Int) {
-                congViecNgayViewModel.capNhatTrangThaiCongViecNgay(
-                    maCongViecNgay,
-                    dinhDangNgayAPI(ngay, thang, nam)
-                )
+
+            override fun onCheckBoxClick(congViecNgay: CongViecNgay, hoanThanh: Boolean) {
+                if (hoanThanh == true) {
+                    congViecNgay.phanTramHoanThanh = 100
+                    congViecNgay.trangThai = true
+                    congViecNgayViewModel.capNhatCongViecNgay(congViecNgay,dinhDangNgayAPI(ngay, thang, nam))
+                } else {
+                    congViecNgay.phanTramHoanThanh = 0
+                    congViecNgay.trangThai = false
+                    congViecNgayViewModel.capNhatCongViecNgay(congViecNgay,dinhDangNgayAPI(ngay, thang, nam))
+                }
+//                congViecNgayViewModel.capNhatTrangThaiCongViecNgay(
+//                    congViecNgay.maCvNgay,
+//                    dinhDangNgayAPI(ngay, thang, nam)
+//                )
+            }
+
+            override fun onDeleteBtnClick(maCongViecNgay: Int, position: Int) {
+                val builder = AlertDialog.Builder(requireActivity())
+                builder.setMessage("Bạn chắc chắn xoá ?")
+                builder.setTitle("Xác nhận !")
+                builder.setCancelable(false)
+                builder.setPositiveButton(
+                    "Xoá"
+                ) { dialog, which ->
+
+                    congViecNgayViewModel.xoaCongViecNgay(
+                        maCongViecNgay,
+                        dinhDangNgayAPI(ngay, thang, nam)
+
+                    )
+
+                    var list = danhSachCongViecNgayAdapter.differ.currentList.toMutableList()
+                    list.removeAt(position)
+                    danhSachCongViecNgayAdapter.differ.submitList(list)
+                    danhSachCongViecNgayAdapter.notifyDataSetChanged()
+                    Snackbar.make(view!!, "Đã xoá công việc", Snackbar.LENGTH_LONG).show()
+                }
+                builder.setNegativeButton(
+                    "Huỷ"
+                ) { dialog, which ->
+                    danhSachCongViecNgayAdapter.notifyDataSetChanged()
+                    dialog.cancel()
+                }
+                val alertDialog = builder.create()
+                alertDialog.show()
             }
 
             override fun onImageButtonClick(congViecNgay: CongViecNgay?) {
@@ -207,48 +253,17 @@ class CongViecFragment : Fragment() {
                     bundle
                 )
             }
-        })
-        val itemTouchHelperCallback: ItemTouchHelper.SimpleCallback =
-            object : ItemTouchHelper.SimpleCallback(
-                ItemTouchHelper.UP or ItemTouchHelper.DOWN,
-                ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
-            ) {
-                override fun onMove(
-                    recyclerView: RecyclerView,
-                    viewHolder: RecyclerView.ViewHolder,
-                    target: RecyclerView.ViewHolder
-                ): Boolean {
-                    return true
-                }
 
-                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                    val builder = AlertDialog.Builder(requireActivity())
-                    builder.setMessage("Bạn chắc chắn xoá ?")
-                    builder.setTitle("Xác nhận !")
-                    builder.setCancelable(false)
-                    builder.setPositiveButton(
-                        "Xoá"
-                    ) { dialog, which ->
-                        val position = viewHolder.getAdapterPosition()
-                        val congViecNgay: CongViecNgay =
-                            danhSachCongViecNgayAdapter.differ.currentList.get(position)
-                        congViecNgayViewModel.xoaCongViecNgay(
-                            congViecNgay.maCvNgay,
-                            dinhDangNgayAPI(ngay, thang, nam)
-                        )
-                        Snackbar.make(view!!, "Đã xoá công việc", Snackbar.LENGTH_LONG).show()
-                    }
-                    builder.setNegativeButton(
-                        "Huỷ"
-                    ) { dialog, which ->
-                        danhSachCongViecNgayAdapter.notifyDataSetChanged()
-                        dialog.cancel()
-                    }
-                    val alertDialog = builder.create()
-                    alertDialog.show()
-                }
+            override fun onStopTrackingTouch(congViecNgay: CongViecNgay?, percent: Int) {
+                congViecNgay!!.phanTramHoanThanh = percent
+                if (percent == 100)
+                    congViecNgay.trangThai = true
+                else congViecNgay.trangThai = false
+
+                congViecNgayViewModel.capNhatCongViecNgay(congViecNgay!!,dinhDangNgayAPI(ngay, thang, nam))
             }
-        ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(binding.rvCongViec)
+        })
+
 
         binding.rvCongViec.setAdapter(danhSachCongViecNgayAdapter)
         binding.rvCongViec.setLayoutManager(
@@ -265,7 +280,7 @@ class CongViecFragment : Fragment() {
             requireContext(),
             { datePicker, year, month, day ->
                 binding.tvNgay.setText(dinhDangNgay(day, month, year))
-                taiDanhSachCongViecNgay( dinhDangNgayAPI(day, month, year))
+                taiDanhSachCongViecNgay(dinhDangNgayAPI(day, month, year))
                 ngay = day
                 thang = month
                 nam = year
