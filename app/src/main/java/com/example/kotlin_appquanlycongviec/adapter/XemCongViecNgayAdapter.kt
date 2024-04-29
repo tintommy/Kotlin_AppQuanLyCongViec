@@ -4,6 +4,7 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SeekBar
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -22,10 +23,9 @@ class XemCongViecNgayAdapter : RecyclerView.Adapter<XemCongViecNgayAdapter.XemCo
 
 
     interface OnItemClickListener {
-//        fun onItemClick(ngayDaTaoResponse: CongViecNgay)
-//        fun onCheckBoxClick(maCongViecNgay: Int)
         fun onImageButtonClick(congViecNgay: CongViecNgay?)
         fun onDeleteButtonClick(congViecNgay: CongViecNgay?)
+        fun onStopTrackingTouch(congViecNgay: CongViecNgay?, percent: Int)
     }
 
 
@@ -57,6 +57,10 @@ class XemCongViecNgayAdapter : RecyclerView.Adapter<XemCongViecNgayAdapter.XemCo
                     binding.tvTinhChatCongViec.setTextColor(Color.RED)
                 }
             }
+            binding.tvPercent.text = congViecNgay.phanTramHoanThanh.toString() + "%"
+            binding.sbPercent.progress = congViecNgay.phanTramHoanThanh
+
+
             binding.tvNoiDung.text = congViecNgay.congViec.noiDung
 
             binding.btnAnhCongViec.setOnClickListener(View.OnClickListener {
@@ -69,6 +73,27 @@ class XemCongViecNgayAdapter : RecyclerView.Adapter<XemCongViecNgayAdapter.XemCo
                     congViecNgay
                 )
             }
+
+            binding.sbPercent.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+                override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
+                    binding.tvPercent.text = p1.toString() + "%"
+
+//                    if (p1 == 100) {
+//                        binding.cbCongViec.setChecked(true)
+//                    } else
+//                        binding.cbCongViec.setChecked(false)
+                }
+
+                override fun onStartTrackingTouch(p0: SeekBar?) {
+
+                }
+
+                override fun onStopTrackingTouch(p0: SeekBar?) {
+                    if (p0 != null) {
+                        itemClick?.onStopTrackingTouch(congViecNgay, p0.progress)
+                    }
+                }
+            })
 
 
 

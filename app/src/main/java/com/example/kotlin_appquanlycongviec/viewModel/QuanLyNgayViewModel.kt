@@ -42,6 +42,10 @@ class QuanLyNgayViewModel @Inject constructor(private val sharedPref: SharedPref
         MutableStateFlow(Resource.Unspecified(0))
     var soViecDaXoa = _soViecDaXoa.asStateFlow()
 
+    private var _congViecNgayLuu : MutableStateFlow<Resource<CongViecNgay>> =
+    MutableStateFlow(Resource.Unspecified())
+    var congViecNgayLuu = _congViecNgayLuu.asStateFlow()
+
 
     private lateinit var token: String
     private var userId: Int = 0
@@ -131,6 +135,22 @@ class QuanLyNgayViewModel @Inject constructor(private val sharedPref: SharedPref
             } else {
                 if (response.code() == 404) {
                     _danhSachCongViecNgay.emit(Resource.Error("404"))
+                }
+            }
+        }
+    }
+
+    fun luuCongViecNgay(congViecNgay: CongViecNgay) {
+        viewModelScope.launch {
+            _congViecNgayLuu.emit(Resource.Loading())
+            val response = quanLyApiService.luuCongViecNgay(congViecNgay)
+
+            if (response.isSuccessful) {
+                val cvNgay: CongViecNgay = response.body()!!
+                _congViecNgayLuu.emit(Resource.Success(cvNgay))
+            } else {
+                if (response.code() == 404) {
+                    _congViecNgayLuu.emit(Resource.Error("404"))
                 }
             }
         }

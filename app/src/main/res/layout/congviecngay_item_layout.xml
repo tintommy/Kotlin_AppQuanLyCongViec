@@ -49,6 +49,47 @@
                     android:textSize="18sp"
                     android:textStyle="italic" />
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="5sp"
+                        android:text="Tiến độ"
+                        android:textColor="#FF0000"
+                        android:textStyle="bold" />
+
+                    <SeekBar
+                        android:id="@+id/sbPercent"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="8"
+                        android:max="100"
+                        android:min="0"
+                        android:progressTint="#0054FF"
+                        android:thumbTint="#005CFF"
+
+                        />
+
+                    <TextView
+                        android:id="@+id/tvPercent"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:text="100%"
+                        android:textAlignment="center"
+                        android:textColor="#002AFF"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
             </LinearLayout>
 
 
@@ -57,9 +98,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_marginEnd="20dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:src="@drawable/baseline_close_24"
-                android:layout_marginEnd="20dp"
                 app:tint="#FF0000" />
 
 
