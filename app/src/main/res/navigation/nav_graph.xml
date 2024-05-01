@@ -71,6 +71,9 @@
         <action
             android:id="@+id/action_thongKeFragment_to_congViecChuaLamFragment"
             app:destination="@id/congViecChuaLamFragment" />
+        <action
+            android:id="@+id/action_thongKeFragment_to_thongKeCongViecPdfFragment"
+            app:destination="@id/thongKeCongViecPdfFragment" />
     </fragment>
     <fragment
         android:id="@+id/themSuKienFragment"
@@ -191,4 +194,9 @@
         android:name="com.example.kotlin_appquanlycongviec.fragment.ThemCongViecFragment"
         android:label="fragment_them_cong_viec"
         tools:layout="@layout/fragment_them_cong_viec" />
+    <fragment
+        android:id="@+id/thongKeCongViecPdfFragment"
+        android:name="com.example.kotlin_appquanlycongviec.fragment.ThongKeCongViecPdfFragment"
+        android:label="fragment_thong_ke_cong_viec_pdf"
+        tools:layout="@layout/fragment_thong_ke_cong_viec_pdf" />
 </navigation>

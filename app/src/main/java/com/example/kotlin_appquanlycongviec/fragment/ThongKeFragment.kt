@@ -90,6 +90,8 @@ class ThongKeFragment : Fragment() {
                     thang + 1,
                     etYear.text.toString().toInt()
                 )
+//                Toast.makeText(requireContext(), "Thang hien là"+thang, Toast.LENGTH_SHORT).show()
+
             }
 
             btnList.setOnClickListener {
@@ -97,6 +99,11 @@ class ThongKeFragment : Fragment() {
                 b.putInt("thang",thang+1)
                 b.putInt("nam",nam)
                 it.findNavController().navigate(R.id.action_thongKeFragment_to_congViecChuaLamFragment,b)
+            }
+
+            btnCreatePDF.setOnClickListener {
+//                Toast.makeText(requireContext(), "Chức năng đang phát triển", Toast.LENGTH_SHORT).show()
+                it.findNavController().navigate(R.id.action_thongKeFragment_to_thongKeCongViecPdfFragment)
             }
         }
     }
