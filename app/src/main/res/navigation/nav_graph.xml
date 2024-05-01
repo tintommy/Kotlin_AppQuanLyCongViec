@@ -59,6 +59,9 @@
         <action
             android:id="@+id/action_suKienFragment_to_tatCaSuKienFragment"
             app:destination="@id/tatCaSuKienFragment" />
+        <action
+            android:id="@+id/action_suKienFragment_to_exportEventFragment"
+            app:destination="@id/exportEventFragment" />
     </fragment>
     <fragment
         android:id="@+id/thongKeFragment"
@@ -93,6 +96,13 @@
         <action
             android:id="@+id/action_tatCaSuKienFragment_to_chiTietSuKienFragment"
             app:destination="@id/chiTietSuKienFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/exportEventFragment"
+        android:name="com.example.kotlin_appquanlycongviec.fragment.ExportEventFragment"
+        android:label="fragment_export_event"
+        tools:layout="@layout/fragment_export_event">
+
     </fragment>
     <fragment
         android:id="@+id/congViecChuaLamFragment"

@@ -140,7 +140,19 @@
 
 
     </androidx.core.widget.NestedScrollView>
-
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btnExportEvent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:backgroundTint="@color/greenFigma1"
+        android:elevation="10dp"
+        android:src="@drawable/export_notes_24px"
+        android:tint="@color/white"
+        app:layout_constraintBottom_toTopOf="@id/btnAllEvent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:rippleColor="@color/yellowFigma" />
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btnAddEvent"
         android:layout_width="wrap_content"
@@ -169,4 +181,5 @@
         app:layout_constraintBottom_toTopOf="@id/btnAddEvent"
         app:layout_constraintEnd_toEndOf="parent"
         app:rippleColor="@color/yellowFigma" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
