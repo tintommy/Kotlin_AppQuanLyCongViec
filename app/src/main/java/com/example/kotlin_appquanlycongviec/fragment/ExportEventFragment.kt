@@ -44,6 +44,7 @@ import java.time.LocalDate
 import java.time.YearMonth
 import java.time.format.DateTimeFormatter
 import java.util.Calendar
+import java.util.Date
 import java.util.Locale
 
 @AndroidEntryPoint
@@ -542,14 +543,19 @@ class ExportEventFragment : Fragment() {
         pdfDocument.finishPage(page)
 
         val pdfFile = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
-        val fileName = "report.pdf"
+
+        val sdf = SimpleDateFormat("ddMMyyyy_HHmmss", Locale.getDefault())
+        val currentTime = Date()
+        val formattedTime = sdf.format(currentTime)
+        val fileName = "danh sach su kien-$formattedTime.pdf"
+
         val file = File(pdfFile, fileName)
         try {
             val fos = FileOutputStream(file)
             pdfDocument.writeTo(fos)
             pdfDocument.close()
             fos.close()
-            Toast.makeText(requireContext(), "Written Successfully!!!", Toast.LENGTH_LONG).show()
+            Toast.makeText(requireContext(), "Lưu file $fileName thành công ở download ", Toast.LENGTH_LONG).show()
         } catch (e: FileNotFoundException) {
             Log.d("mylog", "Error while writing $e")
             throw RuntimeException(e)

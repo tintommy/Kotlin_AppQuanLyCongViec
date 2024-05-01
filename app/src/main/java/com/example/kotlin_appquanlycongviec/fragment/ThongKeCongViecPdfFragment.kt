@@ -49,6 +49,7 @@ import android.text.StaticLayout
 import android.text.TextPaint
 import androidx.core.content.FileProvider
 import java.io.IOException
+import java.util.Locale
 import kotlin.math.roundToInt
 
 @AndroidEntryPoint
@@ -319,8 +320,13 @@ class ThongKeCongViecPdfFragment : Fragment() {
                 pdfDocument.finishPage(currentPage)
             }
 
+            val sdf = SimpleDateFormat("ddMMyyyy_HHmmss", Locale.getDefault())
+            val currentTime = Date()
+            val formattedTime = sdf.format(currentTime)
+            val fileName = "danh sach cong viec-$formattedTime.pdf"
+
             // Save the PDF document
-            val file = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "ThongKeCV.pdf")
+            val file = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), fileName)
             try {
                 pdfDocument.writeTo(FileOutputStream(file))
                 Toast.makeText(requireContext(), "Tạo file PDF thành công", Toast.LENGTH_SHORT).show()
