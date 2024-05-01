@@ -79,6 +79,15 @@ class QuanLyCongViecNgayFragment : Fragment() {
                 xoaCongViecTrongNgay(congViecNgay)
             }
 
+            override fun onStopTrackingTouch(congViecNgay: CongViecNgay?, percent: Int) {
+                congViecNgay!!.phanTramHoanThanh = percent
+                if (percent == 100)
+                    congViecNgay.trangThai = true
+                else congViecNgay.trangThai = false
+
+                sharedViewModel.luuCongViecNgay(congViecNgay)
+            }
+
         })
         binding.rvCongViec.setAdapter(adapter)
         binding.rvCongViec.setLayoutManager(

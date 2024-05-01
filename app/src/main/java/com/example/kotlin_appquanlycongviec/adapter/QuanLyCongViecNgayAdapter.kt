@@ -3,6 +3,7 @@ package com.example.kotlin_appquanlycongviec.adapter
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.SeekBar
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -18,6 +19,8 @@ class QuanLyCongViecNgayAdapter :RecyclerView.Adapter<QuanLyCongViecNgayAdapter.
     interface OnItemClickListener {
         fun onItemClick(congViecNgay: CongViecNgay?)
         fun onDeleteButtonClick(congViecNgay: CongViecNgay?)
+
+        fun onStopTrackingTouch(congViecNgay: CongViecNgay?, percent: Int)
     }
 
 
@@ -48,7 +51,31 @@ class QuanLyCongViecNgayAdapter :RecyclerView.Adapter<QuanLyCongViecNgayAdapter.
                 }
             }
 
+            binding.tvPercent.text = congViecNgay.phanTramHoanThanh.toString() + "%"
+            binding.sbPercent.progress = congViecNgay.phanTramHoanThanh
+
             binding.btnXoaCongViec.setOnClickListener { itemClick?.onDeleteButtonClick(congViecNgay) }
+
+            binding.sbPercent.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+                override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
+                    binding.tvPercent.text = p1.toString() + "%"
+
+//                    if (p1 == 100) {
+//                        binding.cbCongViec.setChecked(true)
+//                    } else
+//                        binding.cbCongViec.setChecked(false)
+                }
+
+                override fun onStartTrackingTouch(p0: SeekBar?) {
+
+                }
+
+                override fun onStopTrackingTouch(p0: SeekBar?) {
+                    if (p0 != null) {
+                        itemClick?.onStopTrackingTouch(congViecNgay, p0.progress)
+                    }
+                }
+            })
 
         }
 

@@ -87,6 +87,15 @@ class XemDanhSachCongViecNgayFragment : Fragment() {
                 xoaCongViecTrongNgay(congViecNgay)
             }
 
+            override fun onStopTrackingTouch(congViecNgay: CongViecNgay?, percent: Int) {
+                congViecNgay!!.phanTramHoanThanh = percent
+                if (percent == 100)
+                    congViecNgay.trangThai = true
+                else congViecNgay.trangThai = false
+
+                sharedViewModel.luuCongViecNgay(congViecNgay)
+            }
+
 
         })
         binding?.apply {

@@ -26,4 +26,7 @@ interface QuanLyApiService {
 
     @POST("/CongViec")
     suspend fun luuCongViec(@Body congViec:CongViecRequest) : Response<CongViec>
+
+    @POST("/CongViec/congViecNgay")
+    suspend fun luuCongViecNgay(@Body congViecNgay: CongViecNgay) : Response<CongViecNgay>
 }

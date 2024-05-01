@@ -16,81 +16,132 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-            <CheckBox
-                android:id="@+id/cbCongViec"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_gravity="center_vertical"
-                android:focusable="false"
-                android:clickable="false"
-                />
-
+            android:orientation="vertical">
             <LinearLayout
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="8"
-                android:orientation="vertical"
-                >
+                android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/tvTieuDeCongViec"
+                <CheckBox
+                    android:id="@+id/cbCongViec"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Việc hôm nay"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/blueFigma"/>
+                    android:layout_weight="1"
+                    android:layout_gravity="center_vertical"
+                    android:focusable="false"
+                    android:clickable="false"
+                    />
 
-                <TextView
-                    android:id="@+id/tvTinhChatCongViec"
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="8"
+                    android:orientation="vertical"
+                    >
+
+                    <TextView
+                        android:id="@+id/tvTieuDeCongViec"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Việc hôm nay"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/blueFigma"/>
+
+                    <TextView
+                        android:id="@+id/tvTinhChatCongViec"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="Tính chất"
+                        android:textSize="10sp"
+                        android:textStyle="italic" />
+
+                    <TextView
+                        android:id="@+id/tvNoiDung"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:textSize="16sp"
+                        android:text="Nội dung"/>
+
+
+
+                </LinearLayout>
+                <ImageButton
+                    android:id="@+id/btnAnhCongViec"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:text="Tính chất"
-                    android:textSize="10sp"
-                    android:textStyle="italic" />
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:src="@drawable/baseline_image_24" />
 
-                <TextView
-                    android:id="@+id/tvNoiDung"
+                <ImageButton
+                    android:id="@+id/btnXoaCongViec"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:textSize="16sp"
-                    android:text="Nội dung"/>
+                    android:layout_gravity="center"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:src="@drawable/baseline_close_24"
+                    android:layout_marginEnd="20dp"
+                    app:tint="#FF0000"/>
+
+
+
 
             </LinearLayout>
-            <ImageButton
-                android:id="@+id/btnAnhCongViec"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:src="@drawable/baseline_image_24" />
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tiến độ"
+                    android:padding="5sp"
+                    android:textStyle="bold"
+                    android:layout_marginStart="15dp"
+                    android:textColor="#FF0000" />
+                <SeekBar
+                    android:id="@+id/sbPercent"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="8"
+                    android:max="100"
+                    android:min="0"
+                    android:progressTint="#0054FF"
+                    android:thumbTint="#005CFF"
 
-            <ImageButton
-                android:id="@+id/btnXoaCongViec"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:src="@drawable/baseline_close_24"
-                android:layout_marginEnd="20dp"
-                app:tint="#FF0000"/>
+                    />
 
+                <TextView
+                    android:id="@+id/tvPercent"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="100%"
+                    android:textAlignment="center"
+                    android:textColor="#002AFF"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:layout_marginEnd="15dp"/>
 
-
-
+            </LinearLayout>
 
         </LinearLayout>
+
+
+
     </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
