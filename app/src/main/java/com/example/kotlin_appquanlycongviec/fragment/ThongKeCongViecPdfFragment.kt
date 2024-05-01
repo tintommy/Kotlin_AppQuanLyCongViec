@@ -320,7 +320,7 @@ class ThongKeCongViecPdfFragment : Fragment() {
             }
 
             // Save the PDF document
-            val file = File(Environment.getExternalStorageDirectory(), "ThongKeCV.pdf")
+            val file = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "ThongKeCV.pdf")
             try {
                 pdfDocument.writeTo(FileOutputStream(file))
                 Toast.makeText(requireContext(), "Tạo file PDF thành công", Toast.LENGTH_SHORT).show()
