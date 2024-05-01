@@ -51,6 +51,9 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("com.google.firebase:firebase-storage:20.3.0")
     implementation(libs.androidx.activity)
+    implementation(libs.androidx.legacy.support.v4)
+    implementation(libs.androidx.lifecycle.livedata.ktx)
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
@@ -80,6 +83,7 @@ dependencies {
     implementation("com.github.leandroborgesferreira:loading-button-android:2.3.0")
     implementation("de.hdodenhof:circleimageview:3.1.0")
     implementation("ir.mahozad.android:pie-chart:0.7.0")
+
 
 }
 kapt {

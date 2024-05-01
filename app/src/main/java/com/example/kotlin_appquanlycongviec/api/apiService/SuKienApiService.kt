@@ -38,5 +38,10 @@ interface SuKienApiService {
 
     @DELETE("SuKien/XoaSuKien")
     suspend fun xoaSuKien(@Query("maSuKien") maSuKien: Int): Response<Status>
-
+    @GET("SuKien/SuKienTuNgayDenNgay/{ngayBD}/{ngayKT}/{maNd}")
+    suspend fun laySuKienTuNgayDenNgay(
+        @Path("maNd") maNd: Int,
+        @Path("ngayBD") ngayBD: String,
+        @Path("ngayKT") ngayKT: String
+    ): Response<List<SuKien>>
 }

@@ -65,6 +65,9 @@ class SuKienFragment : Fragment() {
         binding.btnAllEvent.setOnClickListener {
             it.findNavController().navigate(R.id.action_suKienFragment_to_tatCaSuKienFragment)
         }
+        binding.btnExportEvent.setOnClickListener() {
+            it.findNavController().navigate(R.id.action_suKienFragment_to_exportEventFragment)
+        }
 
 
 

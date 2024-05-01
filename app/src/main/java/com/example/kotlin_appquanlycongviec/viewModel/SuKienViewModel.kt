@@ -39,6 +39,8 @@ class SuKienViewModel @Inject constructor(private val sharedPref: SharedPreferen
     val updateEvent = _updateEvent.asStateFlow()
     private val _deleteEvent = MutableStateFlow<Resource<Status>>(Resource.Unspecified())
     val deleteEvent = _deleteEvent.asStateFlow()
+    private val _allEventFromDateToDate = MutableStateFlow<Resource<MutableList<SuKien>>>(Resource.Unspecified())
+    val allEventFromDateToDate = _allEventFromDateToDate.asStateFlow()
     init {
         initApiService()
     }
@@ -133,6 +135,28 @@ class SuKienViewModel @Inject constructor(private val sharedPref: SharedPreferen
         }
 
 
+    }
+//    fun getEventFromDateToDate(ngayBatDau: String, ngayKetThuc: String) {
+//        viewModelScope.launch {
+//            _allEvent.emit(Resource.Loading())
+//            val response = suKienApiService.laySuKienTuNgayDenNgay(userId, ngayBatDau, ngayKetThuc)
+//            if (response.isSuccessful) {
+//                val sortedList = response.body()!!.sortedWith(compareBy(SuKien::ngay, SuKien::gio))
+//                _allEventFromDateToDate.emit(Resource.Success(sortedList.toMutableList()))
+//            } else
+//                _allEventFromDateToDate.emit(Resource.Error("404"))
+//        }
+//    }
+        fun getEventFromDateToDate(ngayBatDau: String, ngayKetThuc: String) {
+        viewModelScope.launch {
+            _allEventFromDateToDate.emit(Resource.Loading())
+            val response = suKienApiService.laySuKienTuNgayDenNgay(userId, ngayBatDau, ngayKetThuc)
+            if (response.isSuccessful) {
+                val sortedList = response.body()!!.sortedWith(compareBy(SuKien::ngay, SuKien::gio))
+                _allEventFromDateToDate.emit(Resource.Success(sortedList.toMutableList()))
+            } else
+                _allEventFromDateToDate.emit(Resource.Error("404"))
+        }
     }
 
 }
