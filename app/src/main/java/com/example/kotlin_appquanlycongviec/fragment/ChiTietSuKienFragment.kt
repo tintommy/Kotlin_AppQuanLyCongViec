@@ -110,6 +110,34 @@ private lateinit var binding: FragmentChiTietSuKienBinding
         }
     }
 
+//    private fun setBtnEvent() {
+//        binding.btnBack.setOnClickListener {
+//            it.findNavController().navigateUp()
+//        }
+//        binding.etDate.setOnClickListener {
+//            openLichDialog()
+//        }
+//        binding.etTime.setOnClickListener {
+//            openTimePickerDialog()
+//        }
+//
+//        binding.btnSave.setOnClickListener {
+//
+//            var eventUpdate = SuKien(
+//                gioApi,
+//                suKien.maSK,
+//                binding.etDescrip.text.toString().trim(),
+//                ngayApi,
+//                suKien.ngayNhac,
+//                nhacTruoc,
+//                binding.etEventName.text.toString().trim()
+//            )
+//            suKienViewModel.updateEvent(
+//                eventUpdate
+//            )
+//        }
+//    }
+
     private fun setBtnEvent() {
         binding.btnBack.setOnClickListener {
             it.findNavController().navigateUp()
@@ -122,19 +150,25 @@ private lateinit var binding: FragmentChiTietSuKienBinding
         }
 
         binding.btnSave.setOnClickListener {
+            val eventName = binding.etEventName.text.toString().trim()
+            val eventDescription = binding.etDescrip.text.toString().trim()
+
+            if (eventName.isEmpty() || ngayApi.isEmpty() || gioApi.isEmpty()) {
+                Toast.makeText(requireContext(), "Vui lòng điền các thông tin cần thiết", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
 
             var eventUpdate = SuKien(
                 gioApi,
                 suKien.maSK,
-                binding.etDescrip.text.toString().trim(),
+                eventDescription,
                 ngayApi,
-                suKien.ngayNhac,
+                "",
                 nhacTruoc,
-                binding.etEventName.text.toString().trim()
+                eventName
             )
-            suKienViewModel.updateEvent(
-                eventUpdate
-            )
+
+            suKienViewModel.updateEvent(requireContext(), eventUpdate)
         }
     }
 
@@ -157,17 +191,46 @@ private lateinit var binding: FragmentChiTietSuKienBinding
 
     }
 
+//    private fun initSpinner() {
+//        val luaChon = arrayOf(
+//            "1 ngày",
+//            "2 ngày",
+//            "3 ngày",
+//            "4 ngày",
+//            "5 ngày"
+//        )
+//        val adapter = ArrayAdapter(requireActivity(), R.layout.remind_spinner_item, luaChon)
+//        binding.spRemind.setAdapter(adapter)
+//
+//
+//        binding.spRemind.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
+//            override fun onItemSelected(
+//                adapterView: AdapterView<*>?,
+//                view: View?,
+//                position: Int,
+//                l: Long
+//            ) {
+//                if (view != null) {
+//
+//                    nhacTruoc = position + 1
+//                }
+//            }
+//
+//            override fun onNothingSelected(adapterView: AdapterView<*>?) {
+//
+//            }
+//        })
+//    }
+
     private fun initSpinner() {
         val luaChon = arrayOf(
-            "1 ngày",
-            "2 ngày",
-            "3 ngày",
-            "4 ngày",
-            "5 ngày"
+            "Không",
+            "1 giờ",
+            "12 giờ",
+            "1 ngày"
         )
         val adapter = ArrayAdapter(requireActivity(), R.layout.remind_spinner_item, luaChon)
         binding.spRemind.setAdapter(adapter)
-
 
         binding.spRemind.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
@@ -177,13 +240,18 @@ private lateinit var binding: FragmentChiTietSuKienBinding
                 l: Long
             ) {
                 if (view != null) {
-
-                    nhacTruoc = position + 1
+                    // Chuyển đổi lựa chọn thành số millisecond tương ứng
+                    nhacTruoc = when (position) {
+                        0 -> 0 // Không nhắc
+                        1 -> 1// 1 giờ (1 giờ = 3600000 millisecond)
+                        2 -> 12//12 giờ (12 giờ = 43200000 millisecond)
+                        else -> 24//1 ngày (1 ngày = 86400000 millisecond)
+                    }
                 }
             }
 
             override fun onNothingSelected(adapterView: AdapterView<*>?) {
-
+                // Xử lý khi không có gì được chọn
             }
         })
     }
@@ -244,5 +312,7 @@ private lateinit var binding: FragmentChiTietSuKienBinding
         temp += if (ngay < 10) "0$ngay" else ngay.toString()
         return temp
     }
+
+
 
 }

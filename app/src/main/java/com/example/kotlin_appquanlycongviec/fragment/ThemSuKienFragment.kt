@@ -2,6 +2,7 @@ package com.example.kotlin_appquanlycongviec.fragment
 
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
+import android.os.Build
 import android.os.Bundle
 import android.view.KeyEvent
 import androidx.fragment.app.Fragment
@@ -11,13 +12,12 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.example.kotlin_appquanlycongviec.R
-import com.example.kotlin_appquanlycongviec.activity.MainActivity
-
 import com.example.kotlin_appquanlycongviec.databinding.FragmentThemSuKienBinding
 import com.example.kotlin_appquanlycongviec.model.SuKien
 import com.example.kotlin_appquanlycongviec.util.Resource
@@ -25,7 +25,9 @@ import com.example.kotlin_appquanlycongviec.viewModel.SuKienViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Locale
 
 @AndroidEntryPoint
 class ThemSuKienFragment : Fragment() {
@@ -42,17 +44,20 @@ class ThemSuKienFragment : Fragment() {
     private var ngayApi = ""
     private var gioApi = ""
     private var nhacTruoc = 0
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentThemSuKienBinding.inflate(layoutInflater)
         return binding.root
+
     }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         initSpinner()
         setBtnEvent()
         onBackPressed()
@@ -87,6 +92,7 @@ class ThemSuKienFragment : Fragment() {
         }
     }
 
+
     private fun setBtnEvent() {
         binding.btnBack.setOnClickListener {
             it.findNavController().navigateUp()
@@ -99,19 +105,25 @@ class ThemSuKienFragment : Fragment() {
         }
 
         binding.btnSave.setOnClickListener {
+            val eventName = binding.etEventName.text.toString().trim()
+            val eventDescription = binding.etDescrip.text.toString().trim()
+
+            if (eventName.isEmpty() || ngayApi.isEmpty() || gioApi.isEmpty()) {
+                Toast.makeText(requireContext(), "Vui lòng điền các thông tin cần thiết", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
 
             var eventAdd = SuKien(
                 gioApi,
                 0,
-                binding.etDescrip.text.toString().trim(),
+                eventDescription,
                 ngayApi,
                 "",
                 nhacTruoc,
-                binding.etEventName.text.toString().trim()
+                eventName
             )
-            suKienViewModel.addEvent(
-                eventAdd
-            )
+
+            suKienViewModel.addEvent(requireContext(), eventAdd)
         }
     }
 
@@ -134,17 +146,16 @@ class ThemSuKienFragment : Fragment() {
 
     }
 
+
     private fun initSpinner() {
         val luaChon = arrayOf(
-            "1 ngày",
-            "2 ngày",
-            "3 ngày",
-            "4 ngày",
-            "5 ngày"
+            "Không",
+            "1 giờ",
+            "12 giờ",
+            "1 ngày"
         )
         val adapter = ArrayAdapter(requireActivity(), R.layout.remind_spinner_item, luaChon)
         binding.spRemind.setAdapter(adapter)
-
 
         binding.spRemind.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
@@ -154,16 +165,22 @@ class ThemSuKienFragment : Fragment() {
                 l: Long
             ) {
                 if (view != null) {
-
-                    nhacTruoc = position + 1
+                    // Chuyển đổi lựa chọn thành số millisecond tương ứng
+                    nhacTruoc = when (position) {
+                        0 -> 0 // Không nhắc
+                        1 -> 1// 1 giờ (1 giờ = 3600000 millisecond)
+                        2 -> 12//12 giờ (12 giờ = 43200000 millisecond)
+                        else -> 24//1 ngày (1 ngày = 86400000 millisecond)
+                    }
                 }
             }
 
             override fun onNothingSelected(adapterView: AdapterView<*>?) {
-
+                // Xử lý khi không có gì được chọn
             }
         })
     }
+
 
     private fun openLichDialog() {
         val dialog = DatePickerDialog(
@@ -178,6 +195,7 @@ class ThemSuKienFragment : Fragment() {
         )
         dialog.show()
     }
+
 
     private fun openTimePickerDialog() {
         val hour = calendar.get(Calendar.HOUR_OF_DAY)
@@ -221,4 +239,6 @@ class ThemSuKienFragment : Fragment() {
         temp += if (ngay < 10) "0$ngay" else ngay.toString()
         return temp
     }
+
+
 }

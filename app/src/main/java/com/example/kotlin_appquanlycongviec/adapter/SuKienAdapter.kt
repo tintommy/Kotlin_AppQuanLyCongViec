@@ -16,6 +16,8 @@ class SuKienAdapter :
     RecyclerView.Adapter<SuKienAdapter.SuKienViewHolder>() {
 
 
+
+
     interface OnItemClickListener {
         fun onItemClick(suKien: SuKien)
         fun onDeleteBtnClick(maSuKien: Int,position: Int)
