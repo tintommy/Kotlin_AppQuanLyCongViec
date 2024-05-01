@@ -81,6 +81,7 @@ dependencies {
     implementation("de.hdodenhof:circleimageview:3.1.0")
     implementation("ir.mahozad.android:pie-chart:0.7.0")
 
+
 }
 kapt {
     correctErrorTypes = true

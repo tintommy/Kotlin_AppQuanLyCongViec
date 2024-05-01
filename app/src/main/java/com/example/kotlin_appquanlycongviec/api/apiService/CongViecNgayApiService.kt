@@ -15,6 +15,14 @@ interface CongViecNgayApiService {
         @Path("maNd") maNd: Int,
         @Path("ngay") ngay: String
     ): Response<List<CongViecNgay>>
+
+
+    @GET("CongViecNgay/NguoiDung/DtD/{maNd}/{ngayBatDau}/{ngayKetThuc}")
+    suspend fun layDanhSachCongViecTuNgayDenNgay(
+        @Path("maNd") maNd: Int,
+        @Path("ngayBatDau") ngayBatDau: String,
+        @Path("ngayKetThuc") ngayKetThuc: String
+    ): Response<List<CongViecNgay>>
     @GET("CongViecNgay/NguoiDung/{maNd}/{thang}/{nam}")
     suspend fun layDanhSachCongViecNgayThangNam(
         @Path("maNd") maNd: Int,

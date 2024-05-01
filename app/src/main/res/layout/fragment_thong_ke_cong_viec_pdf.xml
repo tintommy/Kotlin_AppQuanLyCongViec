@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/greenFigma2"
+    android:orientation="vertical"
+    tools:context=".fragment.ThongKeCongViecPdfFragment">
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="10dp"
+        android:background="#3949AB"
+        android:gravity="center"
+        android:textSize="28sp"
+        android:textColor="#FFFFFF"
+
+        android:text="Xuất file PDF"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:background="#426A61"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tvTheoThang"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:text="Theo tháng"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:background="@color/white"
+            android:layout_margin="5dp"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:id="@+id/tvTheoNgay"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:textStyle="bold"
+            android:text="Theo ngày"
+            android:gravity="center"
+            android:layout_margin="5dp"
+            android:background="@color/white"
+            android:layout_weight="1"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="In ra:"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="10dp"
+            />
+
+        <RadioGroup
+            android:id="@+id/rdGroup"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <RadioButton
+                android:id="@+id/rdAll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textStyle="italic"
+                android:checked="true"
+                android:text="Tất cả công việc" />
+            <RadioButton
+                android:id="@+id/rdCompleted"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textStyle="italic"
+
+                android:text="Công việc đã hoàn thành" />
+            <RadioButton
+                android:id="@+id/rdNotCompleted"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textStyle="italic"
+
+                android:text="Công việc chưa hoàn thành" />
+        </RadioGroup>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/layOutPickMonth"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="50dp"
+       >
+
+        <TextView
+            android:id="@+id/tv1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:text="Chọn tháng : "
+            />
+
+        <Spinner
+            android:id="@+id/spMonth"
+            android:background="@color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <EditText
+            android:id="@+id/etYear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:inputType="number"
+            android:text="2024"
+            android:textSize="15sp" />
+
+    </LinearLayout>
+
+
+        <Button
+        android:id="@+id/btnGeneratePDF"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Xuất file PDF"
+        android:textSize="20sp"
+        android:layout_marginTop="20dp"/>
+    />
+    </LinearLayout>
+
+
+
+
+
+
+
+
+    <LinearLayout
+        android:id="@+id/layOutPickDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="20dp"
+            >
+
+            <TextView
+                android:id="@+id/tv2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:text="Từ ngày : "
+                />
+
+
+           <TextView
+               android:id="@+id/tvDateStart"
+               android:layout_width="160dp"
+               android:layout_height="wrap_content"
+               android:layout_marginStart="10dp"
+                android:textSize="20sp"
+               android:text=""
+               />
+            <Button
+                android:id="@+id/btnLichStart"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/baseline_calendar_month_24"
+                />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="40dp"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:text="Đến ngày : "
+                />
+            <TextView
+                android:id="@+id/tvDateEnd"
+                android:layout_width="160dp"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:text=""
+                />
+            <Button
+                android:id="@+id/btnLichEnd"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+
+                android:background="@drawable/baseline_calendar_month_24"
+                />
+
+        </LinearLayout>
+        <Button
+            android:id="@+id/btnGeneratePDFNgay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Xuất file PDF"
+            android:textSize="20sp"
+            android:layout_marginTop="20dp"/>
+        />
+    </LinearLayout>
+
+</LinearLayout>

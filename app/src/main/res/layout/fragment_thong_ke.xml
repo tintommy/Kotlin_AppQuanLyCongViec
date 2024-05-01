@@ -21,7 +21,7 @@
             android:textColor="#9C27B0"
             android:textSize="18sp"
             android:textStyle="bold"
-android:visibility="gone"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -63,9 +63,23 @@ android:visibility="gone"
             android:id="@+id/btnCaCulator"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:backgroundTint="@color/blueFigma"
             android:text="Thống Kê"
             app:layout_constraintEnd_toEndOf="@id/guidelineRight"
+            app:layout_constraintHorizontal_bias="0.063"
+            app:layout_constraintStart_toStartOf="@id/guidelineLeft"
+            app:layout_constraintTop_toBottomOf="@id/layOutDate" />
+
+        <Button
+            android:id="@+id/btnCreatePDF"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:backgroundTint="@color/blueFigma"
+            android:text="Tạo PDF"
+            app:layout_constraintEnd_toEndOf="@id/guidelineRight"
+            app:layout_constraintHorizontal_bias="0.922"
             app:layout_constraintStart_toStartOf="@id/guidelineLeft"
             app:layout_constraintTop_toBottomOf="@id/layOutDate" />
 

@@ -7,4 +7,18 @@
     <color name="greenFigma1">#AAD9BB</color>
     <color name="greenFigma2">#D5F0C1</color>
     <color name="yellowFigma">#F9F7C9</color>
+
+    <color name="Purple200">#FF0F9D58</color>
+    <color name="Purple500">#FF0F9D58</color>
+    <color name="Purple700">#FF3700B3</color>
+    <color name="greenColor">#FF0F9D58</color>
+    <color name="Teal200">#FF03DAC5</color>
+
+<!--    val Purple200 = Color(0xFF0F9D58)-->
+<!--    val Purple500 = Color(0xFF0F9D58)-->
+<!--    val Purple700 = Color(0xFF3700B3)-->
+<!--    val Teal200 = Color(0xFF03DAC5)-->
+
+<!--    // on below line we are adding different colors.-->
+<!--    val greenColor = Color(0xFF0F9D58)-->
 </resources>
