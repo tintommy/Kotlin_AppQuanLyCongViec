@@ -13,6 +13,7 @@ import android.Manifest.permission.READ_EXTERNAL_STORAGE
 import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
 import android.app.DatePickerDialog
 import android.content.ActivityNotFoundException
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.*
@@ -48,13 +49,14 @@ import android.text.StaticLayout
 import android.text.TextPaint
 import androidx.core.content.FileProvider
 import java.io.IOException
+import kotlin.math.roundToInt
 
 @AndroidEntryPoint
 class ThongKeCongViecPdfFragment : Fragment() {
     private lateinit var binding: FragmentThongKeCongViecPdfBinding
-    var pageHeight = 1800
+    var pageHeight = 1400
     //    var pageWidth = 792
-    var pageWidth = 1122
+    var pageWidth = 1200
 
     var PERMISSION_CODE = 101
     private var luaChonKieuXuatpdf = 1
@@ -69,6 +71,7 @@ class ThongKeCongViecPdfFragment : Fragment() {
     private var notDoneList: MutableList<CongViecNgay> = mutableListOf()
     private var printingList: MutableList<CongViecNgay> = mutableListOf()
     private var printingList2: MutableList<CongViecNgay> = mutableListOf()
+    val paint = Paint()
     private var isDataLoaded = false
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -204,14 +207,17 @@ class ThongKeCongViecPdfFragment : Fragment() {
                 generatePDF(printingList)
 
 
-
-
             }
         }
 
     }
 
+    private val textPaint = TextPaint().apply {
+        color = Color.BLACK
+        textSize = 16F
+    }
 
+    // Tạo một đối tượng TextPaint
     @RequiresApi(Build.VERSION_CODES.KITKAT)
     private fun generatePDF(list: List<CongViecNgay>) {
         if (list.isEmpty()) {
@@ -219,6 +225,11 @@ class ThongKeCongViecPdfFragment : Fragment() {
             return
         }
 
+        val lineHeight = 40
+        val pageHeight1 = lineHeight * (list.size + 5) // Calculate the page height
+        if (pageHeight1>pageHeight){
+            pageHeight = pageHeight1
+        }
         val pdfDocument = PdfDocument()
         val paint = Paint()
         val title = Paint()
@@ -247,7 +258,7 @@ class ThongKeCongViecPdfFragment : Fragment() {
             paint.textSize = 16F
 
             // Calculate line height
-            val lineHeight = 40
+
 
             // Draw headers
             val headers = listOf("STT", "Ngày", "Công việc", "Tính chất", "Mô tả", "Trạng thái")
@@ -324,7 +335,6 @@ class ThongKeCongViecPdfFragment : Fragment() {
 
 
 
-
     private fun drawText(canvas: Canvas, text: String, x: Float, y: Float, maxWidth: Float, paint: Paint) {
         val textPaint = TextPaint(paint)
         val layout = StaticLayout.Builder.obtain(text, 0, text.length, textPaint, maxWidth.toInt())
@@ -338,15 +348,6 @@ class ThongKeCongViecPdfFragment : Fragment() {
         layout.draw(canvas)
         canvas.restore()
     }
-
-    private fun tinhChatToString(tinhChat: Int): String {
-        return when (tinhChat) {
-            0 -> "Bình thường"
-            1 -> "Quan trọng"
-            else -> "Rất quan trọng"
-        }
-    }
-
 
 
     private fun checkPermissions(): Boolean {
@@ -405,6 +406,30 @@ class ThongKeCongViecPdfFragment : Fragment() {
         }
     }
 
+    private fun tinhChatToString(tinhChat: Int): String {
+        return when (tinhChat) {
+            0 -> "Bình thường"
+            1 -> "Quan trọng"
+            else -> "Rất quan trọng"
+        }
+    }
+
+    private fun convertToDDMMYYYY(dateString: String): String {
+        val inputFormat = SimpleDateFormat("yyyy-MM-dd")
+        val outputFormat = SimpleDateFormat("dd/MM/yyyy")
+        var date: Date? = null
+        date = try {
+            inputFormat.parse(dateString)
+        } catch (e: ParseException) {
+            throw RuntimeException(e)
+        }
+        return outputFormat.format(date)
+    }
+
+    private fun setTrangThaiString(trangThai: Boolean): String {
+        return if (trangThai) "Đã hoàn thành" else "Chưa hoàn thành"
+    }
+
     private fun initMonthSpinner() {
         val luaChon = arrayOf(
             "Tháng 1",
@@ -454,38 +479,6 @@ class ThongKeCongViecPdfFragment : Fragment() {
         notDoneList.addAll(cvList.filter { it.trangThai == false })
 
     }
-    private fun convertToDDMMYYYY(dateString: String): String {
-        val inputFormat = SimpleDateFormat("yyyy-MM-dd")
-        val outputFormat = SimpleDateFormat("dd/MM/yyyy")
-        var date: Date? = null
-        date = try {
-            inputFormat.parse(dateString)
-        } catch (e: ParseException) {
-            throw RuntimeException(e)
-        }
-        return outputFormat.format(date)
-    }
-
-    // Hàm chuyển đổi từ "dd-MM-yyyy" sang "yyyy-MM-dd"
-    private fun convertToYYYYMMDD(date: String): String {
-        val originalFormat = SimpleDateFormat("dd-MM-yyyy")
-        val targetFormat = SimpleDateFormat("yyyy-MM-dd")
-        val dateObj: Date
-        var formattedDate = ""
-        try {
-            dateObj = originalFormat.parse(date)
-            formattedDate = targetFormat.format(dateObj)
-        } catch (e: ParseException) {
-            e.printStackTrace()
-        }
-        return formattedDate
-    }
-
-    private fun setTrangThaiString(trangThai: Boolean): String {
-        return if (trangThai) "Đã hoàn thành" else "Chưa hoàn thành"
-    }
-
-
     private fun openLichDialog1() {
         val dialog = DatePickerDialog(
             requireContext(),
@@ -498,6 +491,7 @@ class ThongKeCongViecPdfFragment : Fragment() {
         )
         dialog.show()
     }
+
     private fun openLichDialog2() {
         val dialog = DatePickerDialog(
             requireContext(),
