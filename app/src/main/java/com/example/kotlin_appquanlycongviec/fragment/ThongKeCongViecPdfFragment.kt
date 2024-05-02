@@ -55,12 +55,9 @@ import kotlin.math.roundToInt
 @AndroidEntryPoint
 class ThongKeCongViecPdfFragment : Fragment() {
     private lateinit var binding: FragmentThongKeCongViecPdfBinding
-    var pageHeight = 1400
-    //    var pageWidth = 792
-    var pageWidth = 1200
-
     var PERMISSION_CODE = 101
     private var luaChonKieuXuatpdf = 1
+    private var luaChonXuatTatCaCV = 0
     private val congViecNgayViewModel by viewModels<CongViecNgayViewModel>()
     private var currentRadioSelection: Int = R.id.rdAll
     private val calendar = Calendar.getInstance()
@@ -71,22 +68,17 @@ class ThongKeCongViecPdfFragment : Fragment() {
     private var doneList: MutableList<CongViecNgay> = mutableListOf()
     private var notDoneList: MutableList<CongViecNgay> = mutableListOf()
     private var printingList: MutableList<CongViecNgay> = mutableListOf()
-    private var printingList2: MutableList<CongViecNgay> = mutableListOf()
-    val paint = Paint()
     private var isDataLoaded = false
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         binding = FragmentThongKeCongViecPdfBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        initBM();
-
         initMonthSpinner();
         initDayOnLayoutPickDay()
 
@@ -98,7 +90,6 @@ class ThongKeCongViecPdfFragment : Fragment() {
 
         if (checkPermissions()) {
         } else {
-            // if the permission is not granted, calling request permission method.
             requestPermission()
         }
     }
@@ -108,7 +99,7 @@ class ThongKeCongViecPdfFragment : Fragment() {
             tvDateStart.setText(dinhDangNgay(1, thang, nam))
             tvDateEnd.setText(dinhDangNgay(30, thang, nam))
         }
-       loadDataNgay()
+        loadDataNgay()
     }
 
     private fun loadData() {
@@ -132,7 +123,6 @@ class ThongKeCongViecPdfFragment : Fragment() {
 
                     else -> {}
 
-
                 }
 
             }
@@ -141,17 +131,22 @@ class ThongKeCongViecPdfFragment : Fragment() {
     private fun updatePrintingList() {
         printingList.clear()
         when (currentRadioSelection) {
-            R.id.rdAll -> printingList.addAll(doList)
-            R.id.rdCompleted -> printingList.addAll(doneList)
-            R.id.rdNotCompleted -> printingList.addAll(notDoneList)
+            R.id.rdAll ->{
+                printingList.addAll(doList)
+                luaChonXuatTatCaCV = 0
+            }
+            R.id.rdCompleted -> {
+                printingList.addAll(doneList)
+                luaChonXuatTatCaCV = 1
+            }
+            R.id.rdNotCompleted -> {
+                printingList.addAll(notDoneList)
+                luaChonXuatTatCaCV = 2
+            }
         }
         printingList.sortBy { it.ngayLam }
     }
 
-    private fun initBM() {
-//        bmp = BitmapFactory.decodeResource(resources, R.drawable.gg)
-//        scaledbmp = Bitmap.createScaledBitmap(bmp, 140, 140, false)
-    }
     private fun loadDataNgay(){
         congViecNgayViewModel.taiDanhSachCongViecTuNgayDenNgay(dinhDangNgayAPI(
             binding.tvDateStart.text.toString().substring(0, 2).toInt(),
@@ -169,7 +164,7 @@ class ThongKeCongViecPdfFragment : Fragment() {
         binding.rdGroup.setOnCheckedChangeListener { radioGroup, i ->
             // Lưu trữ vị trí của RadioButton được chọn vào biến selectedRadioButtonId
             currentRadioSelection = i
-           updatePrintingList()
+            updatePrintingList()
         }
         binding.btnLichStart.setOnClickListener(View.OnClickListener { openLichDialog1() })
         binding.btnLichEnd.setOnClickListener(View.OnClickListener { openLichDialog2() })
@@ -179,7 +174,7 @@ class ThongKeCongViecPdfFragment : Fragment() {
             tvTheoThang.setOnClickListener {
                 layOutPickMonth.visibility = View.VISIBLE
                 layOutPickDate.visibility = View.GONE
-                congViecNgayViewModel.taiDanhSachCongViecNgayTheoThangNam(thang+1, binding.etYear.text.toString().toInt())
+                congViecNgayViewModel.taiDanhSachCongViecNgayTheoThangNam(calendar[Calendar.MONTH]+1, binding.etYear.text.toString().toInt())
             }
 
             tvTheoNgay.setOnClickListener {
@@ -218,69 +213,118 @@ class ThongKeCongViecPdfFragment : Fragment() {
         textSize = 16F
     }
 
-    // Tạo một đối tượng TextPaint
     @RequiresApi(Build.VERSION_CODES.KITKAT)
     private fun generatePDF(list: List<CongViecNgay>) {
         if (list.isEmpty()) {
             Toast.makeText(requireContext(), "Không có dữ liệu", Toast.LENGTH_SHORT).show()
             return
         }
-
+        var pageHeight = 2000
+        var pageWidth = 1800
+        val pdfDocument = PdfDocument()
+        val paint = Paint()
         val lineHeight = 40
-        val pageHeight1 = lineHeight * (list.size + 5) // Calculate the page height
+        val pageHeight1 = lineHeight * (list.size + 5) +300// Calculate the page height
         if (pageHeight1>pageHeight){
             pageHeight = pageHeight1
         }
-        val pdfDocument = PdfDocument()
-        val paint = Paint()
-        val title = Paint()
 
+        var currentY = 0F
         val pageInfo = PdfDocument.PageInfo.Builder(pageWidth, pageHeight, 1).create()
         var currentPage: PdfDocument.Page? = null
 
         try {
             currentPage = pdfDocument.startPage(pageInfo)
             val canvas = currentPage.canvas
+            // pain for title
+            paint.color = Color.BLUE
+            paint.textSize = 50F
+            paint.typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD)
 
-            // Setting up title paint
-            title.color = Color.BLUE
-            title.textSize = 50F
-            title.typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD)
-
-            // Drawing title
-            val titleText = "Thống kê công việc"
-            val titleWidth = title.measureText(titleText)
+            // Tieu de
+            val titleText = "Danh sách công việc"
+            val titleWidth = paint.measureText(titleText)
             val titleX = (pageWidth - titleWidth) / 2F
             val titleY = 80F
-            canvas.drawText(titleText, titleX, titleY, title)
+            canvas.drawText(titleText, titleX, titleY, paint)
+            // Thong tin thoi gian
+            currentY = titleY + 50F
+            paint.textSize= 35F
+            paint.color = Color.BLUE
+            paint.typeface = Typeface.create(Typeface.DEFAULT, Typeface.ITALIC)
+            when (luaChonKieuXuatpdf) {
+                1 -> {
+                    val monthYearText = "Trong tháng ${thang + 1}/${binding.etYear.text}"
+                    val addInforWidth =paint.measureText(monthYearText)
+                    val addInforX = (pageWidth - addInforWidth) / 2F
+                    canvas.drawText(monthYearText, addInforX, currentY, paint)
+                    currentY+=60F
+                }
+                2 -> {
+                    val dateRangeText = "Từ ngày ${binding.tvDateStart.text} đến ngày ${binding.tvDateEnd.text}"
+                    val addInforWidth =paint.measureText(dateRangeText)
+                    val addInforX = (pageWidth - addInforWidth) / 2F
+                    canvas.drawText(dateRangeText, addInforX, currentY, paint)
+                    currentY+=60F
+                }
 
-            // Setting up colors and text size for content
-            paint.color = Color.BLACK
-            paint.textSize = 16F
-
-            // Calculate line height
-
-
+            }
+            currentY+=10F
+            paint.textSize = 25F
+            paint.typeface = Typeface.create(Typeface.DEFAULT, Typeface.NORMAL)
+            val totalText = "Tổng số công việc: ${list.size}"
+            val completedText = "Tổng số công việc hoàn thành: ${list.filter { it.trangThai == true }.size}"
+            val notCompletedText = "Tổng số công việc chưa hoàn thành: ${list.filter { it.trangThai == false }.size}"
+            val normalText = "Tổng số công việc bình thường: ${list.filter { it.congViec.tinhChat == 0 }.size}"
+            val importantText = "Tổng số công việc quan trọng: ${list.filter { it.congViec.tinhChat == 1 }.size}"
+            val veryImportantText = "Tổng số công việc rất quan trọng: ${list.filter { it.congViec.tinhChat == 2 }.size}"
+            when (luaChonXuatTatCaCV){
+                0 -> {
+                    canvas.drawText(totalText, 10F, currentY, paint)
+                    canvas.drawText(completedText, 10F, currentY + 35, paint)
+                    canvas.drawText(notCompletedText, 10F, currentY + 70, paint)
+                    canvas.drawText(normalText, 10F, currentY + 105, paint)
+                    canvas.drawText(importantText, 10F, currentY + 140, paint)
+                    canvas.drawText(veryImportantText, 10F, currentY + 175, paint)
+                    currentY+=240F
+                }
+                1 -> {
+                    canvas.drawText(completedText, 10F, currentY + 35, paint)
+                    canvas.drawText(normalText, 10F, currentY + 70, paint)
+                    canvas.drawText(importantText, 10F, currentY + 105, paint)
+                    canvas.drawText(veryImportantText, 10F, currentY + 140, paint)
+                    currentY+=195F
+                }
+                2 -> {
+                    canvas.drawText(notCompletedText, 10F, currentY + 35, paint)
+                    currentY+=80F
+                }
+            }
+//            paint.textSize = 20F
+//            paint.color = Color.BLUE
+//            canvas.drawText("STT", 5F, currentY, paint)
             // Draw headers
-            val headers = listOf("STT", "Ngày", "Công việc", "Tính chất", "Mô tả", "Trạng thái")
-            val startX = 56F
-            val startY = titleY + 80F // Start after title
-            val columnWidth = (pageWidth - 2 * startX) / headers.size // Chiều rộng của mỗi cột
+            val headers = listOf( "STT","Ngày", "Công việc", "Tính chất", "Mô tả", "Trạng thái")
+            val startX = 16F
+            val startY = currentY
+            val columnWidth = (pageWidth - 2 * startX) / headers.size
 
-            // Setting up paint for headers
+            // headers
             val headerPaint = Paint()
             headerPaint.color = Color.BLUE
-            headerPaint.textSize = 24F // Tăng kích thước của tiêu đề
+            headerPaint.textSize = 26F
             headerPaint.typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD)
 
             headers.forEachIndexed { index, header ->
-                val headerWidth = headerPaint.measureText(header) // Chiều rộng thực của tiêu đề
-                val headerX = startX + index * columnWidth + (columnWidth - headerWidth) / 2 // Tính toán vị trí căn giữa
+//                val headerWidth = headerPaint.measureText(header)
+//                val headerX = startX + index * columnWidth + (columnWidth - headerWidth) / 2 // căn giữa
+                val headerX = startX + index * columnWidth //KO CAN GIUA
                 canvas.drawText(header, headerX, startY, headerPaint)
             }
 
-            // Draw content
-            var currentY = startY + lineHeight
+            //content
+            currentY = startY + lineHeight
+            paint.color = Color.BLACK
             var dem = 1
             for (cv in list) {
                 val content = listOf(
@@ -292,15 +336,22 @@ class ThongKeCongViecPdfFragment : Fragment() {
                     setTrangThaiString(cv.trangThai)
                 )
                 content.forEachIndexed { index, text ->
-                    val x = startX + index * columnWidth
-                    // Đặt màu cho các giá trị tùy thuộc vào giá trị của tinhChat
+                    val x = startX + index * columnWidth+10F
+                    when (index) {
+                        3 -> when (cv.congViec.tinhChat) {
+                            0 -> paint.color = Color.BLACK
+                            1 -> paint.color = Color.GREEN
+                            else -> paint.color = Color.RED
+                        }
+                        else -> paint.color = Color.BLACK
+                    }
                     val color = when (index) {
                         3 -> when (cv.congViec.tinhChat) {
                             0 -> Color.BLACK
-                            1 -> Color.GREEN // Màu xanh lá cây cho tinhChat = 1 (Quan trọng)
-                            else -> Color.RED // Màu đỏ cho tinhChat = 2 (Rất quan trọng)
+                            1 -> Color.GREEN
+                            else -> Color.RED
                         }
-                        else -> Color.BLACK // Màu đen cho các cột khác
+                        else -> Color.BLACK
                     }
                     paint.color = color
                     if (paint.measureText(text) > columnWidth) {
@@ -355,7 +406,6 @@ class ThongKeCongViecPdfFragment : Fragment() {
         canvas.restore()
     }
 
-
     private fun checkPermissions(): Boolean {
         // writing to external storage permission
         var writeStoragePermission = ContextCompat.checkSelfPermission(
@@ -376,7 +426,6 @@ class ThongKeCongViecPdfFragment : Fragment() {
 
     private fun requestPermission() {
 
-        // requesting read and write to storage permission for our application.
         ActivityCompat.requestPermissions(
             requireActivity(),
             arrayOf(READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE), PERMISSION_CODE
@@ -411,6 +460,7 @@ class ThongKeCongViecPdfFragment : Fragment() {
             }
         }
     }
+
 
     private fun tinhChatToString(tinhChat: Int): String {
         return when (tinhChat) {
