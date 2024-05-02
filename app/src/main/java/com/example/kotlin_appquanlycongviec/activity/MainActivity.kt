@@ -34,6 +34,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.navigation.findNavController
 import com.example.kotlin_appquanlycongviec.di.channelID
 import com.example.kotlin_appquanlycongviec.di.messageExtra
 import com.example.kotlin_appquanlycongviec.di.notificationID
@@ -55,6 +56,10 @@ class MainActivity : AppCompatActivity() {
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.appHostFragment) as NavHostFragment
         val navController = navHostFragment.navController
         binding.bottomMenu.setupWithNavController(navController)
+
+
+        // Định hình lại dữ liệu gửi qua từ notification
+        handleNotificationIntent()
 
         createNotificationChannel()
 
@@ -88,6 +93,8 @@ class MainActivity : AppCompatActivity() {
 //
 //        }
     }
+
+
 //    fun replaceFragment(fragment: Fragment) {
 //
 //        val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
@@ -96,6 +103,13 @@ class MainActivity : AppCompatActivity() {
 //
 //    }
 
+    private fun handleNotificationIntent() {
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.appHostFragment) as NavHostFragment
+        val navController = navHostFragment.navController
+        if (intent.action == "OPEN_SUKIEN_FRAGMENT_FROM_NOTIFICATION") {
+            navController.navigate(R.id.suKienFragment)
+        }
+    }
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun createNotificationChannel()
@@ -108,11 +122,6 @@ class MainActivity : AppCompatActivity() {
         val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
         notificationManager.createNotificationChannel(channel)
     }
-
-
-
-
-
 
 
 }

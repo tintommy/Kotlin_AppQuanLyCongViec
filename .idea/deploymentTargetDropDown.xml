@@ -10,12 +10,12 @@
               <deviceKey>
                 <Key>
                   <type value="SERIAL_NUMBER" />
-                  <value value="emulator-5554" />
+                  <value value="LMV450PMd2d0c07c" />
                 </Key>
               </deviceKey>
             </Target>
           </runningDeviceTargetSelectedWithDropDown>
-          <timeTargetWasSelectedWithDropDown value="2024-05-01T01:38:02.106455100Z" />
+          <timeTargetWasSelectedWithDropDown value="2024-05-02T04:30:40.415390300Z" />
         </State>
       </entry>
     </value>

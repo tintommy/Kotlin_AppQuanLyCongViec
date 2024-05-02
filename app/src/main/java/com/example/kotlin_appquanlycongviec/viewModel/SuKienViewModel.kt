@@ -138,7 +138,7 @@ class SuKienViewModel @Inject constructor(private val sharedPref: SharedPreferen
 
     @SuppressLint("ScheduleExactAlarm")
     private fun scheduleNotification(context: Context, suKien: SuKien) {
-        if (suKien.nhacTruoc != 0) { // Kiểm tra nếu nhacTruoc khác 0
+        if (suKien.nhacTruoc != -1) { // Kiểm tra nếu chọn không nhắc trước thì không cần thông báo
             val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
             // Tăng giá trị của notificationRequestCode
@@ -217,7 +217,6 @@ class SuKienViewModel @Inject constructor(private val sharedPref: SharedPreferen
             else
                 _deleteEvent.emit(Resource.Error("404"))
         }
-
 
     }
 

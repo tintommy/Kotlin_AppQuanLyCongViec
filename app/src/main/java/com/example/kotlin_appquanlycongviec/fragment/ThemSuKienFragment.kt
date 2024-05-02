@@ -147,13 +147,51 @@ class ThemSuKienFragment : Fragment() {
     }
 
 
+//    private fun initSpinner() {
+//        val luaChon = arrayOf(
+//            "Không",
+//            "1 giờ",
+//            "12 giờ",
+//            "1 ngày"
+//        )
+//        val adapter = ArrayAdapter(requireActivity(), R.layout.remind_spinner_item, luaChon)
+//        binding.spRemind.setAdapter(adapter)
+//
+//        binding.spRemind.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
+//            override fun onItemSelected(
+//                adapterView: AdapterView<*>?,
+//                view: View?,
+//                position: Int,
+//                l: Long
+//            ) {
+//                if (view != null) {
+//                    // Chuyển đổi lựa chọn thành số millisecond tương ứng
+//                    nhacTruoc = when (position) {
+//                        0 -> 0 // Không nhắc
+//                        1 -> 1// 1 giờ (1 giờ = 3600000 millisecond)
+//                        2 -> 12//12 giờ (12 giờ = 43200000 millisecond)
+//                        else -> 24//1 ngày (1 ngày = 86400000 millisecond)
+//                    }
+//                }
+//            }
+//
+//            override fun onNothingSelected(adapterView: AdapterView<*>?) {
+//                // Xử lý khi không có gì được chọn
+//            }
+//        })
+//    }
+
     private fun initSpinner() {
         val luaChon = arrayOf(
-            "Không",
-            "1 giờ",
-            "12 giờ",
-            "1 ngày"
+            "Đúng giờ",
+            "Trước 1 giờ",
+            "Trước 3 giờ",
+            "Trước 12 giờ",
+            "Trước 1 ngày",
+            "Trước 3 ngày",
+            "Không nhắc"
         )
+
         val adapter = ArrayAdapter(requireActivity(), R.layout.remind_spinner_item, luaChon)
         binding.spRemind.setAdapter(adapter)
 
@@ -164,14 +202,15 @@ class ThemSuKienFragment : Fragment() {
                 position: Int,
                 l: Long
             ) {
-                if (view != null) {
-                    // Chuyển đổi lựa chọn thành số millisecond tương ứng
-                    nhacTruoc = when (position) {
-                        0 -> 0 // Không nhắc
-                        1 -> 1// 1 giờ (1 giờ = 3600000 millisecond)
-                        2 -> 12//12 giờ (12 giờ = 43200000 millisecond)
-                        else -> 24//1 ngày (1 ngày = 86400000 millisecond)
-                    }
+                // Chuyển đổi lựa chọn thành số millisecond tương ứng
+                nhacTruoc = when (position) {
+                    0 -> 0 // Đúng giờ
+                    1 -> 1 // Trước 1 giờ
+                    2 -> 3 // Trước 3 giờ
+                    3 -> 12 // Trước 12 giờ
+                    4 -> 24 // Trước 1 ngày
+                    5 -> 72 // Trước 3 ngày
+                    else -> -1 // Không nhắc
                 }
             }
 
@@ -180,6 +219,7 @@ class ThemSuKienFragment : Fragment() {
             }
         })
     }
+
 
 
     private fun openLichDialog() {
