@@ -15,7 +15,9 @@ import com.example.kotlin_appquanlycongviec.model.CongViecNgay
 import com.example.kotlin_appquanlycongviec.request.Status
 import com.example.kotlin_appquanlycongviec.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import retrofit2.Call
@@ -27,9 +29,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CongViecNgayViewModel @Inject constructor(private val sharedPref: SharedPreferences) : ViewModel() {
-    private var _danhSachCongViecNgay: MutableStateFlow<Resource<List<CongViecNgay>>> =
+    private var _danhSachCongViecNgay: MutableSharedFlow<Resource<List<CongViecNgay>>> =
         MutableStateFlow(Resource.Unspecified())
-    var danhSachCongViecNgay = _danhSachCongViecNgay.asStateFlow()
+    var danhSachCongViecNgay = _danhSachCongViecNgay.asSharedFlow()
 
     private var _capNhatCongViecNgay: MutableStateFlow<Resource<Status>> =
         MutableStateFlow(Resource.Unspecified())

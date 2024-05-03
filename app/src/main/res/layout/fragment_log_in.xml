@@ -4,9 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
+    android:background="@color/background"
     android:gravity="center"
     android:orientation="vertical"
+
     android:padding="15dp"
     tools:context=".fragment.login_signup.LogInFragment">
 
@@ -114,6 +115,7 @@
         android:layout_marginTop="50dp"
         android:text="Hoặc"
         android:textColor="@color/black"
+        android:visibility="gone"
         android:textSize="18dp"
         android:textStyle="bold" />
 
@@ -122,6 +124,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:backgroundTint="#95FF9800"
+        android:visibility="gone"
         app:cardCornerRadius="50dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
