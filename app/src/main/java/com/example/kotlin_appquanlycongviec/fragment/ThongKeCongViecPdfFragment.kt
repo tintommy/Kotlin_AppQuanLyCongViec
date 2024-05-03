@@ -12,6 +12,7 @@ import com.example.kotlin_appquanlycongviec.databinding.FragmentThongKeCongViecP
 
 import android.Manifest.permission.READ_EXTERNAL_STORAGE
 import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.ActivityNotFoundException
 import android.content.Context
@@ -55,6 +56,7 @@ import kotlin.math.roundToInt
 
 @AndroidEntryPoint
 class ThongKeCongViecPdfFragment : Fragment() {
+    private var alertDialog: AlertDialog? = null
     private lateinit var binding: FragmentThongKeCongViecPdfBinding
     var PERMISSION_CODE = 101
     private var luaChonKieuXuatpdf = 1
@@ -64,6 +66,7 @@ class ThongKeCongViecPdfFragment : Fragment() {
     private val calendar = Calendar.getInstance()
     private var nam = calendar[Calendar.YEAR]
     private var thang = calendar[Calendar.MONTH]
+    private var thang2 = calendar[Calendar.MONTH]
     private var ngay = calendar[Calendar.DAY_OF_MONTH]
     private var doList: MutableList<CongViecNgay> = mutableListOf()
     private var doneList: MutableList<CongViecNgay> = mutableListOf()
@@ -85,10 +88,6 @@ class ThongKeCongViecPdfFragment : Fragment() {
 
         setBtnEvent()
 
-        loadDataNgay()
-        loadData()
-
-
         if (checkPermissions()) {
         } else {
             requestPermission()
@@ -97,38 +96,12 @@ class ThongKeCongViecPdfFragment : Fragment() {
 
     private fun initDayOnLayoutPickDay() {
         binding.apply {
-            tvDateStart.setText(dinhDangNgay(1, thang, nam))
-            tvDateEnd.setText(dinhDangNgay(30, thang, nam))
-        }
-        loadDataNgay()
-    }
-
-    private fun loadData() {
-        lifecycleScope.launch {
-            congViecNgayViewModel.danhSachCongViecNgay.collectLatest {
-                when (it) {
-                    is Resource.Loading -> {
-//                        Toast.makeText(requireContext(), "Loading", Toast.LENGTH_SHORT).show()
-                    }
-
-                    is Resource.Success -> {
-                        initData(it.data!!)
-                        isDataLoaded = true
-//                        generatePDF(printingList)
-                        updatePrintingList()
-                    }
-
-                    is Resource.Error -> {
-                        Toast.makeText(requireContext(), "Danh sách trống", Toast.LENGTH_SHORT).show()
-                    }
-
-                    else -> {}
-
-                }
-
-            }
+            tvDateStart.setText(dinhDangNgay(1, thang2, nam))
+            tvDateEnd.setText(dinhDangNgay(30, thang2, nam))
         }
     }
+
+
     private fun updatePrintingList() {
         printingList.clear()
         when (currentRadioSelection) {
@@ -159,9 +132,9 @@ class ThongKeCongViecPdfFragment : Fragment() {
             binding.tvDateEnd.text.toString().substring(6, 10).toInt()  ) )
     }
     private fun setBtnEvent() {
-        binding.layOutPickDate.setOnClickListener(View.OnClickListener {
-            loadDataNgay()
-        })
+//        binding.layOutPickDate.setOnClickListener(View.OnClickListener {
+//            loadDataNgay()
+//        })
         binding.rdGroup.setOnCheckedChangeListener { radioGroup, i ->
             // Lưu trữ vị trí của RadioButton được chọn vào biến selectedRadioButtonId
             currentRadioSelection = i
@@ -173,24 +146,50 @@ class ThongKeCongViecPdfFragment : Fragment() {
 
 
             tvTheoThang.setOnClickListener {
+//                initMonthSpinner()
                 layOutPickMonth.visibility = View.VISIBLE
                 layOutPickDate.visibility = View.GONE
-                congViecNgayViewModel.taiDanhSachCongViecNgayTheoThangNam(calendar[Calendar.MONTH]+1, binding.etYear.text.toString().toInt())
+//                congViecNgayViewModel.taiDanhSachCongViecNgayTheoThangNam(calendar[Calendar.MONTH]+1, binding.etYear.text.toString().toInt())
             }
 
             tvTheoNgay.setOnClickListener {
                 layOutPickMonth.visibility = View.GONE
                 layOutPickDate.visibility = View.VISIBLE
-                loadDataNgay()
+//                loadDataNgay()
             }
 
             btnGeneratePDF.setOnClickListener {
                 luaChonKieuXuatpdf =1
                 isDataLoaded = false
+                initMonthSpinner()
                 congViecNgayViewModel.taiDanhSachCongViecNgayTheoThangNam(thang+1, binding.etYear.text.toString().toInt())
-                loadData()
-                updatePrintingList()
-                generatePDF(printingList)
+//                loadData()
+                lifecycleScope.launch {
+                    congViecNgayViewModel.danhSachCongViecNgay.collectLatest {
+                        when (it) {
+                            is Resource.Loading -> {
+//                        Toast.makeText(requireContext(), "Loading", Toast.LENGTH_SHORT).show()
+                            }
+
+                            is Resource.Success -> {
+                                initData(it.data!!)
+//                                isDataLoaded = true
+                                updatePrintingList()
+                                generatePDF(printingList)
+                            }
+
+                            is Resource.Error -> {
+                                Toast.makeText(requireContext(), "Danh sách trống", Toast.LENGTH_SHORT).show()
+                            }
+
+                            else -> {}
+
+                        }
+
+                    }
+                }
+//                updatePrintingList()
+//                generatePDF(printingList)
 
 
             }
@@ -199,9 +198,32 @@ class ThongKeCongViecPdfFragment : Fragment() {
                 luaChonKieuXuatpdf = 2
                 isDataLoaded = false
                 loadDataNgay()
-                loadData()
-                updatePrintingList()
-                generatePDF(printingList)
+//                loadData()
+                lifecycleScope.launch {
+                    congViecNgayViewModel.danhSachCongViecNgay.collectLatest {
+                        when (it) {
+                            is Resource.Loading -> {
+//                        Toast.makeText(requireContext(), "Loading", Toast.LENGTH_SHORT).show()
+                            }
+
+                            is Resource.Success -> {
+                                initData(it.data!!)
+                                updatePrintingList()
+                                generatePDF(printingList)
+                            }
+
+                            is Resource.Error -> {
+                                Toast.makeText(requireContext(), "Danh sách trống", Toast.LENGTH_SHORT).show()
+                            }
+
+                            else -> {}
+
+                        }
+
+                    }
+                }
+//                updatePrintingList()
+//                generatePDF(printingList)
 
 
             }
@@ -252,7 +274,7 @@ class ThongKeCongViecPdfFragment : Fragment() {
             paint.typeface = Typeface.create(Typeface.DEFAULT, Typeface.ITALIC)
             when (luaChonKieuXuatpdf) {
                 1 -> {
-                    val monthYearText = "Trong tháng ${thang}/${binding.etYear.text}"
+                    val monthYearText = "Trong tháng ${thang+1}/${binding.etYear.text}"
                     val addInforWidth =paint.measureText(monthYearText)
                     val addInforX = (pageWidth - addInforWidth) / 2F
                     canvas.drawText(monthYearText, addInforX, currentY, paint)
@@ -424,7 +446,7 @@ class ThongKeCongViecPdfFragment : Fragment() {
             val file = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), fileName)
             try {
                 pdfDocument.writeTo(FileOutputStream(file))
-                Toast.makeText(requireContext(), "Tạo file PDF thành công", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Tạo file PDF thành công, lưu ở Download", Toast.LENGTH_SHORT).show()
             } catch (e: IOException) {
                 e.printStackTrace()
                 Toast.makeText(requireContext(), "Thất bại khi tạo file PDF", Toast.LENGTH_SHORT).show()
@@ -432,6 +454,28 @@ class ThongKeCongViecPdfFragment : Fragment() {
                 pdfDocument.close()
             }
         }
+//        if(alertDialog == null) {
+//            var builder = AlertDialog.Builder(requireContext())
+//            builder.setTitle("Xuất file thành công")
+//            builder.setMessage("Bạn có muốn xem file PDF vừa xuất không?")
+//            builder.setPositiveButton("Xem") { dialog, which ->
+//                val intent = Intent(Intent.ACTION_VIEW)
+//                val uri = FileProvider.getUriForFile(
+//                    requireContext(),
+//                    requireContext().applicationContext.packageName + ".provider",
+//                    file
+//                )
+//                intent.setDataAndType(uri, "application/pdf")
+//                intent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+//                startActivity(intent)
+//            }
+//            builder.setNegativeButton("Không") { dialog, which ->
+//                dialog.dismiss()
+//            }
+//            alertDialog = builder.create()
+//        }
+//        alertDialog?.show()
+
     }
 
 
@@ -559,7 +603,7 @@ class ThongKeCongViecPdfFragment : Fragment() {
             ) {
                 if (view != null) {
                     thang = position
-                    congViecNgayViewModel.taiDanhSachCongViecNgayTheoThangNam(thang+1, binding.etYear.text.toString().toInt())
+//                    congViecNgayViewModel.taiDanhSachCongViecNgayTheoThangNam(thang+1, binding.etYear.text.toString().toInt())
                 }
             }
 
@@ -586,9 +630,9 @@ class ThongKeCongViecPdfFragment : Fragment() {
             { datePicker, year, month, day ->
                 binding.tvDateStart.setText(dinhDangNgay(day, month, year))
                 ngay = day
-                thang = month
+                thang2 = month
                 nam = year
-            }, nam, thang, ngay
+            }, nam, thang2, ngay
         )
         dialog.show()
     }
@@ -599,9 +643,9 @@ class ThongKeCongViecPdfFragment : Fragment() {
             { datePicker, year, month, day ->
                 binding.tvDateEnd.setText(dinhDangNgay(day, month, year))
                 ngay = day
-                thang = month
+                thang2 = month
                 nam = year
-            }, nam, thang, ngay
+            }, nam, thang2, ngay
         )
         dialog.show()
     }
