@@ -252,7 +252,7 @@ class ThongKeCongViecPdfFragment : Fragment() {
             paint.typeface = Typeface.create(Typeface.DEFAULT, Typeface.ITALIC)
             when (luaChonKieuXuatpdf) {
                 1 -> {
-                    val monthYearText = "Trong tháng ${thang + 1}/${binding.etYear.text}"
+                    val monthYearText = "Trong tháng ${thang}/${binding.etYear.text}"
                     val addInforWidth =paint.measureText(monthYearText)
                     val addInforX = (pageWidth - addInforWidth) / 2F
                     canvas.drawText(monthYearText, addInforX, currentY, paint)
@@ -312,12 +312,34 @@ class ThongKeCongViecPdfFragment : Fragment() {
             headerPaint.color = Color.BLUE
             headerPaint.textSize = 26F
             headerPaint.typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD)
-
+            var startX1 =startX
             headers.forEachIndexed { index, header ->
+                when (index){
+                    0 -> {
+                        canvas.drawText(header, startX1, startY, headerPaint)
+                        startX1 += columnWidth/2
+                    }
+                    4 -> {
+                        canvas.drawText(header, startX1, startY, headerPaint)
+                        startX1 += columnWidth+columnWidth/2
+                    }
+                    else -> {
+                        canvas.drawText(header, startX1, startY, headerPaint)
+                        startX1 += columnWidth
+                    }
+
+                }
+
 //                val headerWidth = headerPaint.measureText(header)
 //                val headerX = startX + index * columnWidth + (columnWidth - headerWidth) / 2 // căn giữa
-                val headerX = startX + index * columnWidth //KO CAN GIUA
-                canvas.drawText(header, headerX, startY, headerPaint)
+//                val headerX = startX + index * columnWidth //KO CAN GIUA
+//                when (index) {
+//                    0 -> canvas.drawText(header, headerX, startY, headerPaint)
+//
+//                    else -> canvas.drawText(header, startX + index * columnWidth -columnWidth/2, startY, headerPaint)
+//                }
+//
+//                canvas.drawText(header, headerX, startY, headerPaint)
             }
 
             //content
@@ -334,7 +356,15 @@ class ThongKeCongViecPdfFragment : Fragment() {
                     setTrangThaiString(cv.trangThai)
                 )
                 content.forEachIndexed { index, text ->
-                    val x = startX + index * columnWidth+10F
+                    var x = 0F
+                    when (index){
+                        0 -> x = startX
+                        1 -> x = startX + columnWidth/2
+                        5 -> x = startX + index * columnWidth
+                        else -> x = startX + index * columnWidth - columnWidth/2
+
+                    }
+//                    val x = startX + index * columnWidth
                     when (index) {
                         3 -> when (cv.congViec.tinhChat) {
                             0 -> paint.color = Color.BLACK
@@ -354,22 +384,28 @@ class ThongKeCongViecPdfFragment : Fragment() {
                     paint.color = color
                     if (paint.measureText(text) > columnWidth) {
                         // If content exceeds column width, draw text on multiple lines
-                        drawText(canvas, text, x, currentY, columnWidth, paint)
-                        currentY += lineHeight * 2 // Increase line height
+                        if (index == 4) {
+                            drawText(canvas, text, x, currentY, columnWidth+columnWidth/2, paint)
+                            currentY += lineHeight * 2
+                        } else {
+                            drawText(canvas, text, x, currentY, columnWidth, paint)
+                            currentY += lineHeight * 2
+                        }
+//                        drawText(canvas, text, x, currentY, columnWidth, paint)
+//                        currentY += lineHeight * 2
                     } else {
                         // If content does not exceed column width, draw text on one line
                         canvas.drawText(text, x, currentY, paint)
                     }
                 }
-                currentY += lineHeight // Move to next line for next row
+                currentY += lineHeight
                 if (currentY + lineHeight > pageHeight) {
                     pdfDocument.finishPage(currentPage)
                     pageIndex++
                     pageInfo = PdfDocument.PageInfo.Builder(pageWidth, pageHeight, pageIndex).create()
-                    isPageEnded = true // Mark current page as ended
                     currentPage = pdfDocument.startPage(pageInfo) // Start a new page
-                    currentY = 0F // Reset Y position for the new page
-                    canvas = currentPage.canvas // Get the canvas for the new page
+                    currentY = 0F
+                    canvas = currentPage.canvas
 
                 }
                 dem += 1
