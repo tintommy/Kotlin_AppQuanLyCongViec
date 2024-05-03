@@ -17,14 +17,15 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.example.kotlin_appquanlycongviec.R
 import com.example.kotlin_appquanlycongviec.databinding.FragmentChiTietSuKienBinding
-import com.example.kotlin_appquanlycongviec.databinding.FragmentThemSuKienBinding
 import com.example.kotlin_appquanlycongviec.model.SuKien
 import com.example.kotlin_appquanlycongviec.util.Resource
 import com.example.kotlin_appquanlycongviec.viewModel.SuKienViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Locale
 
 @AndroidEntryPoint
 class ChiTietSuKienFragment : Fragment() {
@@ -42,7 +43,6 @@ private lateinit var binding: FragmentChiTietSuKienBinding
     private var ngayApi = ""
     private var gioApi = ""
     private var nhacTruoc = 0
-
     private lateinit var suKien: SuKien
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -55,14 +55,17 @@ private lateinit var binding: FragmentChiTietSuKienBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initSpinner()
-        setBtnEvent()
-        onBackPressed()
+
+
+
 
         val bundle= arguments
         if (bundle != null) {
             suKien= bundle.getSerializable("suKien") as SuKien
         }
+        initSpinner()
+        setBtnEvent()
+        onBackPressed()
 
         binding.apply {
             etEventName.setText(suKien.tenSuKien)
@@ -141,6 +144,18 @@ private lateinit var binding: FragmentChiTietSuKienBinding
                 return@setOnClickListener
             }
 
+            // Lấy thời gian hiện tại
+            val currentTimeMillis = System.currentTimeMillis()
+            val eventTimeMillis = getEventTimeMillis(ngayApi, gioApi)
+            val nhacTruocMillis = nhacTruoc * 60 * 60 * 1000 // Chuyển đổi thời gian nhắc trước thành milliseconds
+
+            // Kiểm tra nếu thời gian nhắc đã qua
+            if ((eventTimeMillis - nhacTruocMillis <= currentTimeMillis) && nhacTruoc != -1) {
+                // Hiển thị thông báo cho người dùng
+                Toast.makeText(requireContext(), "Thời gian nhắc đã qua, vui lòng chọn lại", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
             var eventUpdate = SuKien(
                 gioApi,
                 suKien.maSK,
@@ -153,6 +168,13 @@ private lateinit var binding: FragmentChiTietSuKienBinding
 
             suKienViewModel.updateEvent(requireContext(), eventUpdate)
         }
+    }
+
+    private fun getEventTimeMillis(ngay: String, gio: String): Long {
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault())
+        val ngayGioString = "$ngay $gio"
+        val ngayGioDate = dateFormat.parse(ngayGioString)
+        return ngayGioDate?.time ?: 0L
     }
 
     private fun onBackPressed() {
@@ -215,6 +237,8 @@ private lateinit var binding: FragmentChiTietSuKienBinding
             }
         })
     }
+
+
 
 
     private fun openLichDialog() {
