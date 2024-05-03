@@ -1,7 +1,9 @@
 package com.example.kotlin_appquanlycongviec.fragment
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.DatePickerDialog
+import android.content.Intent
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
@@ -16,10 +18,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Button
 import android.widget.Spinner
 import android.widget.TabHost
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
+import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -31,6 +35,7 @@ import com.example.kotlin_appquanlycongviec.databinding.LayoutExportEventByMonth
 import com.example.kotlin_appquanlycongviec.model.SuKien
 import com.example.kotlin_appquanlycongviec.util.Resource
 import com.example.kotlin_appquanlycongviec.viewModel.SuKienViewModel
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.flow.collect
@@ -346,6 +351,7 @@ class ExportEventFragment : Fragment() {
             REQUEST_CODE
         )
     }
+    @SuppressLint("MissingInflatedId")
     private fun createPDF(startDate: String, endDate: String) {
         pageNumber++
         pdfDocument = PdfDocument()
@@ -562,6 +568,27 @@ class ExportEventFragment : Fragment() {
         } catch (e: IOException) {
             throw RuntimeException(e)
         }
+        val uri = FileProvider.getUriForFile(
+            requireContext(),
+            requireContext().applicationContext.packageName + ".provider",
+            file
+        )
+        val intent = Intent(Intent.ACTION_VIEW)
+        intent.setDataAndType(uri, "application/pdf")
+        intent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+        startActivity(intent)
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     }
