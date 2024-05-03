@@ -1,3 +1,4 @@
+
 package com.example.kotlin_appquanlycongviec.fragment
 
 import android.os.Bundle
@@ -208,10 +209,6 @@ class ThongKeCongViecPdfFragment : Fragment() {
 
     }
 
-    private val textPaint = TextPaint().apply {
-        color = Color.BLACK
-        textSize = 16F
-    }
 
     @RequiresApi(Build.VERSION_CODES.KITKAT)
     private fun generatePDF(list: List<CongViecNgay>) {
@@ -219,23 +216,24 @@ class ThongKeCongViecPdfFragment : Fragment() {
             Toast.makeText(requireContext(), "Không có dữ liệu", Toast.LENGTH_SHORT).show()
             return
         }
-        var pageHeight = 2000
-        var pageWidth = 1800
+        var pageHeight = 1800
+        var pageWidth = 1400
         val pdfDocument = PdfDocument()
         val paint = Paint()
         val lineHeight = 40
-        val pageHeight1 = lineHeight * (list.size + 5) +300// Calculate the page height
-        if (pageHeight1>pageHeight){
-            pageHeight = pageHeight1
-        }
-
+//        val pageHeight1 = lineHeight * (list.size + 5) +300// Calculate the page height
+//        if (pageHeight1>pageHeight){
+//            pageHeight = pageHeight1
+//        }
+        var pageIndex =1
         var currentY = 0F
-        val pageInfo = PdfDocument.PageInfo.Builder(pageWidth, pageHeight, 1).create()
+        var pageInfo = PdfDocument.PageInfo.Builder(pageWidth, pageHeight, 1).create()
         var currentPage: PdfDocument.Page? = null
+        var isPageEnded = false
 
         try {
             currentPage = pdfDocument.startPage(pageInfo)
-            val canvas = currentPage.canvas
+            var canvas = currentPage.canvas
             // pain for title
             paint.color = Color.BLUE
             paint.textSize = 50F
@@ -364,6 +362,16 @@ class ThongKeCongViecPdfFragment : Fragment() {
                     }
                 }
                 currentY += lineHeight // Move to next line for next row
+                if (currentY + lineHeight > pageHeight) {
+                    pdfDocument.finishPage(currentPage)
+                    pageIndex++
+                    pageInfo = PdfDocument.PageInfo.Builder(pageWidth, pageHeight, pageIndex).create()
+                    isPageEnded = true // Mark current page as ended
+                    currentPage = pdfDocument.startPage(pageInfo) // Start a new page
+                    currentY = 0F // Reset Y position for the new page
+                    canvas = currentPage.canvas // Get the canvas for the new page
+
+                }
                 dem += 1
             }
         } finally {
@@ -404,6 +412,29 @@ class ThongKeCongViecPdfFragment : Fragment() {
         canvas.translate(x, y)
         layout.draw(canvas)
         canvas.restore()
+    }
+    private fun tinhChatToString(tinhChat: Int): String {
+        return when (tinhChat) {
+            0 -> "Bình thường"
+            1 -> "Quan trọng"
+            else -> "Rất quan trọng"
+        }
+    }
+
+    private fun convertToDDMMYYYY(dateString: String): String {
+        val inputFormat = SimpleDateFormat("yyyy-MM-dd")
+        val outputFormat = SimpleDateFormat("dd/MM/yyyy")
+        var date: Date? = null
+        date = try {
+            inputFormat.parse(dateString)
+        } catch (e: ParseException) {
+            throw RuntimeException(e)
+        }
+        return outputFormat.format(date)
+    }
+
+    private fun setTrangThaiString(trangThai: Boolean): String {
+        return if (trangThai) "Đã hoàn thành" else "Chưa hoàn thành"
     }
 
     private fun checkPermissions(): Boolean {
@@ -462,29 +493,7 @@ class ThongKeCongViecPdfFragment : Fragment() {
     }
 
 
-    private fun tinhChatToString(tinhChat: Int): String {
-        return when (tinhChat) {
-            0 -> "Bình thường"
-            1 -> "Quan trọng"
-            else -> "Rất quan trọng"
-        }
-    }
 
-    private fun convertToDDMMYYYY(dateString: String): String {
-        val inputFormat = SimpleDateFormat("yyyy-MM-dd")
-        val outputFormat = SimpleDateFormat("dd/MM/yyyy")
-        var date: Date? = null
-        date = try {
-            inputFormat.parse(dateString)
-        } catch (e: ParseException) {
-            throw RuntimeException(e)
-        }
-        return outputFormat.format(date)
-    }
-
-    private fun setTrangThaiString(trangThai: Boolean): String {
-        return if (trangThai) "Đã hoàn thành" else "Chưa hoàn thành"
-    }
 
     private fun initMonthSpinner() {
         val luaChon = arrayOf(
