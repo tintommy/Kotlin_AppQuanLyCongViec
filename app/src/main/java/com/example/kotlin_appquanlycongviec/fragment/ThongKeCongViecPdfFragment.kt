@@ -9,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.kotlin_appquanlycongviec.R
 import com.example.kotlin_appquanlycongviec.databinding.FragmentThongKeCongViecPdfBinding
-
 import android.Manifest.permission.READ_EXTERNAL_STORAGE
 import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
 import android.app.AlertDialog
@@ -146,7 +145,6 @@ class ThongKeCongViecPdfFragment : Fragment() {
 
 
             tvTheoThang.setOnClickListener {
-//                initMonthSpinner()
                 layOutPickMonth.visibility = View.VISIBLE
                 layOutPickDate.visibility = View.GONE
 //                congViecNgayViewModel.taiDanhSachCongViecNgayTheoThangNam(calendar[Calendar.MONTH]+1, binding.etYear.text.toString().toInt())
@@ -173,7 +171,6 @@ class ThongKeCongViecPdfFragment : Fragment() {
 
                             is Resource.Success -> {
                                 initData(it.data!!)
-//                                isDataLoaded = true
                                 updatePrintingList()
                                 generatePDF(printingList)
                             }
@@ -188,17 +185,12 @@ class ThongKeCongViecPdfFragment : Fragment() {
 
                     }
                 }
-//                updatePrintingList()
-//                generatePDF(printingList)
-
-
             }
 
             btnGeneratePDFNgay.setOnClickListener {
                 luaChonKieuXuatpdf = 2
-                isDataLoaded = false
+                isDataLoaded = true
                 loadDataNgay()
-//                loadData()
                 lifecycleScope.launch {
                     congViecNgayViewModel.danhSachCongViecNgay.collectLatest {
                         when (it) {
@@ -222,9 +214,6 @@ class ThongKeCongViecPdfFragment : Fragment() {
 
                     }
                 }
-//                updatePrintingList()
-//                generatePDF(printingList)
-
 
             }
         }
@@ -238,6 +227,7 @@ class ThongKeCongViecPdfFragment : Fragment() {
             Toast.makeText(requireContext(), "Không có dữ liệu", Toast.LENGTH_SHORT).show()
             return
         }
+        var file: File? = null
         var pageHeight = 1800
         var pageWidth = 1400
         val pdfDocument = PdfDocument()
@@ -320,9 +310,7 @@ class ThongKeCongViecPdfFragment : Fragment() {
                     currentY+=80F
                 }
             }
-//            paint.textSize = 20F
-//            paint.color = Color.BLUE
-//            canvas.drawText("STT", 5F, currentY, paint)
+
             // Draw headers
             val headers = listOf( "STT","Ngày", "Công việc", "Tính chất", "Mô tả", "Trạng thái")
             val startX = 16F
@@ -447,35 +435,58 @@ class ThongKeCongViecPdfFragment : Fragment() {
             try {
                 pdfDocument.writeTo(FileOutputStream(file))
                 Toast.makeText(requireContext(), "Tạo file PDF thành công, lưu ở Download", Toast.LENGTH_SHORT).show()
+                showOpenPdfAlertDialog(file)
+
+                alertDialog = null
+              
+
+
             } catch (e: IOException) {
                 e.printStackTrace()
                 Toast.makeText(requireContext(), "Thất bại khi tạo file PDF", Toast.LENGTH_SHORT).show()
             } finally {
                 pdfDocument.close()
             }
+
         }
-//        if(alertDialog == null) {
-//            var builder = AlertDialog.Builder(requireContext())
-//            builder.setTitle("Xuất file thành công")
-//            builder.setMessage("Bạn có muốn xem file PDF vừa xuất không?")
-//            builder.setPositiveButton("Xem") { dialog, which ->
+
+
+    }
+    private fun showOpenPdfAlertDialog(file: File) {
+        if(alertDialog == null) {
+            var builder = AlertDialog.Builder(requireContext())
+            builder.setTitle("Xuất file thành công")
+            builder.setMessage("Bạn có muốn xem file PDF vừa xuất không?")
+            builder.setPositiveButton("Xem") { dialog, which ->
 //                val intent = Intent(Intent.ACTION_VIEW)
 //                val uri = FileProvider.getUriForFile(
 //                    requireContext(),
-//                    requireContext().applicationContext.packageName + ".provider",
+//                    requireContext().applicationContext.packageName + ".fileprovider",
 //                    file
 //                )
 //                intent.setDataAndType(uri, "application/pdf")
 //                intent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
 //                startActivity(intent)
-//            }
-//            builder.setNegativeButton("Không") { dialog, which ->
-//                dialog.dismiss()
-//            }
-//            alertDialog = builder.create()
-//        }
-//        alertDialog?.show()
+                openPdfFile(file)
+            }
+            builder.setNegativeButton("Không") { dialog, which ->
+                dialog.dismiss() // Đóng AlertDialog khi nhấn nút "Không"
+            }
+            alertDialog = builder.create()
+        }
+        alertDialog?.show()
 
+    }
+    private fun openPdfFile(file: File) {
+        val intent = Intent(Intent.ACTION_VIEW)
+        val uri = FileProvider.getUriForFile(
+            requireContext(),
+            requireContext().applicationContext.packageName + ".provider",
+            file
+        )
+        intent.setDataAndType(uri, "application/pdf")
+        intent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+        startActivity(intent)
     }
 
 
