@@ -594,13 +594,17 @@ class ExportEventFragment : Fragment() {
                 intent.setDataAndType(uri, "application/pdf")
                 intent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
                 startActivity(intent)
+                alertDialog = null
             }
             builder.setNegativeButton("Không") { dialog, which ->
                 dialog.dismiss()
             }
             alertDialog = builder.create()
         }
+
+
         alertDialog?.show()
+
 
 
 
