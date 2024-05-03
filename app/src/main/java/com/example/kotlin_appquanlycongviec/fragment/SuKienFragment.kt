@@ -168,7 +168,7 @@ class SuKienFragment : Fragment() {
                     builder.setMessage("Xác nhận xoá ?")
                     builder.setCancelable(false)
                     builder.setPositiveButton("Xoá") { dialog, which ->
-                        suKienViewModel.deleteEvent(maSuKien)
+                        suKienViewModel.deleteEvent(maSuKien, requireContext())
                       todayList.removeAt(position)
                         todayEventAdapter.differ.submitList(todayList)
                         todayEventAdapter.notifyDataSetChanged()
@@ -203,7 +203,7 @@ class SuKienFragment : Fragment() {
                     builder.setMessage("Xác nhận xoá ?")
                     builder.setCancelable(false)
                     builder.setPositiveButton("Xoá") { dialog, which ->
-                        suKienViewModel.deleteEvent(maSuKien)
+                        suKienViewModel.deleteEvent(maSuKien, requireContext())
                         nearlyList.removeAt(position)
                         nearlyEventAdapter.differ.submitList(nearlyList)
                         nearlyEventAdapter.notifyDataSetChanged()

@@ -18,6 +18,7 @@ import com.example.kotlin_appquanlycongviec.di.AlarmReceiver
 import com.example.kotlin_appquanlycongviec.model.SuKien
 import com.example.kotlin_appquanlycongviec.request.Status
 import com.example.kotlin_appquanlycongviec.util.Resource
+import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -31,7 +32,6 @@ import javax.inject.Inject
 @HiltViewModel
 class SuKienViewModel @Inject constructor(private val sharedPref: SharedPreferences) : ViewModel() {
 
-    private var notificationRequestCode = 0 // Khai báo biến global
     private lateinit var token: String
     private var userId: Int = 0
     private lateinit var userEmail: String
@@ -101,22 +101,6 @@ class SuKienViewModel @Inject constructor(private val sharedPref: SharedPreferen
         }
     }
 
-//    fun addEvent(suKien: SuKien) {
-//        viewModelScope.launch {
-//            _addEvent.emit(Resource.Loading())
-//            val response = suKienApiService.themSuKien(suKien, userId)
-//            if (response.isSuccessful) {
-//                _addEvent.emit(Resource.Success(response.body()!!))
-//
-//                // Lên lịch thông báo khi thêm sự kiện thành công
-////                scheduleNotification(suKien)
-//
-//                _newEventAdded.postValue(suKien)
-//            } else {
-//                _addEvent.emit(Resource.Error("404"))
-//            }
-//        }
-//    }
 
     fun addEvent(context: Context, suKien: SuKien) {
         viewModelScope.launch {
@@ -135,25 +119,33 @@ class SuKienViewModel @Inject constructor(private val sharedPref: SharedPreferen
     }
 
 
-
     @SuppressLint("ScheduleExactAlarm")
     private fun scheduleNotification(context: Context, suKien: SuKien) {
         if (suKien.nhacTruoc != -1) { // Kiểm tra nếu chọn không nhắc trước thì không cần thông báo
             val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
-            // Tăng giá trị của notificationRequestCode
-            notificationRequestCode++
+//            val intent = Intent(context, AlarmReceiver::class.java).apply {
+//                putExtra("tenSuKien", suKien.tenSuKien)
+//                putExtra("moTa", suKien.moTa)
+//                putExtra("ngay", suKien.ngay)
+//                putExtra("gio", suKien.gio)
+//                putExtra("maSK", suKien.maSK)
+//            }
+
+//            val intent = Intent(context, AlarmReceiver::class.java).apply {
+//                putExtra("suKien", suKien)
+//            }
+
+            val gson = Gson()
+            val suKienJson = gson.toJson(suKien)
 
             val intent = Intent(context, AlarmReceiver::class.java).apply {
-                putExtra("tenSuKien", suKien.tenSuKien)
-                putExtra("moTa", suKien.moTa)
-                putExtra("ngay", suKien.ngay)
-                putExtra("gio", suKien.gio)
-                putExtra("maSK", suKien.maSK)
+                putExtra("suKien", suKienJson)
             }
+
             val pendingIntent = PendingIntent.getBroadcast(
                 context,
-                notificationRequestCode, // Sử dụng notificationRequestCode thay vì maSK
+                suKien.maSK,
                 intent,
                 PendingIntent.FLAG_UPDATE_CURRENT
             )
@@ -175,20 +167,6 @@ class SuKienViewModel @Inject constructor(private val sharedPref: SharedPreferen
     }
 
 
-
-
-//    fun updateEvent(suKien: SuKien){
-//        viewModelScope.launch{
-//            _updateEvent.emit(Resource.Loading())
-//            val response= suKienApiService.suaSuKien(suKien,userId)
-//            if (response.isSuccessful)
-//                _updateEvent.emit(Resource.Success(response.body()!!))
-//            else
-//                _updateEvent.emit(Resource.Error("404"))
-//        }
-//    }
-
-
     fun updateEvent(context: Context, suKien: SuKien) {
         viewModelScope.launch {
             _updateEvent.emit(Resource.Loading())
@@ -208,36 +186,36 @@ class SuKienViewModel @Inject constructor(private val sharedPref: SharedPreferen
     }
 
 
-    fun deleteEvent(maSuKien: Int) {
-        viewModelScope.launch {
-            _deleteEvent.emit(Resource.Loading())
-            val response = suKienApiService.xoaSuKien(maSuKien)
-            if (response.isSuccessful)
-                _deleteEvent.emit(Resource.Success(response.body()!!))
-            else
-                _deleteEvent.emit(Resource.Error("404"))
-        }
-
-    }
-
-
-
-
-
-//    fun deleteEvent(context: Int, maSuKien: Int) {
+//    fun deleteEvent(maSuKien: Int) {
 //        viewModelScope.launch {
 //            _deleteEvent.emit(Resource.Loading())
 //            val response = suKienApiService.xoaSuKien(maSuKien)
-//            if (response.isSuccessful) {
+//            if (response.isSuccessful)
 //                _deleteEvent.emit(Resource.Success(response.body()!!))
-//
-//                // Hủy thông báo tương ứng với sự kiện đã bị xoá
-//                cancelNotification(context, maSuKien)
-//            } else {
+//            else
 //                _deleteEvent.emit(Resource.Error("404"))
-//            }
 //        }
+//
 //    }
+
+
+
+
+
+    fun deleteEvent(maSuKien: Int, context: Context) {
+        viewModelScope.launch {
+            _deleteEvent.emit(Resource.Loading())
+            val response = suKienApiService.xoaSuKien(maSuKien)
+            if (response.isSuccessful) {
+                _deleteEvent.emit(Resource.Success(response.body()!!))
+
+                // Hủy thông báo tương ứng với sự kiện đã bị xoá
+                cancelNotification(context, maSuKien)
+            } else {
+                _deleteEvent.emit(Resource.Error("404"))
+            }
+        }
+    }
 
     private fun cancelNotification(context: Context, maSK: Int) {
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
