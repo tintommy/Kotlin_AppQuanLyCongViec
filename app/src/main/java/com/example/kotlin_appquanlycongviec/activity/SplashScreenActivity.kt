@@ -1,6 +1,8 @@
 package com.example.kotlin_appquanlycongviec.activity
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -20,6 +22,7 @@ import kotlinx.coroutines.flow.collectLatest
 @AndroidEntryPoint
 class SplashScreenActivity : AppCompatActivity() {
     private val nguoiDungViewModel by viewModels<NguoiDungViewModel>()
+    private lateinit var sharedPref: SharedPreferences
     private val handler = Handler(Looper.getMainLooper())
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,7 +33,7 @@ class SplashScreenActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-
+        sharedPref = application.getSharedPreferences("user_preferences", Context.MODE_PRIVATE)
 
         handler.postDelayed({
             nguoiDungViewModel.getUser()
@@ -54,6 +57,10 @@ class SplashScreenActivity : AppCompatActivity() {
                         }
 
                         is Resource.Error -> {
+                            val editor = sharedPref.edit()
+                            editor.remove("token")
+                            editor.remove("username")
+                            editor.apply()
                             val intent = Intent(
                                 this@SplashScreenActivity,
                                 LogInSignUpActivity::class.java

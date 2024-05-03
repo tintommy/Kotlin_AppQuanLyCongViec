@@ -5,7 +5,7 @@
     android:id="@+id/frameLayout4"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/greenFigma2"
+    android:background="@color/background"
     tools:context=".fragment.TatCaSuKienFragment">
 
     <ImageView
@@ -17,13 +17,13 @@
         android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
         android:src="@drawable/baseline_arrow_back_36"
-        app:tint="@color/blueFigma" />
+        app:tint="#000000" />
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Tất cả sự kiện"
-        android:textColor="@color/blueFigma"
+        android:textColor="#000000"
         android:textSize="25sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@id/guidelineTop"
@@ -54,7 +54,7 @@
         app:layout_constraintStart_toStartOf="@id/guidelineLeft"
         app:layout_constraintTop_toBottomOf="@id/guidelineTop"
 
-        app:tint="@color/blueFigma" />
+        app:tint="#000A0B" />
 
     <Spinner
         android:id="@+id/spMonth"

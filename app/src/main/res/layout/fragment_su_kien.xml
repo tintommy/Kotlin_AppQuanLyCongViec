@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
-    android:background="@color/greenFigma2"
+    android:background="@color/background"
     tools:context=".fragment.SuKienFragment">
 
     <androidx.core.widget.NestedScrollView
@@ -24,7 +24,7 @@
                 android:text="21/04/2024"
                 android:textSize="25sp"
                 android:textStyle="bold"
-                android:textColor="@color/blueFigma"
+                android:textColor="@color/black"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="@id/guidelineLeft"
                 app:layout_constraintEnd_toEndOf="@id/guidelineRight"
@@ -48,7 +48,7 @@
                     android:layout_marginTop="10dp"
                     android:padding="5dp"
                     android:textSize="18sp"
-                    android:textColor="@color/blueFigma"
+                    android:textColor="#FF5722"
                     android:textStyle="bold"
                     />
                 <TextView
@@ -96,7 +96,7 @@
                     android:layout_marginTop="10dp"
                     android:padding="5dp"
                     android:textSize="18sp"
-                    android:textColor="@color/blueFigma"
+                    android:textColor="#FF5722"
                     android:textStyle="bold"
                     />
                 <TextView
@@ -146,10 +146,10 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
-        android:backgroundTint="@color/greenFigma1"
+        android:backgroundTint="#FFEB3B"
         android:elevation="10dp"
         android:src="@drawable/export_notes_24px"
-        android:tint="@color/white"
+        android:tint="#000000"
         app:layout_constraintBottom_toTopOf="@id/btnAllEvent"
         app:layout_constraintEnd_toEndOf="parent"
         app:rippleColor="@color/yellowFigma" />
@@ -159,7 +159,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
-        android:backgroundTint="@color/greenFigma1"
+        android:backgroundTint="#FFEB3B"
         android:elevation="10dp"
         android:src="@drawable/baseline_add_24"
         android:tint="@color/white"
@@ -173,7 +173,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
-        android:backgroundTint="@color/greenFigma1"
+        android:backgroundTint="#FFEB3B"
         android:elevation="10dp"
         android:src="@drawable/baseline_more_horiz_24"
 

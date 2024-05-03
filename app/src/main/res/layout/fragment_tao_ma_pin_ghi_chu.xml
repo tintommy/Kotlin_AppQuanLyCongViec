@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragment.TaoMaPinGhiChuFragment"
-    android:background="@color/greenFigma2"
+    android:background="@color/background"
     >
 
     <TextView
@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
         android:text="Tạo Mã PIN"
-        android:textColor="@color/blueFigma"
+        android:textColor="@color/black"
         android:textSize="30sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -198,12 +198,12 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:backgroundTint="@color/blueFigma"
+        android:backgroundTint="#FFEB3B"
         android:padding="10dp"
         android:text="Xác Nhận Tạo"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         android:textStyle="bold"
-        android:background="@drawable/rectangle_button"
+
         app:layout_constraintEnd_toEndOf="@+id/linearLayout2"
         app:layout_constraintStart_toStartOf="@+id/linearLayout2"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />

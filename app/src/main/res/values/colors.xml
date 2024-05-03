@@ -14,7 +14,7 @@
     <color name="Purple700">#FF3700B3</color>
     <color name="greenColor">#FF0F9D58</color>
     <color name="Teal200">#FF03DAC5</color>
-
+    <color name="background">#DFF8F0</color>
 <!--    val Purple200 = Color(0xFF0F9D58)-->
 <!--    val Purple500 = Color(0xFF0F9D58)-->
 <!--    val Purple700 = Color(0xFF3700B3)-->

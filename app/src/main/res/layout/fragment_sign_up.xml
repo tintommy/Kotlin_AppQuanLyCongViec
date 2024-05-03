@@ -12,7 +12,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/greenFigma2"
+        android:background="@color/white"
         android:gravity="center"
         android:orientation="vertical"
         android:padding="15dp">
@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="left"
             android:src="@drawable/baseline_arrow_back_36"
-            app:tint="@color/blueFigma" />
+            app:tint="@color/black" />
 
         <TextView
             android:layout_width="match_parent"
@@ -32,9 +32,9 @@
             android:gravity="center"
 
             android:text="Đăng ký"
-            android:textColor="@color/blueFigma"
+            android:textColor="@color/black"
             android:textSize="35sp"
-            android:textStyle="bold|italic"
+            android:textStyle="bold"
             tools:ignore="HardcodedText" />
 
 
@@ -42,9 +42,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Họ"
-            android:background="@color/white"
-            android:textColorHint="@color/blueFigma"
-            app:hintTextColor="@color/blueFigma">
+            app:boxStrokeColor="#FFEB3B"
+            app:boxStrokeWidth="1dp"
+            app:boxCornerRadiusBottomStart="20dp"
+            app:boxCornerRadiusBottomEnd="20dp"
+            app:boxCornerRadiusTopEnd="20dp"
+            app:boxCornerRadiusTopStart="20dp"
+
+            android:textColorHint="@color/black"
+            app:hintTextColor="@color/black">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edtLastname"
@@ -52,15 +58,15 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:background="@color/white"
-                android:textColor="@color/blueFigma" />
+                android:textColor="@color/black" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Tên"
-            android:textColorHint="@color/blueFigma"
-            app:hintTextColor="@color/blueFigma"
+            android:textColorHint="@color/black"
+            app:hintTextColor="@color/black"
             android:background="@color/white"
             android:layout_marginTop="10dp"
             >
@@ -72,15 +78,15 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:background="@color/white"
-                android:textColor="@color/blueFigma" />
+                android:textColor="@color/black" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Ngày sinh"
-            android:textColorHint="@color/blueFigma"
-            app:hintTextColor="@color/blueFigma"
+            android:textColorHint="@color/black"
+            app:hintTextColor="@color/black"
             android:layout_marginTop="10dp"
             >
 
@@ -91,9 +97,9 @@
                 android:layout_marginBottom="10dp"
                 android:background="@color/white"
                 android:drawableRight="@drawable/baseline_calendar_month_24"
-                android:drawableTint="@color/blueFigma"
+                android:drawableTint="@color/black"
                 android:focusable="false"
-                android:textColor="@color/blueFigma"/>
+                android:textColor="@color/black"/>
 
             <DatePicker
                 android:id="@+id/datePicker"
@@ -118,7 +124,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:text="Giới tính"
-                android:textColor="@color/blueFigma"
+                android:textColor="@color/black"
                 android:textSize="18sp" />
 
             <RadioGroup
@@ -135,7 +141,7 @@
                     android:layout_height="wrap_content"
                     android:checked="true"
                     android:text="Nam"
-                    android:textColor="@color/blueFigma"
+                    android:textColor="@color/black"
                     />
 
                 <RadioButton
@@ -143,7 +149,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Nữ"
-                    android:textColor="@color/blueFigma"
+                    android:textColor="@color/black"
                     />
 
             </RadioGroup>
@@ -153,9 +159,9 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColorHint="@color/blueFigma"
+            android:textColorHint="@color/black"
             android:background="@color/white"
-            app:hintTextColor="@color/blueFigma">
+            app:hintTextColor="@color/black">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edtEmail"
@@ -164,7 +170,7 @@
                 android:layout_marginBottom="10dp"
                 android:background="@color/white"
                 android:hint="Email"
-                android:textColor="@color/blueFigma"/>
+                android:textColor="@color/black"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -172,11 +178,11 @@
             android:layout_height="wrap_content"
             android:hint="Mật khẩu"
 
-            android:textColorHint="@color/blueFigma"
-            app:hintTextColor="@color/blueFigma"
+            android:textColorHint="@color/black"
+            app:hintTextColor="@color/black"
             app:passwordToggleEnabled="true"
             android:background="@color/white"
-            app:passwordToggleTint="@color/blueFigma"
+            app:passwordToggleTint="@color/black"
             android:layout_marginTop="10dp">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -186,7 +192,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:background="@color/white"
-                android:textColor="@color/blueFigma"/>
+                android:textColor="@color/black"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -194,11 +200,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Nhập lại mật khẩu"
-            android:textColorHint="@color/blueFigma"
-            app:hintTextColor="@color/blueFigma"
+            android:textColorHint="@color/black"
+            app:hintTextColor="@color/black"
             app:passwordToggleEnabled="true"
             android:background="@color/white"
-            app:passwordToggleTint="@color/blueFigma"
+            app:passwordToggleTint="@color/black"
             android:layout_marginTop="10dp"
             >
 
@@ -209,7 +215,7 @@
                 android:layout_marginBottom="10dp"
                 android:inputType="textPassword"
                 android:background="@color/white"
-                android:textColor="@color/blueFigma"/>
+                android:textColor="@color/black"/>
         </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -224,11 +230,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:backgroundTint="@color/yellowFigma"
+
             android:text="Đăng ký"
-            android:textColor="@color/greenFigma1"
+            android:textColor="@color/black"
             android:textSize="26dp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:backgroundTint="#F4DB00"
+            />
 
         <Button
             android:id="@+id/btnLogin"
@@ -239,7 +247,9 @@
             android:text="Đăng nhập"
             android:textColor="@color/yellowFigma"
             android:textSize="26dp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:visibility="gone"
+            />
 
 
     </LinearLayout>

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/greenFigma2"
+    android:background="@color/background"
     tools:context=".fragment.HinhAnhCongViecFragment">
 
 
@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
-        android:backgroundTint="@color/greenFigma1"
+        android:backgroundTint="#FFEB3B"
         android:elevation="10dp"
         android:src="@drawable/baseline_add_24"
         android:tint="@color/white"

@@ -15,7 +15,9 @@ import com.example.kotlin_appquanlycongviec.request.Status
 import com.example.kotlin_appquanlycongviec.request.Token
 import com.example.kotlin_appquanlycongviec.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -38,8 +40,8 @@ class NguoiDungViewModel @Inject constructor(private val sharedPref: SharedPrefe
     val otp = _otp.asStateFlow()
     private val _emailExist = MutableStateFlow<Resource<Boolean>>(Resource.Unspecified())
     val emailExist = _emailExist.asStateFlow()
-    private val _pin = MutableStateFlow<Resource<Status>>(Resource.Unspecified())
-    val pin = _pin.asStateFlow()
+    private val _pin = MutableSharedFlow<Resource<Status>>()
+    val pin = _pin.asSharedFlow()
     private val _doiPin: MutableStateFlow<Resource<Status>> =
         MutableStateFlow(Resource.Unspecified())
     val doiPin = _doiPin.asStateFlow()

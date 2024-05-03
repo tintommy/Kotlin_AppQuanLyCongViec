@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/greenFigma2"
+    android:background="#FFFFFF"
     android:gravity="center"
     android:orientation="vertical"
     android:padding="15dp"
@@ -17,48 +17,57 @@
         android:gravity="center"
 
         android:text="Đăng nhập"
-        android:textColor="@color/greenFigma1"
+        android:textColor="@color/black"
         android:textSize="35sp"
-        android:textStyle="bold|italic"
+        android:textStyle="bold"
         tools:ignore="HardcodedText" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+
         android:hint="Email"
-        android:textColorHint="@color/greenFigma1"
-        app:boxStrokeColor="@color/white"
-        app:boxStrokeWidth="0dp"
-        app:hintTextColor="@color/greenFigma1">
+        android:textColorHint="@color/black"
+        app:boxStrokeColor="@color/black"
+        app:boxStrokeWidth="1dp"
+        app:boxCornerRadiusBottomStart="20dp"
+        app:boxCornerRadiusBottomEnd="20dp"
+        app:boxCornerRadiusTopEnd="20dp"
+        app:boxCornerRadiusTopStart="20dp"
+        app:hintTextColor="@color/black">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edtEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
-            android:textColor="@color/greenFigma1" />
+            android:textColor="@color/black" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:background="@color/white"
+        app:boxStrokeWidth="1dp"
+        app:boxStrokeColor="@color/black"
+        app:boxCornerRadiusBottomStart="20dp"
+        app:boxCornerRadiusBottomEnd="20dp"
+        app:boxCornerRadiusTopEnd="20dp"
+        app:boxCornerRadiusTopStart="20dp"
         android:hint="Mật khẩu"
-        android:textColorHint="@color/greenFigma1"
-        app:boxStrokeWidth="0dp"
-        app:hintTextColor="@color/greenFigma1"
+        android:textColorHint="@color/black"
+
+        app:hintTextColor="@color/black"
         app:passwordToggleEnabled="true"
-        app:passwordToggleTint="@color/greenFigma1">
+        app:passwordToggleTint="@color/black">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edtPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
+
             android:inputType="textPassword"
-            android:textColor="@color/greenFigma1" />
+            android:textColor="@color/black" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <ProgressBar
@@ -72,7 +81,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:text="Quên mật khẩu"
-        android:textColor="@color/blueFigma"
+        android:textColor="#0036FF"
         android:textSize="15sp"
         android:textStyle="italic" />
 
@@ -81,9 +90,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:backgroundTint="@color/yellowFigma"
+        android:backgroundTint="#FFEB3B"
         android:text="Đăng nhập"
-        android:textColor="@color/greenFigma1"
+        android:textColor="@color/black"
         android:textSize="20dp"
         android:textStyle="bold"
         app:spinning_bar_color="@color/greenFigma1" />
@@ -95,7 +104,7 @@
         android:layout_marginTop="16dp"
         android:gravity="center"
         android:text="Đăng ký nếu chưa có tài khoản"
-        android:textColor="@color/blueFigma"
+        android:textColor="@color/black"
         android:textSize="20sp"
         android:textStyle="italic" />
 
@@ -104,7 +113,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
         android:text="Hoặc"
-        android:textColor="@color/blueFigma"
+        android:textColor="@color/black"
         android:textSize="18dp"
         android:textStyle="bold" />
 
@@ -112,7 +121,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:backgroundTint="@color/greenFigma1"
+        android:backgroundTint="#95FF9800"
         app:cardCornerRadius="50dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -129,7 +138,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Đăng nhập bằng google"
-                android:textColor="@color/yellowFigma"
+                android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"

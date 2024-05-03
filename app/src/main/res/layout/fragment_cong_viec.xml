@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/greenFigma2"
+    android:background="@color/background"
     tools:context=".fragment.CongViecFragment">
 
 
@@ -12,8 +12,9 @@
         android:id="@+id/tvTrong"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Danh sách ảnh trống"
-        android:textColor="@color/greenFigma1"
+        android:text="Danh sách việc trống"
+        android:textColor="#404040"
+        android:visibility="gone"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -78,6 +79,7 @@
 
     <LinearLayout
         android:id="@+id/layoutNgay"
+        android:elevation="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
@@ -96,7 +98,7 @@
             android:layout_weight="1"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@drawable/baseline_calendar_month_24"
-            app:tint="@color/blueFigma" />
+            app:tint="#020100" />
 
         <TextView
             android:id="@+id/tvNgay"
@@ -105,7 +107,7 @@
             android:layout_weight="5"
             android:gravity="center"
             android:text="11/01/1111"
-            android:textColor="@color/blueFigma"
+            android:textColor="#000000"
             android:textSize="25sp"
             android:textStyle="bold" />
 
@@ -114,9 +116,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:backgroundTint="@color/yellowFigma"
+            android:backgroundTint="#FFEB3B"
             android:text="Quản lý"
-            android:textColor="@color/blueFigma"
+            android:textStyle="bold"
+            android:drawableTint="@color/black"
+            android:drawableLeft="@drawable/baseline_edit_note_24"
+            android:textColor="#000000"
             android:textSize="20sp" />
 
     </LinearLayout>
@@ -128,7 +133,9 @@
         android:layout_marginTop="10dp"
         android:text="Bạn có 0 việc cần làm"
         android:textSize="20sp"
+        android:textColor="#FA0707"
         android:textStyle="bold"
+        android:elevation="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/layoutNgay"
         app:layout_constraintTop_toBottomOf="@id/layoutNgay" />
@@ -138,9 +145,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:background="@color/greenFigma1"
+        android:background="#FFFFFF"
         android:elevation="5dp"
         android:visibility="gone"
+
         app:layout_constraintStart_toStartOf="@id/layoutNgay"
         app:layout_constraintTop_toBottomOf="@id/tvSoViecCanLam" />
 
@@ -153,6 +161,7 @@
         android:textColor="#013FFF"
         android:textSize="20sp"
         android:textStyle="bold"
+        android:elevation="10dp"
         app:layout_constraintEnd_toEndOf="@id/layoutNgay"
         app:layout_constraintTop_toBottomOf="@id/tvSoViecCanLam" />
 
@@ -180,9 +189,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:backgroundTint="@color/blueFigma"
+            android:backgroundTint="#FFEB3B"
+            android:textColor="@color/black"
+            android:drawableTint="@color/black"
             android:drawableLeft="@drawable/baseline_add_24"
             android:text="Thêm việc hôm nay " />
 
     </LinearLayout>
+
+
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineTop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.17099863" />
 </androidx.constraintlayout.widget.ConstraintLayout>

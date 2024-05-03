@@ -5,7 +5,7 @@
     android:id="@+id/frameLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/greenFigma2"
+    android:background="@color/background"
     tools:context=".fragment.TaiKhoanFragment">
 
     <androidx.constraintlayout.widget.Guideline
@@ -26,7 +26,7 @@
             android:id="@+id/btnChangeInfor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardBackgroundColor="@color/blueFigma"
+            app:cardBackgroundColor="#FFEB3B"
             app:cardCornerRadius="20dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -40,10 +40,10 @@
                     android:layout_marginStart="10dp"
                     android:layout_marginEnd="10dp"
                     android:drawableLeft="@drawable/baseline_info_24"
-                    android:drawableTint="@color/yellowFigma"
+                    android:drawableTint="@color/black"
                     android:text="Thay đổi thông tin"
                     android:textAlignment="center"
-                    android:textColor="@color/yellowFigma"
+                    android:textColor="@color/black"
                     android:textSize="18sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -60,7 +60,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            app:cardBackgroundColor="@color/blueFigma"
+            app:cardBackgroundColor="#FFEB3B"
             app:cardCornerRadius="20dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -74,11 +74,11 @@
                     android:layout_marginStart="10dp"
                     android:layout_marginEnd="10dp"
                     android:drawableLeft="@drawable/baseline_key_24"
-                    android:drawableTint="@color/yellowFigma"
+                    android:drawableTint="@color/black"
 
                     android:text="Thay đổi mật khẩu"
                     android:textAlignment="center"
-                    android:textColor="@color/yellowFigma"
+                    android:textColor="@color/black"
                     android:textSize="18sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -95,7 +95,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            app:cardBackgroundColor="@color/blueFigma"
+            app:cardBackgroundColor="#FFEB3B"
             app:cardCornerRadius="20dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -109,10 +109,10 @@
                     android:layout_marginStart="10dp"
                     android:layout_marginEnd="10dp"
                     android:drawableLeft="@drawable/baseline_logout_24"
-                    android:drawableTint="@color/yellowFigma"
+                    android:drawableTint="@color/black"
                     android:text="Đăng xuất"
                     android:textAlignment="center"
-                    android:textColor="@color/yellowFigma"
+                    android:textColor="@color/black"
                     android:textSize="18sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"

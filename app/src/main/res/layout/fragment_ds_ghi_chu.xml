@@ -5,7 +5,7 @@
     android:id="@+id/frameLayout9"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/greenFigma2"
+    android:background="@color/background"
 
     tools:context=".fragment.DsGhiChuFragment">
 
@@ -14,8 +14,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Quản Lí Ghi Chú"
-        android:textColor="@color/blueFigma"
-        android:textSize="20sp"
+        android:textColor="@color/black"
+        android:textSize="25sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/guidelineTopt"
         app:layout_constraintEnd_toEndOf="parent"
@@ -39,10 +39,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:backgroundTint="@color/blueFigma"
+        android:backgroundTint="#FFEB3B"
         android:drawableLeft="@drawable/baseline_add_24"
         android:text="Thêm ghi chú mới "
-
+android:textColor="@color/black"
+        android:drawableTint="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
         app:layout_constraintStart_toStartOf="@+id/guidelineLeft" />

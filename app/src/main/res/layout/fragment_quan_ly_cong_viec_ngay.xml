@@ -5,14 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragment.QuanLyCongViecNgayFragment"
-    android:background="#D5F0C1">
+    android:background="@color/background">
 
 
     <LinearLayout
         android:id="@+id/layout"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:background="#80BCBD"
+        android:background="#FFEB3B"
         android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -32,7 +32,7 @@
             android:gravity="center"
             android:paddingEnd="60dp"
             android:text="Tạo danh sách việc"
-            android:textColor="#FFFFFF"
+            android:textColor="#000000"
             android:textSize="22sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
@@ -41,6 +41,7 @@
     </LinearLayout>
 
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tvNgay"
         android:layout_width="204dp"
         android:layout_height="wrap_content"
         app:boxBackgroundMode="filled"
@@ -56,6 +57,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clickable="true"
+            android:textStyle="bold"
+            android:textSize="20sp"
             android:focusable="false"
             android:text="02/02/2024" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -63,16 +66,16 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvCongViec"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="132dp"
+     android:layout_marginTop="10dp"
         android:layout_marginEnd="30dp"
-        android:layout_marginBottom="90dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+
+        app:layout_constraintBottom_toTopOf="@id/btnThemCongViec"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/layout"
+        app:layout_constraintTop_toBottomOf="@+id/tvNgay"
         app:layout_constraintVertical_bias="1.0"
         tools:listitem="@layout/congviecngay_item_layout" />
 
@@ -81,9 +84,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:backgroundTint="@color/blueFigma"
+        android:backgroundTint="#FFEB3B"
         android:drawableLeft="@drawable/baseline_add_24"
         android:text="Thêm việc"
+        android:textColor="@color/black"
+        android:drawableTint="@color/black"
         android:layout_marginBottom="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

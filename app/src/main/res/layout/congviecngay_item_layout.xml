@@ -42,11 +42,12 @@
 
                 <TextView
                     android:id="@+id/tvTinhChat"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingStart="30dp"
+
                     android:text="Quan trong"
-                    android:textSize="18sp"
+                    android:textAlignment="center"
+                    android:textSize="14sp"
                     android:textStyle="italic" />
 
                 <LinearLayout

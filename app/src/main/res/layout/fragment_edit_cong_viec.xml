@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:fillViewport="true"
     tools:context=".fragment.EditCongViecFragment"
-    android:background="#D5F0C1">
+    android:background="@color/background">
 
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
@@ -15,7 +15,7 @@
         android:id="@+id/layout"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:background="#80BCBD"
+        android:background="#FFEB3B"
         android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -26,6 +26,7 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:gravity="center"
+            android:drawableTint="@color/black"
             app:icon="@drawable/baseline_arrow_back_24" />
 
         <TextView
@@ -36,8 +37,8 @@
             android:gravity="center"
             android:paddingEnd="60dp"
             android:text="Thêm việc"
-            android:textColor="#FFFFFF"
-            android:textSize="22sp"
+            android:textColor="#000000"
+            android:textSize="28sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -64,7 +65,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Tiêu đề:"
-            android:textSize="24sp" />
+
+            android:textColor="@color/black"
+            android:textSize="20sp" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textField"
@@ -86,7 +89,9 @@
             android:layout_height="wrap_content"
             android:paddingTop="15dp"
             android:text="Nội dung:"
-            android:textSize="24sp" />
+
+            android:textColor="@color/black"
+            android:textSize="20sp" />
 
         <com.google.android.material.textfield.TextInputLayout
 
@@ -119,6 +124,8 @@
                 android:layout_height="wrap_content"
                 android:text="Ngày bắt đầu:"
                 android:textSize="20sp"
+
+                android:textColor="@color/black"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -159,6 +166,8 @@
                 android:layout_height="wrap_content"
                 android:text="Ngày kết thúc:"
                 android:textSize="20sp"
+
+                android:textColor="@color/black"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -200,6 +209,8 @@
                 android:layout_height="wrap_content"
                 android:text="Chu kỳ:"
                 android:textSize="20sp"
+
+                android:textColor="@color/black"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -226,6 +237,8 @@
                 android:layout_height="wrap_content"
                 android:text="Tính chất:"
                 android:textSize="20sp"
+
+                android:textColor="@color/black"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -249,7 +262,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="27dp"
         android:text="Lưu"
-
+        android:textSize="18sp"
+        android:textColor="@color/black"
+android:backgroundTint="#FFEB3B"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.919"

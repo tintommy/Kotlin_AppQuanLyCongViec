@@ -13,7 +13,7 @@ class ApiInstance {
     companion object {
 
 //        const val BASE_URL = "http://192.168.1.4:8080/"
-        const val BASE_URL = "http://192.168.1.216:8080/"
+        const val BASE_URL = "http://192.168.30.104:8080/"
 
         fun getClient(authToken: String): Retrofit {
             val httpClient = OkHttpClient.Builder()

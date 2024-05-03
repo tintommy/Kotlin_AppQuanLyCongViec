@@ -5,35 +5,54 @@
     android:id="@+id/frameLayout3"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/greenFigma2"
+    android:background="@color/background"
     android:fillViewport="true"
     tools:context=".fragment.ThemSuKienFragment">
 
-
-    <TextView
-        android:layout_width="wrap_content"
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="Thêm Sự Kiện"
-        android:textColor="@color/blueFigma"
-        android:textSize="25sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/tvEventName"
-        app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
-
-        app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/btnBack"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        android:src="@drawable/baseline_arrow_back_36"
+        app:cardBackgroundColor="#FFEB3B"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:tint="@color/blueFigma" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:cardCornerRadius="0dp"
+        >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="10dp"
+
+            >
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Thêm Sự Kiện"
+                android:textColor="@color/black"
+
+                android:textSize="25sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/btnBack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/baseline_arrow_back_36"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tvEventName"
@@ -41,10 +60,10 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:hint="Tên sự kiện"
-        android:textColorHint="@color/greenFigma1"
+        android:textColorHint="@color/black"
         app:boxStrokeColor="@color/white"
         app:boxStrokeWidth="0dp"
-        app:hintTextColor="@color/greenFigma1"
+        app:hintTextColor="@color/black"
 
         app:layout_constraintEnd_toEndOf="@id/guidelineRight"
         app:layout_constraintStart_toStartOf="@id/guidelineLeft"
@@ -54,7 +73,7 @@
             android:id="@+id/etEventName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/greenFigma1"
+            android:textColor="@color/black"
             android:textStyle="bold" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -66,11 +85,11 @@
         android:layout_marginTop="20dp"
         android:background="@color/white"
         android:hint="Ngày"
-        android:textColorHint="@color/greenFigma1"
+        android:textColorHint="@color/black"
         app:boxStrokeColor="@color/white"
         app:boxStrokeWidth="0dp"
 
-        app:hintTextColor="@color/greenFigma1"
+        app:hintTextColor="@color/black"
         app:layout_constraintStart_toStartOf="@id/guidelineLeft"
         app:layout_constraintTop_toBottomOf="@id/tvEventName">
 
@@ -79,10 +98,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/baseline_calendar_month_24"
-            android:drawableTint="@color/greenFigma1"
+            android:drawableTint="@color/black"
             android:focusable="false"
             android:text="Chọn ngày"
-            android:textColor="@color/greenFigma1" />
+            android:textColor="@color/black" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -92,11 +111,11 @@
         android:layout_marginTop="20dp"
         android:background="@color/white"
         android:hint="Ngày"
-        android:textColorHint="@color/greenFigma1"
+        android:textColorHint="@color/black"
         app:boxStrokeColor="@color/white"
         app:boxStrokeWidth="0dp"
 
-        app:hintTextColor="@color/greenFigma1"
+        app:hintTextColor="@color/black"
         app:layout_constraintEnd_toEndOf="@id/guidelineRight"
         app:layout_constraintTop_toBottomOf="@id/tvEventName">
 
@@ -105,10 +124,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/baseline_watch_later_24"
-            android:drawableTint="@color/greenFigma1"
+            android:drawableTint="@color/black"
             android:focusable="false"
             android:text="Chọn giờ"
-            android:textColor="@color/greenFigma1" />
+            android:textColor="@color/black" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <LinearLayout
@@ -124,7 +143,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Nhắc trước"
-            android:textColor="@color/blueFigma"
+            android:textColor="@color/black"
             android:textSize="15sp"
             android:textStyle="bold" />
 
@@ -146,10 +165,10 @@
         android:layout_marginTop="20dp"
         android:background="@color/white"
         android:hint="Nội dung"
-        android:textColorHint="@color/greenFigma1"
+        android:textColorHint="@color/black"
         app:boxStrokeColor="@color/white"
         app:boxStrokeWidth="0dp"
-        app:hintTextColor="@color/greenFigma1"
+        app:hintTextColor="@color/black"
         app:layout_constraintEnd_toEndOf="@id/guidelineRight"
         app:layout_constraintStart_toStartOf="@id/guidelineLeft"
         app:layout_constraintTop_toBottomOf="@id/layoutRemind">
@@ -158,17 +177,18 @@
             android:id="@+id/etDescrip"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/greenFigma1" />
+            android:textColor="@color/black" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/btnSave"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:backgroundTint="@color/blueFigma"
+        android:layout_marginTop="50dp"
+        android:backgroundTint="#FFEB3B"
         android:text="Lưu"
         android:textSize="20dp"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="@id/guidelineRight"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="@id/guidelineLeft"

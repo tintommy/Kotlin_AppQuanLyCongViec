@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/greenFigma1"
+    android:background="@color/white"
     android:padding="20dp"
     >
     <com.google.android.material.textfield.TextInputLayout
@@ -17,6 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="date"
+            android:textColor="@color/black"
             android:focusable="false" />
     </com.google.android.material.textfield.TextInputLayout>
     <com.google.android.material.textfield.TextInputLayout
@@ -30,6 +31,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="date"
+            android:textColor="@color/black"
             android:focusable="false" />
     </com.google.android.material.textfield.TextInputLayout>
     <Button
@@ -37,6 +39,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Xuất file PDF"
+        android:backgroundTint="#FFEB3B"
+        android:textColor="@color/black"
+        android:textSize="20sp"
         android:layout_marginTop="20dp"
 
         />
