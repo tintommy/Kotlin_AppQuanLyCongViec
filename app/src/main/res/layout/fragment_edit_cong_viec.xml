@@ -73,7 +73,7 @@
             android:id="@+id/textField"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
+            android:background="@drawable/radius_textinput"
             app:boxBackgroundMode="none">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -97,7 +97,7 @@
 
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
+            android:background="@drawable/radius_textinput"
             app:boxBackgroundMode="none">
 
             <com.google.android.material.textfield.TextInputEditText

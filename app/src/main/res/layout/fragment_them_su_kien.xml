@@ -58,7 +58,7 @@
         android:id="@+id/tvEventName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:background="@drawable/radius_textinput"
         android:hint="Tên sự kiện"
         android:textColorHint="@color/black"
         app:boxStrokeColor="@color/white"
@@ -163,11 +163,12 @@
         android:layout_height="wrap_content"
 
         android:layout_marginTop="20dp"
-        android:background="@color/white"
+
         android:hint="Nội dung"
         android:textColorHint="@color/black"
         app:boxStrokeColor="@color/white"
         app:boxStrokeWidth="0dp"
+        android:background="@drawable/radius_textinput"
         app:hintTextColor="@color/black"
         app:layout_constraintEnd_toEndOf="@id/guidelineRight"
         app:layout_constraintStart_toStartOf="@id/guidelineLeft"

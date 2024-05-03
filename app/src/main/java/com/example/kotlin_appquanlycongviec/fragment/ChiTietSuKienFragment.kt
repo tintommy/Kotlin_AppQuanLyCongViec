@@ -78,6 +78,16 @@ private lateinit var binding: FragmentChiTietSuKienBinding
             gioApi=suKien.gio
             ngayApi=dinhDangNgayAPI(ngay,thang,nam)
             nhacTruoc= suKien.nhacTruoc
+
+            when(suKien.nhacTruoc){
+                0 -> binding.spRemind.setSelection(0)
+                1 -> binding.spRemind.setSelection(1)
+                3 -> binding.spRemind.setSelection(2)
+                12 -> binding.spRemind.setSelection(3)
+                24 -> binding.spRemind.setSelection(4)
+                72 -> binding.spRemind.setSelection(5)
+                -1 -> binding.spRemind.setSelection(6)
+            }
         }
 
 
@@ -178,6 +188,8 @@ private lateinit var binding: FragmentChiTietSuKienBinding
 
         val adapter = ArrayAdapter(requireActivity(), R.layout.remind_spinner_item, luaChon)
         binding.spRemind.setAdapter(adapter)
+
+
 
         binding.spRemind.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(

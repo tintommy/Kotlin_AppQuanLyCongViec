@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/greenFigma2"
+    android:background="@color/background"
     tools:context=".fragment.login_signup.OtpFragment">
 
 
@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:text="Hãy nhập OTP được gửi tới email "
-        android:textColor="@color/blueFigma"
+        android:textColor="@color/black"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text=" 1abcd123@gmail.com"
-        android:textColor="@color/blueFigma"
+        android:textColor="#FF0000"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -67,9 +67,9 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:backgroundTint="@color/greenFigma1"
+        android:backgroundTint="#FFEB3B"
         android:text="Xác nhận"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         android:textSize="15sp"
         android:textStyle="bold"
         android:padding="0dp"
@@ -84,7 +84,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="Gửi lại mã"
-        android:textColor="#00BCD4"
+        android:textColor="#2196F3"
         app:layout_constraintEnd_toEndOf="@id/guidelineRight"
         app:layout_constraintStart_toStartOf="@id/guidelineLeft"
         app:layout_constraintTop_toBottomOf="@id/btnConfirm" />
