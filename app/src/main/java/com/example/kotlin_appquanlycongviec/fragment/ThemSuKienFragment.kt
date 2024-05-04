@@ -4,6 +4,7 @@ import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.KeyEvent
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -60,7 +61,9 @@ class ThemSuKienFragment : Fragment() {
 
         initSpinner()
         setBtnEvent()
+
         onBackPressed()
+
 
         lifecycleScope.launch {
             suKienViewModel.addEvent.collectLatest {
@@ -136,7 +139,11 @@ class ThemSuKienFragment : Fragment() {
             )
 
             suKienViewModel.addEvent(requireContext(), eventAdd)
+            // Ghi log để kiểm tra sự kiện vừa tạo
+            Log.d("ThemSuKien", "setBtnEvent: ${eventAdd.toString()}")
+
         }
+
     }
 
     private fun getEventTimeMillis(ngay: String, gio: String): Long {

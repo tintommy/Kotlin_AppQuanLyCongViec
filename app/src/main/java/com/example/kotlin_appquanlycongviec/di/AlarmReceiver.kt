@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.navigation.NavDeepLinkBuilder
@@ -106,6 +107,7 @@ class AlarmReceiver : BroadcastReceiver() {
 
         suKien?.let {
             showNotification(context, it)
+            Log.d("ShowNotification", "Show notification for event with ID-al: ${suKien.maSK}")
         }
     }
 
@@ -117,22 +119,23 @@ class AlarmReceiver : BroadcastReceiver() {
     ) {
         val notificationManager = NotificationManagerCompat.from(context)
 
-        // Tạo intent để mở MainActivity
-        val intent = Intent(context, MainActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        val pendingIntent = PendingIntent.getActivity(context, 0, intent,
-            PendingIntent.FLAG_IMMUTABLE)
+//        // Tạo intent để mở MainActivity
+//        val intent = Intent(context, MainActivity::class.java)
+//        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+//        val pendingIntent = PendingIntent.getActivity(context, 0, intent,
+//            PendingIntent.FLAG_IMMUTABLE)
 
-//        // Create a deep link to the ChiTietSuKienFragment
-//        val pendingIntent = NavDeepLinkBuilder(context)
-//            .setComponentName(MainActivity::class.java)
-//            .setGraph(R.navigation.nav_graph)
-//            .setDestination(R.id.suKienFragment)
-//
-////            .setDestination(R.id.chiTietSuKienFragment)
-////            .setArguments(Bundle().apply {
-////                putInt("maSK", suKien.maSK)
-////            })
+        // tao intent tới SuKienFragment
+        val pendingIntent = NavDeepLinkBuilder(context)
+            .setComponentName(MainActivity::class.java)
+            .setGraph(R.navigation.nav_graph)
+            .setDestination(R.id.suKienFragment)
+            .createPendingIntent()
+
+//            .setDestination(R.id.chiTietSuKienFragment)
+//            .setArguments(Bundle().apply {
+//                putInt("maSK", suKien.maSK)
+//            })
 //            .createPendingIntent()
 
 
@@ -159,7 +162,7 @@ class AlarmReceiver : BroadcastReceiver() {
         val contentText = when {
             ngaySuKien.isSameDay(ngayHienTai) -> {
                 if (isSameTime(ngayHienTai, gioSuKien)) {
-                    "Bạn có sự kiện vào lúc này"
+                    "Nhắc bạn, đã đến thời gian của sự kiện"
                 } else {
                     "Bạn có sự kiện vào lúc ${suKien.gio} hôm nay"
                 }
@@ -185,7 +188,7 @@ class AlarmReceiver : BroadcastReceiver() {
         builder.setContentTitle(title)
         builder.setContentText(contentText)
 
-        notificationManager.notify(notificationId, builder.build())
+        notificationManager.notify(suKien.maSK, builder.build())
     }
 
     private fun Calendar.isSameDay(other: Calendar): Boolean {

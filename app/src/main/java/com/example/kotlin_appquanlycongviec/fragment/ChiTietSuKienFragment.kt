@@ -3,6 +3,7 @@ package com.example.kotlin_appquanlycongviec.fragment
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.os.Bundle
+import android.util.Log
 import android.view.KeyEvent
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -124,6 +125,53 @@ private lateinit var binding: FragmentChiTietSuKienBinding
     }
 
 
+//    private fun setBtnEvent() {
+//        binding.btnBack.setOnClickListener {
+//            it.findNavController().navigateUp()
+//        }
+//        binding.etDate.setOnClickListener {
+//            openLichDialog()
+//        }
+//        binding.etTime.setOnClickListener {
+//            openTimePickerDialog()
+//        }
+//
+//        binding.btnSave.setOnClickListener {
+//            val eventName = binding.etEventName.text.toString().trim()
+//            val eventDescription = binding.etDescrip.text.toString().trim()
+//
+//            if (eventName.isEmpty() || ngayApi.isEmpty() || gioApi.isEmpty()) {
+//                Toast.makeText(requireContext(), "Vui lòng điền các thông tin cần thiết", Toast.LENGTH_SHORT).show()
+//                return@setOnClickListener
+//            }
+//
+//            // Lấy thời gian hiện tại
+//            val currentTimeMillis = System.currentTimeMillis()
+//            val eventTimeMillis = getEventTimeMillis(ngayApi, gioApi)
+//            val nhacTruocMillis = nhacTruoc * 60 * 60 * 1000 // Chuyển đổi thời gian nhắc trước thành milliseconds
+//
+//            // Kiểm tra nếu thời gian nhắc đã qua
+//            if ((eventTimeMillis - nhacTruocMillis <= currentTimeMillis) && nhacTruoc != -1) {
+//                // Hiển thị thông báo cho người dùng
+//                Toast.makeText(requireContext(), "Thời gian nhắc đã qua, vui lòng chọn lại", Toast.LENGTH_SHORT).show()
+//                return@setOnClickListener
+//            }
+//
+//            var eventUpdate = SuKien(
+//                gioApi,
+//                suKien.maSK,
+//                eventDescription,
+//                ngayApi,
+//                "",
+//                nhacTruoc,
+//                eventName
+//            )
+//
+//            suKienViewModel.updateEvent(requireContext(), eventUpdate)
+//        }
+//    }
+
+    //ham setBtnEvent
     private fun setBtnEvent() {
         binding.btnBack.setOnClickListener {
             it.findNavController().navigateUp()
@@ -167,6 +215,7 @@ private lateinit var binding: FragmentChiTietSuKienBinding
             )
 
             suKienViewModel.updateEvent(requireContext(), eventUpdate)
+            Log.d("SuaSuKien", "setBtnEvent: ${eventUpdate.toString()}")
         }
     }
 
