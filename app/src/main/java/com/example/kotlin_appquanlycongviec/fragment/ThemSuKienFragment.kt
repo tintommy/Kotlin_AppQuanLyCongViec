@@ -4,6 +4,7 @@ import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.KeyEvent
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -60,7 +61,9 @@ class ThemSuKienFragment : Fragment() {
 
         initSpinner()
         setBtnEvent()
+
         onBackPressed()
+
 
         lifecycleScope.launch {
             suKienViewModel.addEvent.collectLatest {
@@ -113,6 +116,18 @@ class ThemSuKienFragment : Fragment() {
                 return@setOnClickListener
             }
 
+            // Lấy thời gian hiện tại
+            val currentTimeMillis = System.currentTimeMillis()
+            val eventTimeMillis = getEventTimeMillis(ngayApi, gioApi)
+            val nhacTruocMillis = nhacTruoc * 60 * 60 * 1000 // Chuyển đổi thời gian nhắc trước thành milliseconds
+
+            // Kiểm tra nếu thời gian nhắc đã qua
+            if ((eventTimeMillis - nhacTruocMillis <= currentTimeMillis) && nhacTruoc != -1) {
+                // Hiển thị thông báo cho người dùng
+                Toast.makeText(requireContext(), "Thời gian nhắc đã qua, vui lòng chọn lại", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
             var eventAdd = SuKien(
                 gioApi,
                 0,
@@ -124,8 +139,20 @@ class ThemSuKienFragment : Fragment() {
             )
 
             suKienViewModel.addEvent(requireContext(), eventAdd)
+            // Ghi log để kiểm tra sự kiện vừa tạo
+            Log.d("ThemSuKien", "setBtnEvent: ${eventAdd.toString()}")
+
         }
+
     }
+
+    private fun getEventTimeMillis(ngay: String, gio: String): Long {
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault())
+        val ngayGioString = "$ngay $gio"
+        val ngayGioDate = dateFormat.parse(ngayGioString)
+        return ngayGioDate?.time ?: 0L
+    }
+
 
     private fun onBackPressed() {
         view?.setFocusableInTouchMode(true)
@@ -146,40 +173,6 @@ class ThemSuKienFragment : Fragment() {
 
     }
 
-
-//    private fun initSpinner() {
-//        val luaChon = arrayOf(
-//            "Không",
-//            "1 giờ",
-//            "12 giờ",
-//            "1 ngày"
-//        )
-//        val adapter = ArrayAdapter(requireActivity(), R.layout.remind_spinner_item, luaChon)
-//        binding.spRemind.setAdapter(adapter)
-//
-//        binding.spRemind.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
-//            override fun onItemSelected(
-//                adapterView: AdapterView<*>?,
-//                view: View?,
-//                position: Int,
-//                l: Long
-//            ) {
-//                if (view != null) {
-//                    // Chuyển đổi lựa chọn thành số millisecond tương ứng
-//                    nhacTruoc = when (position) {
-//                        0 -> 0 // Không nhắc
-//                        1 -> 1// 1 giờ (1 giờ = 3600000 millisecond)
-//                        2 -> 12//12 giờ (12 giờ = 43200000 millisecond)
-//                        else -> 24//1 ngày (1 ngày = 86400000 millisecond)
-//                    }
-//                }
-//            }
-//
-//            override fun onNothingSelected(adapterView: AdapterView<*>?) {
-//                // Xử lý khi không có gì được chọn
-//            }
-//        })
-//    }
 
     private fun initSpinner() {
         val luaChon = arrayOf(

@@ -31,7 +31,7 @@ interface SuKienApiService {
     ): Response<List<SuKien>>
 
     @POST("SuKien/ThemSuKien")
-    suspend fun themSuKien(@Body suKien: SuKien, @Query("maNd") maNd: Int): Response<Status>
+    suspend fun themSuKien(@Body suKien: SuKien, @Query("maNd") maNd: Int): Response<SuKien>
 
     @PUT("SuKien/SuaSuKien")
     suspend fun suaSuKien(@Body suKien: SuKien, @Query("maNd") maNd: Int): Response<Status>

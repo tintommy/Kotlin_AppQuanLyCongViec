@@ -115,7 +115,7 @@ class TatCaSuKienFragment : Fragment() {
                     builder.setMessage("Xác nhận xoá ?")
                     builder.setCancelable(false)
                     builder.setPositiveButton("Xoá") { dialog, which ->
-                        suKienViewModel.deleteEvent(maSuKien)
+                        suKienViewModel.deleteEvent(maSuKien, requireContext())
                         eventList.removeAt(position)
                         suKienAdapter.differ.submitList(eventList)
                         suKienAdapter.notifyDataSetChanged()

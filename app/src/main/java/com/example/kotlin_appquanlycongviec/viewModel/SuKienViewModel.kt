@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.app.PendingIntent
 import android.content.SharedPreferences
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -18,12 +19,13 @@ import com.example.kotlin_appquanlycongviec.di.AlarmReceiver
 import com.example.kotlin_appquanlycongviec.model.SuKien
 import com.example.kotlin_appquanlycongviec.request.Status
 import com.example.kotlin_appquanlycongviec.util.Resource
+import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import retrofit2.Response
 import java.text.SimpleDateFormat
-import java.util.Calendar
 import java.util.Locale
 import javax.inject.Inject
 
@@ -31,7 +33,8 @@ import javax.inject.Inject
 @HiltViewModel
 class SuKienViewModel @Inject constructor(private val sharedPref: SharedPreferences) : ViewModel() {
 
-    private var notificationRequestCode = 0 // Khai báo biến global
+    private var lastNotificationId = 0
+
     private lateinit var token: String
     private var userId: Int = 0
     private lateinit var userEmail: String
@@ -45,7 +48,8 @@ class SuKienViewModel @Inject constructor(private val sharedPref: SharedPreferen
     private val _allEvent = MutableStateFlow<Resource<MutableList<SuKien>>>(Resource.Unspecified())
     val allEvent = _allEvent.asStateFlow()
 
-    private val _addEvent = MutableStateFlow<Resource<Status>>(Resource.Unspecified())
+    private val _addEvent = MutableStateFlow<Resource<SuKien>>(Resource.Unspecified())
+
     val addEvent = _addEvent.asStateFlow()
     private val _updateEvent = MutableStateFlow<Resource<Status>>(Resource.Unspecified())
     val updateEvent = _updateEvent.asStateFlow()
@@ -54,8 +58,6 @@ class SuKienViewModel @Inject constructor(private val sharedPref: SharedPreferen
     private val _allEventFromDateToDate = MutableStateFlow<Resource<MutableList<SuKien>>>(Resource.Unspecified())
     val allEventFromDateToDate = _allEventFromDateToDate.asStateFlow()
 
-    private val _newEventAdded = MutableLiveData<SuKien>()
-    val newEventAdded: LiveData<SuKien> = _newEventAdded
 
     init {
         initApiService()
@@ -101,62 +103,31 @@ class SuKienViewModel @Inject constructor(private val sharedPref: SharedPreferen
         }
     }
 
-//    fun addEvent(suKien: SuKien) {
-//        viewModelScope.launch {
-//            _addEvent.emit(Resource.Loading())
-//            val response = suKienApiService.themSuKien(suKien, userId)
-//            if (response.isSuccessful) {
-//                _addEvent.emit(Resource.Success(response.body()!!))
-//
-//                // Lên lịch thông báo khi thêm sự kiện thành công
-////                scheduleNotification(suKien)
-//
-//                _newEventAdded.postValue(suKien)
-//            } else {
-//                _addEvent.emit(Resource.Error("404"))
-//            }
-//        }
-//    }
-
-    fun addEvent(context: Context, suKien: SuKien) {
-        viewModelScope.launch {
-            _addEvent.emit(Resource.Loading())
-            val response = suKienApiService.themSuKien(suKien, userId)
-            if (response.isSuccessful) {
-                _addEvent.emit(Resource.Success(response.body()!!))
-
-                // Lên lịch thông báo sk
-                scheduleNotification(context, suKien)
-
-            } else {
-                _addEvent.emit(Resource.Error("404"))
-            }
-        }
-    }
-
-
-
+    //ham tao thong bao
     @SuppressLint("ScheduleExactAlarm")
-    private fun scheduleNotification(context: Context, suKien: SuKien) {
+    fun scheduleNotification(context: Context, suKien: SuKien) {
+
         if (suKien.nhacTruoc != -1) { // Kiểm tra nếu chọn không nhắc trước thì không cần thông báo
+
+            Log.d("ScheduleNotification", "Scheduling notification for event with ID: ${suKien.maSK}")
+
             val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
-            // Tăng giá trị của notificationRequestCode
-            notificationRequestCode++
+            val gson = Gson()
+            val suKienJson = gson.toJson(suKien)
 
             val intent = Intent(context, AlarmReceiver::class.java).apply {
-                putExtra("tenSuKien", suKien.tenSuKien)
-                putExtra("moTa", suKien.moTa)
-                putExtra("ngay", suKien.ngay)
-                putExtra("gio", suKien.gio)
-                putExtra("maSK", suKien.maSK)
+                putExtra("suKien", suKienJson)
             }
+
             val pendingIntent = PendingIntent.getBroadcast(
                 context,
-                notificationRequestCode, // Sử dụng notificationRequestCode thay vì maSK
+                suKien.maSK,
                 intent,
                 PendingIntent.FLAG_UPDATE_CURRENT
             )
+
+
 
             // Chuyển đổi ngày và giờ của sự kiện thành định dạng thời gian millis
             val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault())
@@ -175,20 +146,24 @@ class SuKienViewModel @Inject constructor(private val sharedPref: SharedPreferen
     }
 
 
+//    ham them su kien
+    fun addEvent(context: Context, suKien: SuKien) {
+        viewModelScope.launch {
+            _addEvent.emit(Resource.Loading())
+            val response = suKienApiService.themSuKien(suKien, userId)
+            if (response.isSuccessful) {
+                _addEvent.emit(Resource.Success(response.body()!!))
+                // Tạo thông báo mới với thông tin sự kiện đã cập nhật
+                scheduleNotification(context, response.body()!!)
+            } else {
+                _addEvent.emit(Resource.Error("404"))
+            }
+        }
+    }
 
 
-//    fun updateEvent(suKien: SuKien){
-//        viewModelScope.launch{
-//            _updateEvent.emit(Resource.Loading())
-//            val response= suKienApiService.suaSuKien(suKien,userId)
-//            if (response.isSuccessful)
-//                _updateEvent.emit(Resource.Success(response.body()!!))
-//            else
-//                _updateEvent.emit(Resource.Error("404"))
-//        }
-//    }
 
-
+    //ham cap nhat su kien
     fun updateEvent(context: Context, suKien: SuKien) {
         viewModelScope.launch {
             _updateEvent.emit(Resource.Loading())
@@ -197,7 +172,7 @@ class SuKienViewModel @Inject constructor(private val sharedPref: SharedPreferen
                 _updateEvent.emit(Resource.Success(response.body()!!))
 
                 // Hủy thông báo cũ
-                cancelNotification(context, suKien.maSK)
+//                cancelNotification(context, suKien.maSK)
 
                 // Tạo thông báo mới với thông tin sự kiện đã cập nhật
                 scheduleNotification(context, suKien)
@@ -208,42 +183,40 @@ class SuKienViewModel @Inject constructor(private val sharedPref: SharedPreferen
     }
 
 
-    fun deleteEvent(maSuKien: Int) {
+    //ham xoa su kien
+    fun deleteEvent(maSuKien: Int, context: Context) {
         viewModelScope.launch {
             _deleteEvent.emit(Resource.Loading())
             val response = suKienApiService.xoaSuKien(maSuKien)
-            if (response.isSuccessful)
+            if (response.isSuccessful) {
                 _deleteEvent.emit(Resource.Success(response.body()!!))
-            else
-                _deleteEvent.emit(Resource.Error("404"))
-        }
 
+                // Hủy thông báo
+                cancelNotification(context, maSuKien)
+            } else {
+                _deleteEvent.emit(Resource.Error("404"))
+            }
+        }
     }
 
-
-
-
-
-//    fun deleteEvent(context: Int, maSuKien: Int) {
-//        viewModelScope.launch {
-//            _deleteEvent.emit(Resource.Loading())
-//            val response = suKienApiService.xoaSuKien(maSuKien)
-//            if (response.isSuccessful) {
-//                _deleteEvent.emit(Resource.Success(response.body()!!))
-//
-//                // Hủy thông báo tương ứng với sự kiện đã bị xoá
-//                cancelNotification(context, maSuKien)
-//            } else {
-//                _deleteEvent.emit(Resource.Error("404"))
-//            }
-//        }
-//    }
-
-    private fun cancelNotification(context: Context, maSK: Int) {
+    private fun cancelNotification(context: Context, maSuKien: Int) {
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val intent = Intent(context, AlarmReceiver::class.java)
-        val pendingIntent = PendingIntent.getBroadcast(context, maSK, intent, PendingIntent.FLAG_UPDATE_CURRENT)
-        alarmManager.cancel(pendingIntent)
+        val pendingIntent = PendingIntent.getBroadcast(
+            context,
+            maSuKien,
+            intent,
+            PendingIntent.FLAG_NO_CREATE or PendingIntent.FLAG_IMMUTABLE
+        )
+
+        if (pendingIntent != null) {
+            alarmManager.cancel(pendingIntent)
+            pendingIntent.cancel()
+
+            Log.d("CancelNotification", "Cancel notification for event with ID: $maSuKien")
+        }
+        else
+            Log.d("CancelNotification", "No notification found for event with ID: $maSuKien")
     }
 
 
@@ -260,17 +233,7 @@ class SuKienViewModel @Inject constructor(private val sharedPref: SharedPreferen
 
 
     }
-//    fun getEventFromDateToDate(ngayBatDau: String, ngayKetThuc: String) {
-//        viewModelScope.launch {
-//            _allEvent.emit(Resource.Loading())
-//            val response = suKienApiService.laySuKienTuNgayDenNgay(userId, ngayBatDau, ngayKetThuc)
-//            if (response.isSuccessful) {
-//                val sortedList = response.body()!!.sortedWith(compareBy(SuKien::ngay, SuKien::gio))
-//                _allEventFromDateToDate.emit(Resource.Success(sortedList.toMutableList()))
-//            } else
-//                _allEventFromDateToDate.emit(Resource.Error("404"))
-//        }
-//    }
+
         fun getEventFromDateToDate(ngayBatDau: String, ngayKetThuc: String) {
         viewModelScope.launch {
             _allEventFromDateToDate.emit(Resource.Loading())
