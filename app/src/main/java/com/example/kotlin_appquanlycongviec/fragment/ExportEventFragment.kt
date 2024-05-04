@@ -1,7 +1,10 @@
 package com.example.kotlin_appquanlycongviec.fragment
 
 import android.Manifest
+import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.app.DatePickerDialog
+import android.content.Intent
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
@@ -16,10 +19,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Button
 import android.widget.Spinner
 import android.widget.TabHost
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
+import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -31,6 +36,7 @@ import com.example.kotlin_appquanlycongviec.databinding.LayoutExportEventByMonth
 import com.example.kotlin_appquanlycongviec.model.SuKien
 import com.example.kotlin_appquanlycongviec.util.Resource
 import com.example.kotlin_appquanlycongviec.viewModel.SuKienViewModel
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.flow.collect
@@ -60,6 +66,8 @@ class ExportEventFragment : Fragment() {
     private lateinit var page: PdfDocument.Page
     private var pageNumber = 0
     private lateinit var canvas: Canvas
+    // Khai báo biến toàn cục
+    private var alertDialog: AlertDialog? = null
     private val recordsNotYetPrint = arrayOf("", "", "", "", "")
     private val totalTableWidth = 1000
     private var todayList: MutableList<SuKien> = mutableListOf()
@@ -346,6 +354,7 @@ class ExportEventFragment : Fragment() {
             REQUEST_CODE
         )
     }
+    @SuppressLint("MissingInflatedId")
     private fun createPDF(startDate: String, endDate: String) {
         pageNumber++
         pdfDocument = PdfDocument()
@@ -562,6 +571,86 @@ class ExportEventFragment : Fragment() {
         } catch (e: IOException) {
             throw RuntimeException(e)
         }
+        val uri = FileProvider.getUriForFile(
+            requireContext(),
+            requireContext().applicationContext.packageName + ".provider",
+            file
+        )
+//        val intent = Intent(Intent.ACTION_VIEW)
+//        intent.setDataAndType(uri, "application/pdf")
+//        intent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+//        startActivity(intent)
+        if(alertDialog == null) {
+            var builder = AlertDialog.Builder(requireContext())
+            builder.setTitle("Xuất file thành công")
+            builder.setMessage("Bạn có muốn xem file PDF vừa xuất không?")
+            builder.setPositiveButton("Xem") { dialog, which ->
+                val intent = Intent(Intent.ACTION_VIEW)
+                val uri = FileProvider.getUriForFile(
+                    requireContext(),
+                    requireContext().applicationContext.packageName + ".provider",
+                    file
+                )
+                intent.setDataAndType(uri, "application/pdf")
+                intent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+                startActivity(intent)
+                alertDialog = null
+            }
+            builder.setNegativeButton("Không") { dialog, which ->
+                dialog.dismiss()
+            }
+            alertDialog = builder.create()
+        }
+
+
+        alertDialog?.show()
+
+
+
+
+
+
+
+//        // Tạo một AlertDialog.Builder
+//        val builder = AlertDialog.Builder(requireContext())
+//
+//// Thiết lập tiêu đề và thông điệp cho AlertDialog
+//        builder.setTitle("Xuất file thành công")
+//        builder.setMessage("Bạn có muốn xem file PDF vừa xuất không?")
+//
+//// Thêm nút "Xem" và xử lý sự kiện khi nút này được nhấn
+//        builder.setPositiveButton("Xem") { dialog, which ->
+//            val intent = Intent(Intent.ACTION_VIEW)
+//            val uri = FileProvider.getUriForFile(
+//                requireContext(),
+//                requireContext().applicationContext.packageName + ".provider",
+//                file
+//            )
+//            intent.setDataAndType(uri, "application/pdf")
+//            intent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+//            startActivity(intent)
+//        }
+//
+//// Thêm nút "Không" và xử lý sự kiện khi nút này được nhấn
+//        builder.setNegativeButton("Không") { dialog, which ->
+//            // Đóng dialog
+//            dialog.dismiss()
+//        }
+//
+//// Tạo và hiển thị AlertDialog
+//        val dialog = builder.create()
+//        dialog.show()
+
+
+
+
+
+
+
+
+
+
+
 
 
     }
