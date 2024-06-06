@@ -31,7 +31,7 @@ Màn hình sẽ hiển thị những ngày đã được lên lịch công việ
 Ghi chú gổm có tiêu đề và nội dung, dùng để lưu lại những thông tin quan trọng.
 
 <h5>Giao diện trang quản lí sự kiện</h5>
-<img src="images/Cart.png"/>
+<img src="images/Event.png"/>
 
 Màn hình sẽ hiển thị những sự kiện trong ngày hôm nay mà người dùng đã lưu trước và sự kiện trong 7 ngày tới
 
