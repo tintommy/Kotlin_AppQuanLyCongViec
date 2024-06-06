@@ -82,7 +82,11 @@ class HinhAnhViewModel @Inject constructor(private val sharedPref: SharedPrefere
                 val imageRef = storageRef.child("images/$imageName")
                 val stream = context.contentResolver.openInputStream(imageUri!!)
                 val uploadTask = imageRef.putStream(stream!!)
-                uploadTask.addOnFailureListener { }.addOnSuccessListener {
+                uploadTask.addOnFailureListener {
+                    viewModelScope.launch {
+                        _hinhAnhList.emit(Resource.Error("Lỗi khi up ảnh"))
+                    }
+                }.addOnSuccessListener {
                     imageRef.getDownloadUrl().addOnSuccessListener { uri ->
                         val imageUrl = uri.toString()
                         anhURL.add(imageUrl)

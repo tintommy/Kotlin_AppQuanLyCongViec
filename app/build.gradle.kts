@@ -80,6 +80,9 @@ dependencies {
     //firebase
     implementation(platform("com.google.firebase:firebase-bom:32.7.3"))
     implementation("com.google.firebase:firebase-analytics")
+
+    implementation("com.google.firebase:firebase-auth-ktx")
+    implementation("com.google.android.gms:play-services-auth:20.5.0")
     implementation("com.github.leandroborgesferreira:loading-button-android:2.3.0")
     implementation("de.hdodenhof:circleimageview:3.1.0")
     implementation("ir.mahozad.android:pie-chart:0.7.0")

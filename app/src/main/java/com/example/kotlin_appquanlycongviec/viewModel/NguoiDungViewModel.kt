@@ -67,6 +67,7 @@ class NguoiDungViewModel @Inject constructor(private val sharedPref: SharedPrefe
         viewModelScope.launch {
             _user.emit(Resource.Loading())
             val response = nguoiDungService.getUser(userEmail)
+            Log.e("MyTag",userEmail)
             if (response.isSuccessful) {
                 _user.emit(Resource.Success(response.body()!!))
             } else {

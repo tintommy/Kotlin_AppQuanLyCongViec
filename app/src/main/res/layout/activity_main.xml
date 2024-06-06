@@ -34,7 +34,7 @@
         app:menu="@menu/bottom_nav_menu"
         android:background="#F8E968"
         app:itemActiveIndicatorStyle="@android:color/transparent"
-     app:itemRippleColor="#00000000"
+        app:itemRippleColor="#00000000"
 
         />
 

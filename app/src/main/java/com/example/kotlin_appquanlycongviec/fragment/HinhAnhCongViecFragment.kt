@@ -137,7 +137,7 @@ class HinhAnhCongViecFragment : Fragment() {
                     anhDuocChon = ArrayList()
                     val intent = result.data
 
-                    // Multiple images selected
+
                     if (intent?.clipData != null) {
                         val count = intent.clipData!!.itemCount
                         for (i in 0 until count) {

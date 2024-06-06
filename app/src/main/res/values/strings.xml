@@ -2,4 +2,5 @@
     <string name="app_name">Kotlin_AppQuanLyCongViec</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="default_web_client_id">861344881443-4mrcea5c8aqo3aqff28eus5ml7j8sjam.apps.googleusercontent.com</string>
 </resources>

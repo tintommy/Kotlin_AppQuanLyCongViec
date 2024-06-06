@@ -154,7 +154,7 @@ class SuKienViewModel @Inject constructor(private val sharedPref: SharedPreferen
             if (response.isSuccessful) {
                 _addEvent.emit(Resource.Success(response.body()!!))
                 // Tạo thông báo mới với thông tin sự kiện đã cập nhật
-                scheduleNotification(context, response.body()!!)
+                scheduleNotification(context, suKien)
             } else {
                 _addEvent.emit(Resource.Error("404"))
             }
